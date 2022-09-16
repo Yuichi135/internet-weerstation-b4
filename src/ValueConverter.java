@@ -6,21 +6,21 @@ public class ValueConverter {
         return rawValueBarometer * 25.4 / 1000 * 1.333224;
     }
 
-    public static double InsideTemp(short rawvalueInsideTemp) {
+    public static double insideTemp(short rawvalueInsideTemp) {
         return (rawvalueInsideTemp / 10.0 - 32) / 1.8;
     }
     //Naar 1 methode maken
 
-    public static double InsideHumidity(short rawValueInsideHumidity) {
+    public static double insideHumidity(short rawValueInsideHumidity) {
         return rawValueInsideHumidity;
     }
     //Naar 1 methode maken
 
-    public static double OutsideTemp(short rawvalueOutsideTemp) {
+    public static double outsideTemp(short rawvalueOutsideTemp) {
         return (rawvalueOutsideTemp / 10.0 - 32) / 1.8;
     }
 
-    public static double WindSpeed(short rawvalueWindSpeed) {
+    public static double windSpeed(short rawvalueWindSpeed) {
         return rawvalueWindSpeed * 1.61;
     }
 
@@ -28,19 +28,19 @@ public class ValueConverter {
         return rawValueAvgWindSpeed * 1.61;
     }
 
-    public static double WindDirection(short rawValueWindDirection) {
+    public static double windDirection(short rawValueWindDirection) {
         return rawValueWindDirection;
     }
 
-    public static double OutsideHumidity(short rawValueInsideHumidity) {
+    public static double outsideHumidity(short rawValueInsideHumidity) {
         return rawValueInsideHumidity;
     }
 
-    public static double SunRise(short rawValueSunRise) {
+    public static double sunRise(short rawValueSunRise) {
         return rawValueSunRise / 100.0;
     }
 
-    public static double Sunset(short rawValueSunSet) {
+    public static double sunSet(short rawValueSunSet) {
         rawValueSunSet /= 100.0;
         return rawValueSunSet;
 
@@ -58,34 +58,38 @@ public class ValueConverter {
         return rawValueUvIndex / 10.0;
     }
 
-    public static double HeatIndex(short rawOutsideHumidity, short rawOutsideTemp) {
-        double rawValueHeatIndex = -42.379 + 2.04901523 * rawOutsideTemp + 10.14333127 * rawOutsideHumidity;
-        rawValueHeatIndex = rawValueHeatIndex - 0.22475541 * rawOutsideTemp * rawOutsideHumidity - 6.83783 * Math.pow(10, -3) * rawOutsideTemp * rawOutsideTemp;
-        rawValueHeatIndex = rawValueHeatIndex - 5.481717 * Math.pow(10, -2) * rawOutsideHumidity * rawOutsideHumidity;
-        rawValueHeatIndex = rawValueHeatIndex + 1.22874 * Math.pow(10, -3) * rawOutsideTemp * rawOutsideTemp * rawOutsideHumidity;
-        rawValueHeatIndex = rawValueHeatIndex + 8.5282 * Math.pow(10, -4) * rawOutsideTemp * rawOutsideHumidity * rawOutsideHumidity;
-        rawValueHeatIndex = rawValueHeatIndex - 1.99 * Math.pow(10, -6) * rawOutsideTemp * rawOutsideTemp * rawOutsideHumidity * rawOutsideHumidity;
-        rawValueHeatIndex = (rawValueHeatIndex - 32) / 1.8;
-        return Math.round(rawValueHeatIndex);
+    public static double heatIndex(short rawOutsideHumidity, short rawOutsideTemp) {
+        double outsideTemp = rawOutsideTemp / 10;
+        int outsideHum = rawOutsideHumidity;
+
+        double heatIndex = -42.379 + 2.04901523 * outsideTemp + 10.14333127 * outsideHum;
+        heatIndex = heatIndex - 0.22475541 * outsideTemp * outsideHum - 6.83783 * Math.pow(10, -3) * outsideTemp * outsideTemp;
+        heatIndex = heatIndex - 5.481717 * Math.pow(10, -2) * outsideHum * outsideHum;
+        heatIndex = heatIndex + 1.22874 * Math.pow(10, -3) * outsideTemp * outsideTemp * outsideHum;
+        heatIndex = heatIndex + 8.5282 * Math.pow(10, -4) * outsideTemp * outsideHum * outsideHum;
+        heatIndex = heatIndex - 1.99 * Math.pow(10, -6) * outsideTemp * outsideTemp * outsideHum * outsideHum;
+        heatIndex = (heatIndex - 32) / 1.8;
+        return heatIndex;
     }
 
-    public static double WindChill(short rawWindSpeed, short rawOutsideTemp) {
-        double rawValueWindChill = 0;
-        if ((rawWindSpeed <= 0) || rawOutsideTemp > 93.2) {
-            System.out.println("Geen wind of temperatuur te hoog");
-            rawValueWindChill = (double) rawOutsideTemp;
+    public static double windChill(short rawWindSpeed, short rawOutsideTemp) {
+        double windChill = 0;
+        double outsideTemp = (double) rawOutsideTemp / 10;
+        double windSpeed = (double) rawWindSpeed;
+
+        if ((windSpeed <= 0) || outsideTemp > 93.2) {
+            windChill = (double) outsideTemp;
         } else {
-            rawValueWindChill = 35.74 +
-                    (0.6215 * rawOutsideTemp) - 35.75 * (Math.pow(rawWindSpeed, 0.16)) +
-                    (0.4275 * rawOutsideTemp) * (Math.pow(rawWindSpeed, 0.16));
-            if (rawValueWindChill > rawOutsideTemp) {
-                rawValueWindChill = rawOutsideTemp;
+            windChill = 35.74 +
+                    (0.6215 * outsideTemp) - 35.75 * (Math.pow(windSpeed, 0.16)) +
+                    (0.4275 * outsideTemp) * (Math.pow(windSpeed, 0.16));
+            if (windChill > outsideTemp) {
+                windChill = outsideTemp;
             }
         }
-        //
-        rawValueWindChill = (rawValueWindChill - 32) / 1.8;
+        windChill = (windChill - 32) / 1.8;
 
-        return (int) Math.round(rawValueWindChill);
+        return windChill;
     }
 
     public static double dewPoint(short rawTemp, short rawOutsideHumidity) {
