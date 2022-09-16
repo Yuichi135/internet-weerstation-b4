@@ -6,18 +6,12 @@ public class ValueConverter {
         return rawValueBarometer * 25.4 / 1000 * 1.333224;
     }
 
-    public static double insideTemp(short rawvalueInsideTemp) {
+    public static double temp(short rawvalueInsideTemp) {
         return (rawvalueInsideTemp / 10.0 - 32) / 1.8;
     }
-    //Naar 1 methode maken
 
-    public static double insideHumidity(short rawValueInsideHumidity) {
-        return rawValueInsideHumidity;
-    }
-    //Naar 1 methode maken
-
-    public static double outsideTemp(short rawvalueOutsideTemp) {
-        return (rawvalueOutsideTemp / 10.0 - 32) / 1.8;
+    public static double humidity(short rawValueHumidity) {
+        return rawValueHumidity;
     }
 
     public static double windSpeed(short rawvalueWindSpeed) {
@@ -32,18 +26,15 @@ public class ValueConverter {
         return rawValueWindDirection;
     }
 
-    public static double outsideHumidity(short rawValueInsideHumidity) {
-        return rawValueInsideHumidity;
-    }
-
     public static double sunRise(short rawValueSunRise) {
         return rawValueSunRise / 100.0;
     }
 
     public static double sunSet(short rawValueSunSet) {
         rawValueSunSet /= 100.0;
-        return rawValueSunSet;
+        String SunSet = Integer.toString(rawValueSunSet);
 
+        return rawValueSunSet;
     }
 
     public static double battery(short Voltage) {

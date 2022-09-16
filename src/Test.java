@@ -10,13 +10,13 @@ public class Test {
         double valueAirpressure = ValueConverter.airPressure((short) 29752);
         System.out.println("De air pressure is: " + TwoDecimal.format(valueAirpressure) + " HectoPascal");
 
-        double valueInsideTemp = ValueConverter.insideTemp((short) 753);
+        double valueInsideTemp = ValueConverter.temp((short) 753);
         System.out.println("The temp is: " + OneDecimel.format(valueInsideTemp));
 
-        double valueInsdeHumidity = ValueConverter.insideHumidity((short) 55);
+        double valueInsdeHumidity = ValueConverter.humidity((short) 55);
         System.out.println("De inside humidity is: " + NoDecimal.format(valueInsdeHumidity) + "%");
 
-        double valueOutsideTemp = ValueConverter.outsideTemp((short) 605);
+        double valueOutsideTemp = ValueConverter.temp((short) 605);
         System.out.println("The temp is: " + OneDecimel.format(valueOutsideTemp));
 
         double valueWindSpeed = ValueConverter.windSpeed((short) 4);
@@ -28,7 +28,7 @@ public class Test {
         double Voltage = ValueConverter.battery((short) 35);
         System.out.println("The BatteryLevel is: " + TwoDecimal.format(Voltage));
 
-        double valueOutsideHumidity = ValueConverter.outsideHumidity((short) 89);
+        double valueOutsideHumidity = ValueConverter.humidity((short) 89);
         System.out.println("De Outisde Humidity is: " + NoDecimal.format(valueOutsideHumidity)+ "%");
 
         double valueRainMeter = ValueConverter.rainMeter((short)5);
