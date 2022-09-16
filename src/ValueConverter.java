@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil;
-
 public class ValueConverter {
 
     public static double airPressure(short rawValueBarometer) {
@@ -10,31 +8,32 @@ public class ValueConverter {
         return (rawvalueInsideTemp / 10.0 - 32) / 1.8;
     }
 
-    public static double humidity(short rawValueHumidity) {
-        return rawValueHumidity;
+    public static double humidity(short rawValueInsideHumidity) {
+        return rawValueInsideHumidity;
     }
 
     public static double windSpeed(short rawvalueWindSpeed) {
         return rawvalueWindSpeed * 1.61;
     }
 
-    public static double avgWindSpeed(short rawValueAvgWindSpeed) {
-        return rawValueAvgWindSpeed * 1.61;
-    }
-
     public static double windDirection(short rawValueWindDirection) {
         return rawValueWindDirection;
     }
 
-    public static double sunRise(short rawValueSunRise) {
-        return rawValueSunRise / 100.0;
+    public static String sunRise(short rawValueSunRise) {
+        double sunRise= (double) rawValueSunRise / 100;
+        String timeRise = String.valueOf(sunRise);
+        timeRise = timeRise.replace('.', ':');
+        return "0"+timeRise;
+
     }
 
-    public static double sunSet(short rawValueSunSet) {
-        rawValueSunSet /= 100.0;
-        String SunSet = Integer.toString(rawValueSunSet);
+    public static String sunset(short rawValueSunSet) {
+        double sunSet = (double) rawValueSunSet / 100;
+        String timeSet = String.valueOf(sunSet);
+        timeSet = timeSet.replace('.', ':');
+        return timeSet;
 
-        return rawValueSunSet;
     }
 
     public static double battery(short Voltage) {
@@ -52,7 +51,6 @@ public class ValueConverter {
     public static double heatIndex(short rawOutsideHumidity, short rawOutsideTemp) {
         double outsideTemp = rawOutsideTemp / 10;
         int outsideHum = rawOutsideHumidity;
-
         double heatIndex = -42.379 + 2.04901523 * outsideTemp + 10.14333127 * outsideHum;
         heatIndex = heatIndex - 0.22475541 * outsideTemp * outsideHum - 6.83783 * Math.pow(10, -3) * outsideTemp * outsideTemp;
         heatIndex = heatIndex - 5.481717 * Math.pow(10, -2) * outsideHum * outsideHum;
@@ -67,7 +65,6 @@ public class ValueConverter {
         double windChill = 0;
         double outsideTemp = (double) rawOutsideTemp / 10;
         double windSpeed = (double) rawWindSpeed;
-
         if ((windSpeed <= 0) || outsideTemp > 93.2) {
             windChill = (double) outsideTemp;
         } else {
@@ -79,9 +76,9 @@ public class ValueConverter {
             }
         }
         windChill = (windChill - 32) / 1.8;
-
         return windChill;
     }
+
 
     public static double dewPoint(short rawTemp, short rawOutsideHumidity) {
         double dewPoint = rawTemp - ((100 - rawOutsideHumidity) / 10.0);
