@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6cd9a680-1f2c-40b7-8e14-5ca0df42748e" name="Default Changelist" comment="" />
+    <list default="true" id="6cd9a680-1f2c-40b7-8e14-5ca0df42748e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,28 +13,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ValueConverter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="1241">
+              <caret line="89" selection-start-line="89" selection-end-line="89" />
               <folding>
-                <element signature="e#706#707#0" expanded="true" />
-                <element signature="e#753#754#0" expanded="true" />
-                <element signature="e#1165#1166#0" expanded="true" />
-                <element signature="e#1211#1212#0" expanded="true" />
-                <element signature="e#1616#1617#0" expanded="true" />
-                <element signature="e#1661#1662#0" expanded="true" />
+                <element signature="e#93#94#0" expanded="true" />
+                <element signature="e#158#159#0" expanded="true" />
+                <element signature="e#217#218#0" expanded="true" />
+                <element signature="e#278#279#0" expanded="true" />
+                <element signature="e#345#346#0" expanded="true" />
+                <element signature="e#390#391#0" expanded="true" />
+                <element signature="e#453#454#0" expanded="true" />
+                <element signature="e#500#501#0" expanded="true" />
+                <element signature="e#571#572#0" expanded="true" />
+                <element signature="e#615#616#0" expanded="true" />
+                <element signature="e#1152#1153#0" expanded="true" />
+                <element signature="e#1210#1211#0" expanded="true" />
+                <element signature="e#1273#1274#0" expanded="true" />
+                <element signature="e#1319#1320#0" expanded="true" />
+                <element signature="e#1378#1379#0" expanded="true" />
+                <element signature="e#1423#1424#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Test.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="1020">
+              <caret line="60" selection-start-line="60" selection-end-line="60" />
             </state>
           </provider>
         </entry>
@@ -55,8 +67,8 @@
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/Measurent.java" />
         <option value="$PROJECT_DIR$/src/MeasurementTest.java" />
-        <option value="$PROJECT_DIR$/src/Test.java" />
         <option value="$PROJECT_DIR$/src/ValueConverter.java" />
+        <option value="$PROJECT_DIR$/src/Test.java" />
       </list>
     </option>
   </component>
@@ -71,8 +83,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -80,10 +90,17 @@
               <item name="internet-weerstation-b4" type="b2602c69:ProjectViewProjectNode" />
               <item name="internet-weerstation-b4" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="internet-weerstation-b4" type="b2602c69:ProjectViewProjectNode" />
+              <item name="internet-weerstation-b4" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -134,17 +151,19 @@
       <workItem from="1663226642424" duration="8234000" />
       <workItem from="1663236928606" duration="11133000" />
       <workItem from="1663324296439" duration="1650000" />
-      <workItem from="1663331711680" duration="839000" />
+      <workItem from="1663331711680" duration="1468000" />
+      <workItem from="1663449386036" duration="381000" />
+      <workItem from="1663830944688" duration="717000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21856000" />
+    <option name="totallyTimeSpent" value="23583000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="687" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.32955465" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.33522266" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -153,7 +172,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.28277355" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28108108" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -188,25 +207,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Test.java">
+    <entry file="file://$PROJECT_DIR$/src/ValueConverter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="1241">
+          <caret line="89" selection-start-line="89" selection-end-line="89" />
+          <folding>
+            <element signature="e#93#94#0" expanded="true" />
+            <element signature="e#158#159#0" expanded="true" />
+            <element signature="e#217#218#0" expanded="true" />
+            <element signature="e#278#279#0" expanded="true" />
+            <element signature="e#345#346#0" expanded="true" />
+            <element signature="e#390#391#0" expanded="true" />
+            <element signature="e#453#454#0" expanded="true" />
+            <element signature="e#500#501#0" expanded="true" />
+            <element signature="e#571#572#0" expanded="true" />
+            <element signature="e#615#616#0" expanded="true" />
+            <element signature="e#1152#1153#0" expanded="true" />
+            <element signature="e#1210#1211#0" expanded="true" />
+            <element signature="e#1273#1274#0" expanded="true" />
+            <element signature="e#1319#1320#0" expanded="true" />
+            <element signature="e#1378#1379#0" expanded="true" />
+            <element signature="e#1423#1424#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ValueConverter.java">
+    <entry file="file://$PROJECT_DIR$/src/Test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="e#706#707#0" expanded="true" />
-            <element signature="e#753#754#0" expanded="true" />
-            <element signature="e#1165#1166#0" expanded="true" />
-            <element signature="e#1211#1212#0" expanded="true" />
-            <element signature="e#1616#1617#0" expanded="true" />
-            <element signature="e#1661#1662#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1020">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
         </state>
       </provider>
     </entry>
