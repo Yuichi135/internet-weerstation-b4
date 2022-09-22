@@ -1,72 +1,4 @@
-import java.time.LocalDateTime;
-
 public class ValueConverter {
-    private String stationId;
-    private LocalDateTime dateStamp;
-    private double airPressure;
-    private double insideTemp;
-    private double outsideTemp;
-    private double insideHumidity;
-    private double outsideHumidity;
-    private double windSpeed;
-    private double avgWindSpeed;
-    private double windDirection;
-    private String sunRise;
-    private String sunSet;
-    private double battery;
-    private double rainRate;
-    private double uvIndex;
-    private double heatIndex;
-    private double windChill;
-    private double dewPoint;
-
-    public ValueConverter(RawMeasurement rawData) {
-        this.stationId = rawData.getStationId();
-        this.dateStamp = rawData.getDateStamp();
-        this.airPressure = airPressure(rawData.getBarometer());
-        this.outsideHumidity = humidity(rawData.getOutsideHum());
-        this.insideHumidity = humidity(rawData.getInsideHum());
-        this.insideTemp = temp(rawData.getInsideTemp());
-        this.outsideTemp = temp(rawData.getOutsideTemp());
-        this.windSpeed = windSpeed(rawData.getWindSpeed());
-        this.avgWindSpeed = windSpeed(rawData.getAvgWindSpeed());
-        this.windDirection = windDirection(rawData.getWindDir());
-        this.sunRise = sunRise(rawData.getSunrise());
-        this.sunSet = sunset(rawData.getSunset());
-        this.battery = battery(rawData.getBattLevel());
-        this.rainRate = rainMeter(rawData.getRainRate());
-        this.uvIndex = uvIndex(rawData.getUVLevel());
-        this.heatIndex = heatIndex(rawData.getOutsideHum(), rawData.getOutsideTemp());
-        this.windChill = windChill(rawData.getWindSpeed(),rawData.getOutsideTemp());
-        this.dewPoint = dewPoint(rawData.getOutsideTemp(), rawData.getOutsideHum());
-    }
-
-    @Override
-    public String toString() {
-        String s = "RawMeasurement:"
-                + "\nstationId = \t" + stationId
-                + "\ndateStamp = \t" + dateStamp
-                + "\nairPressure = \t" + airPressure
-                + "\ninsideTemp = \t" + insideTemp
-                + "\ninsideHum = \t" + insideHumidity
-                + "\noutsideTemp = \t" + outsideTemp
-                + "\nwindSpeed = \t" + windSpeed
-                + "\navgWindSpeed = \t" + avgWindSpeed
-                + "\nwindDir = \t\t" + windDirection
-                + "\noutsideHum = \t" + outsideHumidity
-                + "\nrainRate = \t\t" + rainRate
-                + "\nUVLevel = \t\t" + uvIndex
-//                + "\nsolarRad = \t" + solarRad
-//                + "\nxmitBatt = \t" + xmitBatt
-                + "\nbattLevel = \t" + battery
-//                + "\nforeIcon = \t" + foreIcon
-                + "\nsunrise = \t\t" + sunRise
-                + "\nsunset = \t\t" + sunSet
-                + "\nheatIndex = \t" + heatIndex
-                + "\nwindChill = \t" + windChill
-                + "\ndewPoint = \t\t" + dewPoint;
-        return s;
-    }
 
     public static double airPressure(short rawValueBarometer) {
         return rawValueBarometer * 25.4 / 1000 * 1.333224;
@@ -134,7 +66,7 @@ public class ValueConverter {
         double outsideTemp = (double) rawOutsideTemp / 10;
         double windSpeed = (double) rawWindSpeed;
         if ((windSpeed <= 0) || outsideTemp > 93.2) {
-            windChill = (double) outsideTemp;
+            windChill = outsideTemp;
         } else {
             windChill = 35.74 +
                     (0.6215 * outsideTemp) - 35.75 * (Math.pow(windSpeed, 0.16)) +
