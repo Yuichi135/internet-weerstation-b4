@@ -85,10 +85,10 @@ public class Measurement {
     public double getOutsideTemp () {
         return outsideTemp;
     }
-    public double getInsideHumidity (){
+    public int getInsideHumidity (){
         return insideHumidity;
     }
-    public double getOutsideHumidity() {
+    public int getOutsideHumidity() {
         return outsideHumidity;
     }
     public double getWindSpeed() {
