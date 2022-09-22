@@ -4,8 +4,7 @@ public class Test {
     public static void main(String[] args) {
         RawMeasurement mostRecent = DatabaseConnection.getMostRecentMeasurement();
         Measurement converted = new Measurement(mostRecent);
-        //System.out.println(converted);
-
+        System.out.println(converted);
 
         System.out.println(converted.getStationId());
         System.out.println(converted.getDateStamp());

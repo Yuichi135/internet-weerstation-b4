@@ -3,27 +3,27 @@ import java.time.LocalDateTime;
 
 public class Measurement {
 
-    private String stationId;
+    private int stationId;
     private LocalDateTime dateStamp;
     private double airPressure;
     private double insideTemp;
     private double outsideTemp;
-    private double insideHumidity;
-    private double outsideHumidity;
+    private int insideHumidity;
+    private int outsideHumidity;
     private double windSpeed;
     private double avgWindSpeed;
-    private double windDirection;
+    private int windDirection;
     private String sunRise;
     private String sunSet;
     private double battery;
     private double rainRate;
-    private double uvIndex;
+    private int uvIndex;
     private double heatIndex;
     private double windChill;
     private double dewPoint;
 
     public Measurement(RawMeasurement rawData) {
-        this.stationId = rawData.getStationId();
+        this.stationId = Integer.parseInt(rawData.getStationId());
         this.dateStamp = rawData.getDateStamp();
         this.airPressure = ValueConverter.airPressure(rawData.getBarometer());
         this.outsideHumidity = ValueConverter.humidity(rawData.getOutsideHum());
@@ -70,7 +70,7 @@ public class Measurement {
         return s;
     }
 
-    public String getStationId (){
+    public int getStationId (){
         return stationId;
     }
     public LocalDateTime getDateStamp() {
@@ -91,7 +91,6 @@ public class Measurement {
     public double getOutsideHumidity() {
         return outsideHumidity;
     }
-
     public double getWindSpeed() {
         return windSpeed;
     }
