@@ -351,7 +351,7 @@ public class GuiTestYuichi {
 
         int relativeX = x + 1;
         int relativeY = y - 1;
-        int aopdcode = 1;
+        int opdcode = 1;
         int windSpeed;
 
         for (Measurement measurement : measurements) {

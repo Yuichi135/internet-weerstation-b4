@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6cd9a680-1f2c-40b7-8e14-5ca0df42748e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GuiBoardDemos.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,6 +14,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GuiTestYuichi.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -36,16 +38,34 @@
                 <element signature="e#7022#7086#0" />
                 <element signature="e#9457#9936#0" />
                 <element signature="method#getZeroPointAxis#0;class#GuiTest#0" />
+=======
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
+              <folding>
+                <element signature="e#1179#1180#0" expanded="true" />
+                <element signature="e#1236#1237#0" expanded="true" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Test.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="337">
               <caret line="21" column="64" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
+=======
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/GuiBoardDemosSam.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="16" lean-forward="true" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
             </state>
           </provider>
         </entry>
@@ -81,15 +101,25 @@
         <option value="$PROJECT_DIR$/src/ValueConverter.java" />
         <option value="$PROJECT_DIR$/src/Measurement.java" />
         <option value="$PROJECT_DIR$/src/Test.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/GuiTest.java" />
         <option value="$PROJECT_DIR$/src/GuiTestYuichi.java" />
+=======
+        <option value="$PROJECT_DIR$/src/AAA.java" />
+        <option value="$PROJECT_DIR$/src/GuiBoardDemos.java" />
+        <option value="$PROJECT_DIR$/src/GuiBoardDemosSam.java" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="951" />
+    <option name="x" value="-9" />
     <option name="width" value="978" />
+<<<<<<< HEAD
     <option name="height" value="1017" />
+=======
+    <option name="height" value="1039" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -98,6 +128,10 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+<<<<<<< HEAD
+=======
+      <pane id="Scope" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -118,6 +152,7 @@
           <select />
         </subPane>
       </pane>
+<<<<<<< HEAD
       <pane id="Scope" />
     </panes>
   </component>
@@ -132,6 +167,12 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Yuich\Avans\internet-weerstation-b4\src" />
     </key>
+=======
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1664550559750" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -145,9 +186,22 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="Application.GuiTest">
     <configuration name="GuiTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GuiTest" />
+=======
+  <component name="RunManager" selected="Application.GuiBoardDemosSam">
+    <configuration name="GuiBoardDemosSam" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GuiBoardDemosSam" />
+      <module name="ValueConverter" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="GuiBoardDemosSam" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
       <module name="ValueConverter" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -163,9 +217,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
     <recent_temporary>
       <list>
         <item itemvalue="Application.GuiTest" />
+=======
+    <list>
+      <item itemvalue="Application.ValueConverter" />
+      <item itemvalue="Application.GuiBoardDemosSam" />
+      <item itemvalue="Application.Main" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.GuiBoardDemosSam" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -187,6 +252,7 @@
       <workItem from="1663449386036" duration="381000" />
       <workItem from="1663830944688" duration="717000" />
       <workItem from="1663833971744" duration="2419000" />
+<<<<<<< HEAD
       <workItem from="1664439550647" duration="36007000" />
     </task>
     <servers />
@@ -199,6 +265,16 @@
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.16216215" visible="true" weight="0.24615385" />
       <window_info id="Structure" order="1" sideWeight="0.8378378" side_tool="true" weight="0.34979758" />
+=======
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.55873924" visible="true" weight="0.20201342" />
+      <window_info id="Structure" order="1" sideWeight="0.44062948" side_tool="true" weight="0.72122055" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Capture Tool" order="4" />
@@ -206,16 +282,27 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Run" order="2" weight="0.35495496" />
+=======
+      <window_info anchor="bottom" id="Run" order="2" weight="0.13896848" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="TMC Test Results" order="7" weight="0.33333334" />
+<<<<<<< HEAD
       <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32612613" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32612613" />
+=======
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32577905" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.3243626" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="bottom" id="Version Control" order="13" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -230,15 +317,30 @@
       <window_info anchor="right" id="TMC Project List" order="9" weight="0.32955465" />
     </layout>
   </component>
+<<<<<<< HEAD
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="LAST_COMMIT_MESSAGE" value="" />
+=======
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/IO.java</url>
+          <line>47</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_261/src.zip!/java/text/DecimalFormat.java">
+    <entry file="file://$PROJECT_DIR$/src/AAA.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="4301">
           <caret line="506" selection-start-line="506" selection-end-line="506" />
         </state>
@@ -277,27 +379,45 @@
             <element signature="e#2887#2888#0" expanded="true" />
             <element signature="e#2927#2928#0" expanded="true" />
           </folding>
+=======
+        <state relative-caret-position="68">
+          <caret line="4" column="29" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="29" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
         </state>
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_261/src.zip!/java/util/ArrayList.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="9">
           <caret line="1251" column="16" selection-start-line="1251" selection-start-column="16" selection-end-line="1251" selection-end-column="16" />
+=======
+        <state relative-caret-position="476">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/IO.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="102">
           <caret line="69" column="67" lean-forward="true" selection-start-line="69" selection-start-column="67" selection-end-line="69" selection-end-column="67" />
           <folding>
             <element signature="e#1676#1677#0" expanded="true" />
             <element signature="e#1738#1739#0" expanded="true" />
+=======
+        <state relative-caret-position="17">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#1179#1180#0" expanded="true" />
+            <element signature="e#1236#1237#0" expanded="true" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Test.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="337">
@@ -337,6 +457,12 @@
             <element signature="e#9457#9936#0" />
             <element signature="method#getZeroPointAxis#0;class#GuiTest#0" />
           </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/src/GuiBoardDemosSam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="16" lean-forward="true" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+>>>>>>> 2f58debb5566818f3eb9112fabcccae445d33248
         </state>
       </provider>
     </entry>

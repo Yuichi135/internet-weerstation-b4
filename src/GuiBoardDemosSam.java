@@ -1,4 +1,4 @@
-public class GuiBoardDemos {
+public class GuiBoardDemosSam {
     public static void main(String[] args) {
         IO.init();
 
