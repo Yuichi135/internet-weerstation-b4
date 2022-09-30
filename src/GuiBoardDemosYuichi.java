@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class GuiTestYuichi {
+public class GuiBoardDemosYuichi {
     public static ArrayList<Integer> display1 = new ArrayList<>();
     public static ArrayList<Integer> display2 = new ArrayList<>();
     public static ArrayList<Integer> display3 = new ArrayList<>();
