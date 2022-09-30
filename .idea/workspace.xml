@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6cd9a680-1f2c-40b7-8e14-5ca0df42748e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/out/production/ValueConverter/META-INF/ValueConverter.kotlin_module" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -15,10 +14,38 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/GuiBoardDemos.java">
+        <entry file="file://$PROJECT_DIR$/src/GuiTestYuichi.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="1139">
+              <caret line="96" column="60" selection-start-line="96" selection-start-column="60" selection-end-line="96" selection-end-column="60" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1371#1619#0" />
+                <element signature="method#displayTest#0;class#GuiTest#0" />
+                <element signature="method#displayNumber#0;class#GuiTest#0" />
+                <element signature="method#clearDisplay#0;class#GuiTest#0" />
+                <element signature="e#1996#2047#1" />
+                <element signature="e#2817#2818#0" expanded="true" />
+                <element signature="method#clrDMDisplay#0;class#GuiTest#0" />
+                <element signature="method#animateDisplay#0;class#GuiTest#0" />
+                <element signature="method#animate#0;class#GuiTest#0" />
+                <element signature="method#animate#0;class#GuiTest#0" />
+                <element signature="method#displayString#0;class#GuiTest#0" />
+                <element signature="method#pixelTest#0;class#GuiTest#0" />
+                <element signature="e#6843#7406#0" />
+                <element signature="e#7022#7086#0" />
+                <element signature="e#9457#9936#0" />
+                <element signature="method#getZeroPointAxis#0;class#GuiTest#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Test.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="337">
+              <caret line="21" column="64" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -32,6 +59,14 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>0x10</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>adress</replace>
+    </replaceStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -43,10 +78,11 @@
         <option value="$PROJECT_DIR$/src/MeasurementTest.java" />
         <option value="$PROJECT_DIR$/src/RawMeasurement.java" />
         <option value="$PROJECT_DIR$/src/Measurment.java" />
+        <option value="$PROJECT_DIR$/src/ValueConverter.java" />
         <option value="$PROJECT_DIR$/src/Measurement.java" />
         <option value="$PROJECT_DIR$/src/Test.java" />
-        <option value="$PROJECT_DIR$/src/ValueConverter.java" />
-        <option value="$PROJECT_DIR$/src/GuiBoardDemos.java" />
+        <option value="$PROJECT_DIR$/src/GuiTest.java" />
+        <option value="$PROJECT_DIR$/src/GuiTestYuichi.java" />
       </list>
     </option>
   </component>
@@ -55,16 +91,13 @@
     <option name="width" value="978" />
     <option name="height" value="1017" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <OptionsSetting value="false" id="Update" />
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -77,18 +110,28 @@
               <item name="internet-weerstation-b4" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="internet-weerstation-b4" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1664451643265" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1664549628336" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Yuich\Avans\internet-weerstation-b4\src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -102,22 +145,27 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="GuiBoardDemos" />
+  <component name="RunManager" selected="Application.GuiTest">
+    <configuration name="GuiTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GuiTest" />
       <module name="ValueConverter" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="Test" />
+      <module name="ValueConverter" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.ValueConverter" />
-      <item itemvalue="Application.Main" />
-    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GuiTest" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -139,27 +187,18 @@
       <workItem from="1663449386036" duration="381000" />
       <workItem from="1663830944688" duration="717000" />
       <workItem from="1663833971744" duration="2419000" />
-      <workItem from="1664436405199" duration="11148000" />
+      <workItem from="1664439550647" duration="36007000" />
     </task>
-    <task id="LOCAL-00001" summary="Voor sam met Io">
-      <created>1664451564489</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1664451564489</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40957000" />
+    <option name="totallyTimeSpent" value="65984000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="687" extended-state="6" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1295" height="687" extended-state="7" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4954955" visible="true" weight="0.35708502" />
-      <window_info id="Structure" order="1" sideWeight="0.5045045" side_tool="true" visible="true" weight="0.35708502" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.16216215" visible="true" weight="0.24615385" />
+      <window_info id="Structure" order="1" sideWeight="0.8378378" side_tool="true" weight="0.34979758" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Capture Tool" order="4" />
@@ -167,18 +206,18 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.25765765" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3992674" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.35495496" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="TMC Test Results" order="7" weight="0.33333334" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3271028" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32612613" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.32600734" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32612613" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="bottom" id="Version Control" order="13" weight="0.32792792" />
+      <window_info anchor="bottom" id="Version Control" order="13" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -195,8 +234,7 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Voor sam met Io" />
-    <option name="LAST_COMMIT_MESSAGE" value="Voor sam met Io" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_261/src.zip!/java/text/DecimalFormat.java">
@@ -208,14 +246,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/RawMeasurement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="55" column="66" selection-start-line="55" selection-start-column="66" selection-end-line="55" selection-end-column="66" />
+        <state relative-caret-position="-1458">
+          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ValueConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1547">
+          <caret line="106" column="35" selection-start-line="106" selection-start-column="35" selection-end-line="106" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Measurement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="881">
+        <state relative-caret-position="343">
           <caret line="88" column="8" selection-start-line="88" selection-start-column="8" selection-end-line="88" selection-end-column="8" />
           <folding>
             <element signature="e#3241#3242#0" expanded="true" />
@@ -226,7 +271,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DatabaseConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
+        <state relative-caret-position="496">
           <caret line="88" column="7" selection-start-line="88" selection-start-column="7" selection-end-line="88" selection-end-column="7" />
           <folding>
             <element signature="e#2887#2888#0" expanded="true" />
@@ -235,52 +280,63 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Test.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_261/src.zip!/java/util/ArrayList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="25" column="77" selection-start-line="25" selection-start-column="77" selection-end-line="25" selection-end-column="77" />
+        <state relative-caret-position="9">
+          <caret line="1251" column="16" selection-start-line="1251" selection-start-column="16" selection-end-line="1251" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/IO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/__MACOSX/._IO.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ValueConverter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1652">
-          <caret line="118" column="17" selection-start-line="118" selection-start-column="17" selection-end-line="118" selection-end-column="17" />
+        <state relative-caret-position="102">
+          <caret line="69" column="67" lean-forward="true" selection-start-line="69" selection-start-column="67" selection-end-line="69" selection-end-column="67" />
           <folding>
-            <element signature="e#216#217#0" expanded="true" />
-            <element signature="e#281#282#0" expanded="true" />
-            <element signature="e#468#469#0" expanded="true" />
-            <element signature="e#523#524#0" expanded="true" />
-            <element signature="e#703#704#0" expanded="true" />
-            <element signature="e#748#749#0" expanded="true" />
-            <element signature="e#918#919#0" expanded="true" />
-            <element signature="e#965#966#0" expanded="true" />
-            <element signature="e#1180#1181#0" expanded="true" />
-            <element signature="e#1224#1225#0" expanded="true" />
-            <element signature="e#2105#2106#0" expanded="true" />
-            <element signature="e#2161#2162#0" expanded="true" />
-            <element signature="e#2350#2351#0" expanded="true" />
-            <element signature="e#2396#2397#0" expanded="true" />
-            <element signature="e#2547#2548#0" expanded="true" />
-            <element signature="e#2590#2591#0" expanded="true" />
+            <element signature="e#1676#1677#0" expanded="true" />
+            <element signature="e#1738#1739#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GuiBoardDemos.java">
+    <entry file="file://$PROJECT_DIR$/src/Test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="337">
+          <caret line="21" column="64" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/production/ValueConverter/Test.class">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/production/ValueConverter/DatabaseConnection.class">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GuiTestYuichi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1139">
+          <caret line="96" column="60" selection-start-line="96" selection-start-column="60" selection-end-line="96" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1371#1619#0" />
+            <element signature="method#displayTest#0;class#GuiTest#0" />
+            <element signature="method#displayNumber#0;class#GuiTest#0" />
+            <element signature="method#clearDisplay#0;class#GuiTest#0" />
+            <element signature="e#1996#2047#1" />
+            <element signature="e#2817#2818#0" expanded="true" />
+            <element signature="method#clrDMDisplay#0;class#GuiTest#0" />
+            <element signature="method#animateDisplay#0;class#GuiTest#0" />
+            <element signature="method#animate#0;class#GuiTest#0" />
+            <element signature="method#animate#0;class#GuiTest#0" />
+            <element signature="method#displayString#0;class#GuiTest#0" />
+            <element signature="method#pixelTest#0;class#GuiTest#0" />
+            <element signature="e#6843#7406#0" />
+            <element signature="e#7022#7086#0" />
+            <element signature="e#9457#9936#0" />
+            <element signature="method#getZeroPointAxis#0;class#GuiTest#0" />
+          </folding>
         </state>
       </provider>
     </entry>
