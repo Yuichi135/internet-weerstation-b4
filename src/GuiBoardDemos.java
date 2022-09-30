@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class GuiBoardDemosSander {
+public class GuiBoardDemos {
 
 
     public static void numberTeller1() {
