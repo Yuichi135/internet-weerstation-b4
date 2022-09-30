@@ -11,7 +11,7 @@ public class Test {
         System.out.println(Math.round(converted.getAirPressure() * 100) /100.00 + " hPa");
         System.out.println(Math.round(converted.getInsideTemp() * 10) /10.0 + " °C");
         System.out.println(Math.round(converted.getOutsideTemp() * 10) /10.0 + " °C");
-        System.out.println( Math.round(converted.getInsideHumidity() * 100) /100.0 + "%");
+        System.out.println(Math.round(converted.getInsideHumidity() * 100) /100.0 + "%");
         System.out.println(Math.round(converted.getOutsideHumidity() * 100) /100.0 + "%");
         System.out.println(Math.round(converted.getWindSpeed() * 10) /10.0 + " Km/H");
         System.out.println(Math.round(converted.getAvgWindSpeed() * 10) /10.0 + " Km/h");
@@ -22,7 +22,7 @@ public class Test {
         System.out.println(Math.round(converted.getRainRate()* 100) /100.0 + " mm/H");
         System.out.println(Math.round(converted.getUvIndex() * 100) /100.0);
         System.out.println(Math.round(converted.getHeatIndex() * 10) /10.0 + " °C");
-        System.out.println(Math.round(converted.getWindChill() * 10) /10.0 + "°C");
+        System.out.println(Math.round(converted.getWindChill() * 10) /10.0 + " °C");
         System.out.println(Math.round(converted.getDewPoint() * 100) /100.0);
     }
 }
