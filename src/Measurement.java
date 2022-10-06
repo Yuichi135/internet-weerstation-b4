@@ -70,6 +70,14 @@ public class Measurement {
         return s;
     }
 
+    public boolean isValid() {
+        // Als er een column fout is is alles fout
+        if (outsideHumidity == 255) {
+            return false;
+        }
+        return true;
+    }
+
     public int getStationId (){
         return stationId;
     }
