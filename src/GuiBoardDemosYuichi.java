@@ -7,25 +7,21 @@ public class GuiBoardDemosYuichi {
     public static ArrayList<Integer> display3 = new ArrayList<>();
 
     public static void main(String[] args) {
-
-//        RawMeasurement mostRecent = DatabaseConnection.getMostRecentMeasurement();
         ArrayList<RawMeasurement> lastHour = DatabaseConnection.getMeasurementsLastHour();
         ArrayList<Measurement> converted = new ArrayList<>();
+
         for (RawMeasurement record : lastHour) {
             converted.add(new Measurement(record));
         }
-//        System.out.println(converted.get(0));
 
         IO.init();
-
-        Collections.addAll(display1, 0x10, 0x12, 0x14, 0x16, 0x18);
-        Collections.addAll(display2, 0x20, 0x22, 0x24);
-        Collections.addAll(display3, 0x30, 0x32, 0x34);
 
         clearDisplay(display1);
         clearDisplay(display2);
         clearDisplay(display3);
         clrDMDisplay();
+
+        counter();
 
 //        displayTest(display1);
 //        displayTellerTest(display1, 1250);
@@ -33,6 +29,7 @@ public class GuiBoardDemosYuichi {
 
 //        animateDisplay(display1);
 //        animateDisplay(display2);
+//        customAnimate(0x10);
 
 
 //        for (Measurement record : converted) {
@@ -42,7 +39,7 @@ public class GuiBoardDemosYuichi {
 //            IO.delay(100);
 //        }
 
-        displayWindspeedGraph(converted);
+//        displayWindspeedGraph(converted);
 
 //        displayString("Hello, World!");
 //        IO.delay(1500);
@@ -77,6 +74,12 @@ public class GuiBoardDemosYuichi {
             IO.writeShort(adress, prod);
             number = (number - prod) / 10;
         }
+    }
+
+    public static void displayNumber(int adress, int number) {
+        int prod = number % 10;
+        IO.writeShort(adress, prod);
+        number = (number - prod) / 10;
     }
 
     public static void clearDisplay(ArrayList<Integer> display) {
@@ -149,66 +152,15 @@ public class GuiBoardDemosYuichi {
     }
 
     public static void customAnimate(int adress) {
-        IO.delay(1000);
-        IO.writeShort(adress, 0b110000000);
-        IO.delay(500);
-        IO.writeShort(adress, 0b100000000);
-        IO.delay(500);
-        IO.writeShort(adress, 0b110000000);
-        IO.delay(500);
-        IO.writeShort(adress, 0b100000000);
-        IO.delay(500);
-        IO.writeShort(adress, 0b100001000);
-        IO.delay(500);
-        IO.writeShort(adress, 0b100010000);
-        IO.delay(500);
-        IO.writeShort(adress, 0b101000000);
-        IO.delay(500);
-        IO.writeShort(adress, 0b100000010);
-        IO.delay(500);
-        IO.writeShort(adress, 0b100000001);
-        IO.delay(500);
-        IO.writeShort(adress, 0b100100000);
-        IO.delay(500);
-        IO.writeShort(adress, 0b101000000);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100000100);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100001000);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100010000);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100100000);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100000001);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100000010);
-        IO.delay(100);
-        IO.writeShort(adress, 0b101000000);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100110000);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100001001);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100000110);
-        IO.delay(100);
-        IO.writeShort(adress, 0b101000000);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100110000);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100001001);
-        IO.delay(100);
-        IO.writeShort(adress, 0b100000110);
-        IO.delay(250);
-        IO.writeShort(adress, 0b101000000);
-        IO.delay(250);
-        IO.writeShort(adress, 0b101111111);
-        IO.delay(250);
-        IO.writeShort(adress, 0b100000000);
-        IO.delay(250);
-        IO.writeShort(adress, 0b101111111);
-        IO.delay(250);
-        IO.writeShort(adress, 0b100000000);
+        ArrayList<Integer> animation = new ArrayList<>();
+        Collections.addAll(animation, 0b110000000, 0b100000000, 0b110000000, 0b100000000, 0b100001000, 0b100010000, 0b101000000,
+                0b100000010, 0b100000001, 0b100100000, 0b101000000, 0b100000100, 0b100001000, 0b100010000, 0b100100000,
+                0b100000001, 0b100000010, 0b101000000, 0b100110000, 0b100001001, 0b100000110, 0b101000000, 0b100110000,
+                0b100001001, 0b100000110, 0b101000000, 0b101111111, 0b100000000, 0b101111111, 0b100000000);
+        for (Integer frame : animation) {
+            IO.delay(200);
+            IO.writeShort(adress, frame);
+        }
     }
 
     public static void displayString(String string) {
@@ -347,8 +299,6 @@ public class GuiBoardDemosYuichi {
         int x = coords[0];
         int y = coords[1];
 
-        System.out.println(x + " " + y);
-
         int relativeX = x + 1;
         int relativeY = y - 1;
         int opdcode = 1;
@@ -364,6 +314,28 @@ public class GuiBoardDemosYuichi {
 
             System.out.println(relativeY - windSpeed);
 //            System.out.println(Integer.toBinaryString(opdcode << 12 | (x + relativeX) << 5 | (windSpeed - relativeY)));
+        }
+    }
+
+    public static void counter() {
+        int counter = 0;
+        displayNumber(display1, 0);
+
+        while (true) {
+            if ( IO.readShort(0x80) == 0 ) {
+                displayNumber(display1, counter);
+            } else {
+                displayNumber(display1, 0);
+            }
+
+            if ( IO.readShort(0x100) != 0 ) {
+                counter++;
+            }
+
+            if ( IO.readShort(0x90) != 0 ) {
+                counter--;
+            }
+            IO.delay(100);
         }
     }
 }

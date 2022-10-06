@@ -2,6 +2,11 @@
 public class Test {
 
     public static void main(String[] args) {
+
+        Weerstation station = new Weerstation();
+
+        station.displayOutsideHumidity();
+
         RawMeasurement mostRecent = DatabaseConnection.getMostRecentMeasurement();
         Measurement converted = new Measurement(mostRecent);
         System.out.println(converted);
