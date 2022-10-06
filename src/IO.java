@@ -1,3 +1,4 @@
+//
 // Port IO emulator class. All read/writes are send over TCP/IP to the host
 // using a dedicated protocol on port 81.
 // Use IO.init(host, port) to modify behaviour
@@ -9,8 +10,7 @@
 //
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.net.*;
 
 public class IO {
   public static String host = "localhost";

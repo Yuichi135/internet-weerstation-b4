@@ -1,100 +1,73 @@
-import java.time.LocalDateTime;
-
 public class ValueConverter {
-    private String stationId;
-    private LocalDateTime dateStamp;
-    private double airPressure;
-    private double insideTemp;
-    private double outsideTemp;
-    private double insideHumidity;
-    private double outsideHumidity;
-    private double windSpeed;
-    private double avgWindSpeed;
-    private double windDirection;
-    private String sunRise;
-    private String sunSet;
-    private double battery;
-    private double rainRate;
-    private double uvIndex;
-    private double heatIndex;
-    private double windChill;
-    private double dewPoint;
 
-    public ValueConverter(RawMeasurement rawData) {
-        this.stationId = rawData.getStationId();
-        this.dateStamp = rawData.getDateStamp();
-        this.airPressure = airPressure(rawData.getBarometer());
-        this.outsideHumidity = humidity(rawData.getOutsideHum());
-        this.insideHumidity = humidity(rawData.getInsideHum());
-        this.insideTemp = temp(rawData.getInsideTemp());
-        this.outsideTemp = temp(rawData.getOutsideTemp());
-        this.windSpeed = windSpeed(rawData.getWindSpeed());
-        this.avgWindSpeed = windSpeed(rawData.getAvgWindSpeed());
-        this.windDirection = windDirection(rawData.getWindDir());
-        this.sunRise = sunRise(rawData.getSunrise());
-        this.sunSet = sunset(rawData.getSunset());
-        this.battery = battery(rawData.getBattLevel());
-        this.rainRate = rainMeter(rawData.getRainRate());
-        this.uvIndex = uvIndex(rawData.getUVLevel());
-        this.heatIndex = heatIndex(rawData.getOutsideHum(), rawData.getOutsideTemp());
-        this.windChill = windChill(rawData.getWindSpeed(),rawData.getOutsideTemp());
-        this.dewPoint = dewPoint(rawData.getOutsideTemp(), rawData.getOutsideHum());
-    }
-
-    @Override
-    public String toString() {
-        String s = "RawMeasurement:"
-                + "\nstationId = \t" + stationId
-                + "\ndateStamp = \t" + dateStamp
-                + "\nairPressure = \t" + airPressure
-                + "\ninsideTemp = \t" + insideTemp
-                + "\ninsideHum = \t" + insideHumidity
-                + "\noutsideTemp = \t" + outsideTemp
-                + "\nwindSpeed = \t" + windSpeed
-                + "\navgWindSpeed = \t" + avgWindSpeed
-                + "\nwindDir = \t\t" + windDirection
-                + "\noutsideHum = \t" + outsideHumidity
-                + "\nrainRate = \t\t" + rainRate
-                + "\nUVLevel = \t\t" + uvIndex
-//                + "\nsolarRad = \t" + solarRad
-//                + "\nxmitBatt = \t" + xmitBatt
-                + "\nbattLevel = \t" + battery
-//                + "\nforeIcon = \t" + foreIcon
-                + "\nsunrise = \t\t" + sunRise
-                + "\nsunset = \t\t" + sunSet
-                + "\nheatIndex = \t" + heatIndex
-                + "\nwindChill = \t" + windChill
-                + "\ndewPoint = \t\t" + dewPoint;
-        return s;
-    }
+    /**
+     * Returns air pressure
+     * @param rawValueBarometer in inch/hg
+     * @return air pressure in hPa
+     */
 
     public static double airPressure(short rawValueBarometer) {
         return rawValueBarometer * 25.4 / 1000 * 1.333224;
     }
 
-    public static double temp(short rawvalueInsideTemp) {
-        return (rawvalueInsideTemp / 10.0 - 32) / 1.8;
+    /**
+     * Returns temperature
+     * @param rawvalueTemp outside temperature in °F * 10
+     * @return temperatue in °C
+     */
+
+    public static double temp(short rawvalueTemp) {
+        return (rawvalueTemp / 10.0 - 32) / 1.8;
     }
 
-    public static double humidity(short rawValueInsideHumidity) {
+    /**
+     * Returns humidity
+     * @param rawValueInsideHumidity
+     * @return humidity in percentage
+     */
+
+    public static int humidity(short rawValueInsideHumidity) {
         return rawValueInsideHumidity;
     }
+
+    /**
+     * Returns windspeed
+     * @param rawvalueWindSpeed
+     * @return windspeed in km/h
+     */
 
     public static double windSpeed(short rawvalueWindSpeed) {
         return rawvalueWindSpeed * 1.61;
     }
 
-    public static double windDirection(short rawValueWindDirection) {
+    /**
+     * Returns winddirection
+     * @param rawValueWindDirection
+     * @return winddirection in degrees (0 = north, 180 = south)
+     */
+
+    public static int windDirection(short rawValueWindDirection) {
         return rawValueWindDirection;
     }
 
+    /**
+     * Returns time at sunrise
+     * @param rawValueSunRise
+     * @return sunrise in string hh:mm
+     */
+
     public static String sunRise(short rawValueSunRise) {
-        double sunRise= (double) rawValueSunRise / 100;
+        double sunRise = (double) rawValueSunRise / 100;
         String timeRise = String.valueOf(sunRise);
         timeRise = timeRise.replace('.', ':');
-        return "0"+timeRise;
-
+        return ((sunRise > 9.59) ? "" : "0") + timeRise;
     }
+
+    /**
+     * Returns time at sunset
+     * @param rawValueSunSet
+     * @return sunset in string hh:mm
+     */
 
     public static String sunset(short rawValueSunSet) {
         double sunSet = (double) rawValueSunSet / 100;
@@ -104,17 +77,42 @@ public class ValueConverter {
 
     }
 
+    /**
+     * Returns Voltage
+     * @param Voltage
+     * @return Voltage
+     */
+
     public static double battery(short Voltage) {
-        return ((Voltage * 300.0) / 512.0) / 100.0;
+        return ((Voltage * 300.0) / 512.0) / 100;
     }
+
+    /**
+     * Returns rainfall
+     * @param rawValueRainMeter rain in inch/h * 100
+     * @return rainfall in mm/h
+     */
 
     public static double rainMeter(short rawValueRainMeter) {
         return rawValueRainMeter * 0.2;
     }
 
-    public static double uvIndex(short rawValueUvIndex) {
-        return rawValueUvIndex / 10.0;
+    /**
+     * Returns UV index
+     * @param rawValueUvIndex
+     * @return UV index
+     */
+
+    public static int uvIndex(short rawValueUvIndex) {
+        return rawValueUvIndex / 10;
     }
+
+    /**
+     * Returns Heat index
+     * @param rawOutsideHumidity humidity in percentage
+     * @param rawOutsideTemp outside temperature in °F * 10
+     * @return heatIndex in °C
+     */
 
     public static double heatIndex(short rawOutsideHumidity, short rawOutsideTemp) {
         double outsideTemp = rawOutsideTemp / 10;
@@ -125,16 +123,24 @@ public class ValueConverter {
         heatIndex = heatIndex + 1.22874 * Math.pow(10, -3) * outsideTemp * outsideTemp * outsideHum;
         heatIndex = heatIndex + 8.5282 * Math.pow(10, -4) * outsideTemp * outsideHum * outsideHum;
         heatIndex = heatIndex - 1.99 * Math.pow(10, -6) * outsideTemp * outsideTemp * outsideHum * outsideHum;
+        //convert from °F to °C
         heatIndex = (heatIndex - 32) / 1.8;
         return heatIndex;
     }
+
+    /**
+     * Returns Windchill
+     * @param rawWindSpeed windspeed in mph/h
+     * @param rawOutsideTemp outside temperature in °F * 10
+     * @return Windchill in °C
+     */
 
     public static double windChill(short rawWindSpeed, short rawOutsideTemp) {
         double windChill = 0;
         double outsideTemp = (double) rawOutsideTemp / 10;
         double windSpeed = (double) rawWindSpeed;
         if ((windSpeed <= 0) || outsideTemp > 93.2) {
-            windChill = (double) outsideTemp;
+            windChill = outsideTemp;
         } else {
             windChill = 35.74 +
                     (0.6215 * outsideTemp) - 35.75 * (Math.pow(windSpeed, 0.16)) +
@@ -143,9 +149,17 @@ public class ValueConverter {
                 windChill = outsideTemp;
             }
         }
+        //convert from °F to °C
         windChill = (windChill - 32) / 1.8;
         return windChill;
     }
+
+    /**
+     * Returns Dewpoint
+     * @param rawTemp outside temperature in °F * 10
+     * @param rawOutsideHumidity outside humidity in percentage
+     * @return dewPoint in °C
+     */
 
 
     public static double dewPoint(short rawTemp, short rawOutsideHumidity) {
