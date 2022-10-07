@@ -97,7 +97,7 @@ public class Period {
     public ArrayList<Measurement> getMeasurements() {
         if (this.measurements == null) {
             this.measurements = new ArrayList<>();
-            ArrayList<Measurement> measurements = new ArrayList<>();
+//            ArrayList<Measurement> measurements = new ArrayList<>();
             ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
             for (RawMeasurement rawMeasurement : rawMeasurements) {
                 Measurement measurement = new Measurement(rawMeasurement);
