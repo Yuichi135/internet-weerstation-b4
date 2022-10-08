@@ -14,20 +14,24 @@ public class Grafiek {
         IO.init();
 
         clearAllDisplays();
-
-        displayAverageOutsideTemperatureGraph(3650);
+        displayAverageOutsideTemperatureGraph(5);
     }
 
+    // Alleen loading bij v toegevoegd
     public static void displayAverageOutsideTemperatureGraph(int days) {
         displayString("Average outside \ntemperature over \n" + days + " days");
+        IO.delay(1500);
 
         ArrayList<Double> averageTemperatures = new ArrayList<>();
         double averageTemperature;
         for (int i = 0; i < days; i++) {
+            displayLoadingScreen(i, days);
+
             Period period = createSinglePeriod(LocalDate.now().minusDays(days - i));
 
             // Inhoud veranderen?
             averageTemperature = period.getAverageOutsideTemperature();
+            // Filtert ongeldige eruit
             if (averageTemperature == 0.0) {
                 continue;
             }
@@ -134,6 +138,13 @@ public class Grafiek {
         displayGraph(highestTemperatures);
     }
 
+    public static void displayLoadingScreen(int part, int all) {
+        clrDMDisplay();
+        displayString("Collected " + part + " out of \n" +
+                all + " records\n" +
+                (part * 100) / all + "% done");
+    }
+
 
     // Werkt met percentages AKA kan gebruikt worden op dingen buiten temperatuur :)
     public static void displayGraph(ArrayList<Double> values) {
@@ -149,10 +160,13 @@ public class Grafiek {
             percentages.add(temp / difference);
         }
 
-        displayNumber(display1, (int) Period.getAverage(values));
-        displayNumber(display2, (int) highest);
-        displayNumber(display3, (int) lowest);
+//        displayNumber(display1, (int) Period.getAverage(values));
+//        displayNumber(display2, (int) highest);
+//        displayNumber(display3, (int) lowest);
 
+        displayDoubleNumber(display1, Period.getAverage(values), 2);
+        displayDoubleNumber(display2, highest, 1);
+        displayDoubleNumber(display3, lowest, 1);
 
 
         values = getFullArray(values);
@@ -217,12 +231,116 @@ public class Grafiek {
         for (int i = 0; i < string.length(); i++) {
             character = string.charAt(i);
             IO.writeShort(0x40, character);
-            IO.delay(25);
+        }
+    }
+
+    // TODO: Maximaal aantal decimalen fixen
+    public static void displayDoubleNumber(ArrayList<Integer> display, double number, int decimals) {
+        int prod;
+        boolean finalLoop = false;
+        boolean negative = false;
+        int iteration = 0;
+
+        // Maak number positief
+        if (number < 0) {
+            negative = true;
+            number = -number;
+        }
+
+        number = number * Math.pow(10, decimals);
+        int roundedNumber = (int) Math.round(number);
+
+        for (Integer adress : display) {
+            // Stopt de loop, als het negatief is komt er een - voor
+            if (finalLoop) {
+                if (negative) {
+                    IO.writeShort(adress, 0b101000000);
+                }
+                break;
+            }
+
+            prod = roundedNumber % 10;
+            if (iteration == decimals) {
+                // TODO: BETERE MANIER VINDEN
+                switch (prod) {
+                    case 1:
+                        IO.writeShort(adress, 0b110000110); // 1.
+                        break;
+                    case 2:
+                        IO.writeShort(adress, 0b111011011); // 2.
+                        break;
+                    case 3:
+                        IO.writeShort(adress, 0b111001111); // 3.
+                        break;
+                    case 4:
+                        IO.writeShort(adress, 0b111100110); // 4.
+                        break;
+                    case 5:
+                        IO.writeShort(adress, 0b111101101); // 5.
+                        break;
+                    case 6:
+                        IO.writeShort(adress, 0b111111101); // 6.
+                        break;
+                    case 7:
+                        IO.writeShort(adress, 0b110000111); // 7.
+                        break;
+                    case 8:
+                        IO.writeShort(adress, 0b111111111); // 8.
+                        break;
+                    case 9:
+                        IO.writeShort(adress, 0b111101111); // 9.
+                        break;
+                    case 0:
+                        IO.writeShort(adress, 0b110111111); // 0.
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                IO.writeShort(adress, prod);
+            }
+            roundedNumber = (roundedNumber - prod) / 10;
+
+            if (roundedNumber == 0) {
+                finalLoop = true;
+            }
+            iteration++;
+        }
+    }
+
+    // Zonder nullen ervoor en kan negatief
+    public static void improvedDisplayNumber(ArrayList<Integer> display, int number) {
+        int prod;
+        boolean negative = false;
+        boolean finalLoop = false;
+        clearDisplay(display);
+
+        // Maak number positief
+        if (number < 0) {
+            negative = true;
+            number = -number;
+        }
+
+        for (Integer adress : display) {
+            // Stopt de loop, als het negatief is komt er een - voor
+            if (finalLoop) {
+                if (negative) {
+                    IO.writeShort(adress, 0b101000000);
+                }
+                break;
+            }
+            prod = number % 10;
+            IO.writeShort(adress, prod);
+            number = (number - prod) / 10;
+            if (number == 0) {
+                finalLoop = true;
+            }
         }
     }
 
     public static void displayNumber(ArrayList<Integer> display, int number) {
         int prod;
+        clearDisplay(display);
 
         for (Integer adress : display) {
             prod = number % 10;
