@@ -23,10 +23,10 @@ public class RawMeasurement implements Serializable
     private short sunrise;
     private short sunset;
 
-    public RawMeasurement()
-    {
-
-    }
+//    public RawMeasurement()
+//    {
+//
+//    }
 
     // stationId
     public void setStationId (String str) { this.stationId = str;};
@@ -70,9 +70,7 @@ public class RawMeasurement implements Serializable
 
     // rainRate
     public void setRainRate (short val) { this.rainRate = val;};
-    public short getRainRate () {
-
-        return rainRate; };
+    public short getRainRate () { return rainRate; };
 
     // UVLevel
     public void setUVLevel (short val) { this.UVLevel = val;};

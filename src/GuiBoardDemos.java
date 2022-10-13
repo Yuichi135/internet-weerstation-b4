@@ -43,9 +43,9 @@ public class GuiBoardDemos {
         int tenThousand = 0;
 
         while (running) {
-         // for-loops
         }
-
+    }
+}
 //        while(running) {
 //            for (int i = 0; i < 10; i++) {
 //                IO.writeShort(0x10, i);
