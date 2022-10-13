@@ -1,4 +1,4 @@
-public class Main {
+public class consecutiveRain {
     public static void main(String[] args) throws Exception {
         int i = 0;
         boolean running = true;
