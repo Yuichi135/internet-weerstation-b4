@@ -28,6 +28,8 @@ public class Test {
         System.out.println(Math.round(converted.getUvIndex() * 100) /100.0);
         System.out.println(Math.round(converted.getHeatIndex() * 10) /10.0 + " °C");
         System.out.println(Math.round(converted.getWindChill() * 10) /10.0 + " °C");
-        System.out.println(Math.round(converted.getDewPoint() * 100) /100.0);
+        System.out.println(Math.round(converted.getDewPoint() * 100) /100.0 + "\n");
+
+        consecutiveRain.consecutiveRain(converted.getRainRate());
     }
 }

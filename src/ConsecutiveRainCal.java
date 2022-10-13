@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class klassen {
+public class ConsecutiveRainCal {
     public static int getRandomNumber() {
         Random r = new Random();
         int highest = 50;
@@ -13,7 +13,7 @@ public class klassen {
         System.out.println("totaal milimeter fallen: " + Math.round(mmGevallen* 1000) /1000.0 + " mm\n");
     }
 
-    public static double berekenRegen(int rainrate) {
-        return (double) rainrate * 0.2 /60;
+    public static double berekenRegen(double rainrate) {
+        return rainrate/60;
     }
 }

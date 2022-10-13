@@ -1,8 +1,7 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class RawMeasurement implements Serializable
-{
+public class RawMeasurement implements Serializable {
 
     private String stationId;
     private LocalDateTime dateStamp;
@@ -23,8 +22,7 @@ public class RawMeasurement implements Serializable
     private short sunrise;
     private short sunset;
 
-    public RawMeasurement()
-    {
+    public RawMeasurement() {
 
     }
 
@@ -65,33 +63,31 @@ public class RawMeasurement implements Serializable
     public short getWindDir () { return windDir; };
 
     // outsideHum
-    public void setOutsideHum (short val) { this.outsideHum = val;};
-    public short getOutsideHum () { return outsideHum; };
+    public void setOutsideHum (short val) { this.outsideHum = val;}
+    public short getOutsideHum () { return outsideHum; }
 
     // rainRate
-    public void setRainRate (short val) { this.rainRate = val;};
-    public short getRainRate () {
-
-        return rainRate; };
+    public void setRainRate (short val) { this.rainRate = val;}
+    public short getRainRate () { return rainRate; }
 
     // UVLevel
-    public void setUVLevel (short val) { this.UVLevel = val;};
-    public short getUVLevel () { return UVLevel; };
+    public void setUVLevel (short val) { this.UVLevel = val;}
+    public short getUVLevel () { return UVLevel; }
 
     // solarRad
-    public void setSolarRad (short val) { this.solarRad = val;};
-    public short getSolarRad () { return solarRad; };
+    public void setSolarRad (short val) { this.solarRad = val;}
+    public short getSolarRad () { return solarRad; }
 
     // xmitBatt
-    public void setXmitBatt (short val) { this.xmitBatt = val;};
-    public short getXmitBatt () { return xmitBatt; };
+    public void setXmitBatt (short val) { this.xmitBatt = val;}
+    public short getXmitBatt () { return xmitBatt; }
 
     // battLevel
-    public void setBattLevel (short val) { this.battLevel = val;};
+    public void setBattLevel (short val) { this.battLevel = val;}
     public short getBattLevel () { return battLevel; };
 
     // foreIcon
-    public void setForeIcon (short val) { this.foreIcon = val;};
+    public void setForeIcon (short val) { this.foreIcon = val;}
     public short getForeIcon () { return foreIcon; };
 
     // sunrise
