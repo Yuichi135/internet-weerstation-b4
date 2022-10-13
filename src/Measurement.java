@@ -43,6 +43,7 @@ public class Measurement {
         this.dewPoint = ValueConverter.dewPoint(rawData.getOutsideTemp(), rawData.getOutsideHum());
 
     }
+
     @Override
     public String toString() {
         String s = "RawMeasurement:"
@@ -72,63 +73,82 @@ public class Measurement {
 
     public boolean isValid() {
         // Als er een column fout is is alles fout
-        if (outsideHumidity == 255) {
+        if (outsideTemp == ValueConverter.temp((short) 32767) || windSpeed == 255 ||
+                avgWindSpeed == 255 || windDirection == 32767 || outsideHumidity == 255 ||
+                rainRate == 32767 || uvIndex == 255) {
             return false;
         }
         return true;
     }
 
-    public int getStationId (){
+    public int getStationId() {
         return stationId;
     }
+
     public LocalDateTime getDateStamp() {
         return dateStamp;
     }
-    public double getAirPressure () {
+
+    public double getAirPressure() {
         return airPressure;
     }
+
     public double getInsideTemp() {
         return insideTemp;
     }
-    public double getOutsideTemp () {
+
+    public double getOutsideTemp() {
         return outsideTemp;
     }
-    public int getInsideHumidity (){
+
+    public int getInsideHumidity() {
         return insideHumidity;
     }
+
     public int getOutsideHumidity() {
         return outsideHumidity;
     }
+
     public double getWindSpeed() {
         return windSpeed;
     }
-    public double getAvgWindSpeed () {
+
+    public double getAvgWindSpeed() {
         return avgWindSpeed;
     }
+
     public double getWindDirection() {
         return windDirection;
     }
+
     public String getSunRise() {
         return sunRise;
     }
+
     public String getSunSet() {
         return sunSet;
     }
+
     public double getBattery() {
         return battery;
     }
-    public double getRainRate () {
+
+    public double getRainRate() {
         return rainRate;
     }
+
     public double getUvIndex() {
         return uvIndex;
     }
+
     public double getHeatIndex() {
         return heatIndex;
     }
+
     public double getWindChill() {
         return windChill;
     }
+
     public double getDewPoint() {
         return dewPoint;
     }
