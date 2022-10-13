@@ -15,13 +15,14 @@ import java.util.Map;
 public class Period {
     private LocalDate beginPeriod;
     private LocalDate endPeriod;
+    private ArrayList<Measurement> measurements;
 
     /**
      * default constructor, sets the period to today
      */
     public Period() {
-        beginPeriod = LocalDate.now();
-        endPeriod = LocalDate.now();
+        this.beginPeriod = LocalDate.now();
+        this.endPeriod = LocalDate.now();
     }
 
     public Period(LocalDate beginPeriod, LocalDate endPeriod) {
@@ -94,15 +95,20 @@ public class Period {
      * @return a filtered list of measurements
      */
     public ArrayList<Measurement> getMeasurements() {
-        ArrayList<Measurement> measurements = new ArrayList<>();
-        ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
-        for (RawMeasurement rawMeasurement : rawMeasurements) {
-            Measurement measurement = new Measurement(rawMeasurement);
-            if (measurement.isValid()) {
-                measurements.add(measurement);
+        if (this.measurements == null) {
+            this.measurements = new ArrayList<>();
+//            ArrayList<Measurement> measurements = new ArrayList<>();
+            ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+            for (RawMeasurement rawMeasurement : rawMeasurements) {
+                Measurement measurement = new Measurement(rawMeasurement);
+                if (measurement.isValid()) {
+//                    measurements.add(measurement);
+                    this.measurements.add(measurement);
+                }
             }
         }
-        return measurements;
+        return this.measurements;
+//        return measurements;
     }
 
 
@@ -162,6 +168,9 @@ public class Period {
         for (Measurement measurement : measurements) {
             temperatures.add(measurement.getOutsideTemp());
         }
+
+        System.out.println(temperatures);
+//        return 1;
         return getHighest(temperatures);
     }
 
@@ -365,7 +374,7 @@ public class Period {
 
 
     // Calculators
-    private double getAverage(ArrayList<Double> numbers) {
+    public static double getAverage(ArrayList<Double> numbers) {
         double sum = 0, avg;
         int amount = 0;
 
@@ -380,7 +389,11 @@ public class Period {
         return avg;
     }
 
-    private double getHighest(ArrayList<Double> numbers) {
+    public static double getHighest(ArrayList<Double> numbers) {
+        if (numbers.isEmpty()) {
+            return 0;
+        }
+
         double highest = numbers.get(0);
 
         for (double number : numbers) {
@@ -392,7 +405,7 @@ public class Period {
         return highest;
     }
 
-    private double getLowest(ArrayList<Double> numbers) {
+    public static double getLowest(ArrayList<Double> numbers) {
         double lowest = numbers.get(0);
 
         for (double number : numbers) {
@@ -404,7 +417,7 @@ public class Period {
         return lowest;
     }
 
-    private double getModus(ArrayList<Double> numbers) {
+    public static double getModus(ArrayList<Double> numbers) {
         Map<Double, Integer> amountOfTimes = new HashMap<>();
         for (double number : numbers) {
             if (amountOfTimes.get(number) == null) {
@@ -427,7 +440,7 @@ public class Period {
         return key;
     }
 
-    private double getMedian(ArrayList<Double> numbers) {
+    public static double getMedian(ArrayList<Double> numbers) {
         Collections.sort(numbers);
         double median = 0.0;
         int amount = numbers.size();
@@ -441,7 +454,7 @@ public class Period {
         return median;
     }
 
-    private double getStandardDeviation(ArrayList<Double> numbers) {
+    public static double getStandardDeviation(ArrayList<Double> numbers) {
         double average = getAverage(numbers);
         double total = 0;
 
