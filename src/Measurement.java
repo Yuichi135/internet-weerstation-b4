@@ -40,7 +40,7 @@ public class Measurement {
         this.uvIndex = ValueConverter.uvIndex(rawData.getUVLevel());
         this.heatIndex = ValueConverter.heatIndex(rawData.getOutsideHum(), rawData.getOutsideTemp());
         this.windChill = ValueConverter.windChill(rawData.getWindSpeed(), rawData.getOutsideTemp());
-        this.dewPoint = ValueConverter.dewPoint(rawData.getOutsideTemp(), rawData.getOutsideHum());
+        this.dewPoint = ValueConverter.dewPoint(ValueConverter.temp(rawData.getOutsideTemp()), rawData.getOutsideHum());
 
     }
 

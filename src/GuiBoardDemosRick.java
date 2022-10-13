@@ -55,7 +55,7 @@ public class GuiBoardDemosRick {
         while (running) {
             for (int i = 0; i < 10; i++) {
                 IO.writeShort(0x10, i);
-                IO.delay(100);
+                IO.delay(1000);
 
                 if (i == 9) {
                     ten++;
@@ -194,12 +194,3 @@ public class GuiBoardDemosRick {
 //        }
 //    }
 }
-
-
-
-
-
-
-
-
-
