@@ -156,14 +156,14 @@ public class ValueConverter {
 
     /**
      * Returns Dewpoint
-     * @param rawTemp outside temperature in °F * 10
+     * @param Temp outside temperature in °F * 10
      * @param rawOutsideHumidity outside humidity in percentage
      * @return dewPoint in °C
      */
 
 
-    public static double dewPoint(short rawTemp, short rawOutsideHumidity) {
-        double dewPoint = rawTemp - ((100 - rawOutsideHumidity) / 10.0);
+    public static double dewPoint(double Temp, short rawOutsideHumidity) {
+        double dewPoint = Temp - ((100 - rawOutsideHumidity) / 10.0);
         return dewPoint;
     }
 
