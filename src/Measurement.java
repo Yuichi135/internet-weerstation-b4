@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 
 public class Measurement {
 
+    private boolean isValid = false;
     private int stationId;
     private LocalDateTime dateStamp;
     private double airPressure;
@@ -42,6 +43,10 @@ public class Measurement {
         this.windChill = ValueConverter.windChill(rawData.getWindSpeed(), rawData.getOutsideTemp());
         this.dewPoint = ValueConverter.dewPoint(ValueConverter.temp(rawData.getOutsideTemp()), rawData.getOutsideHum());
 
+        if (rawData.getOutsideTemp() == 32767 || rawData.getOutsideHum() == 255
+                || rawData.getWindSpeed() == 255 || rawData.getRainRate() == 32767) {
+            this.isValid = true;
+        }
     }
 
     @Override
@@ -72,13 +77,7 @@ public class Measurement {
     }
 
     public boolean isValid() {
-        // Als er een column fout is is alles fout
-        if (outsideTemp == ValueConverter.temp((short) 32767) || windSpeed == 255 ||
-                avgWindSpeed == 255 || windDirection == 32767 || outsideHumidity == 255 ||
-                rainRate == 32767 || uvIndex == 255) {
-            return false;
-        }
-        return true;
+        return this.isValid;
     }
 
     public int getStationId() {
