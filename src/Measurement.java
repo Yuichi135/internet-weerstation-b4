@@ -3,7 +3,7 @@ import java.time.LocalDateTime;
 
 public class Measurement {
 
-    private boolean isValid = false;
+    private boolean isValid = true;
     private int stationId;
     private LocalDateTime dateStamp;
     private double airPressure;
@@ -45,7 +45,7 @@ public class Measurement {
 
         if (rawData.getOutsideTemp() == 32767 || rawData.getOutsideHum() == 255
                 || rawData.getWindSpeed() == 255 || rawData.getRainRate() == 32767) {
-            this.isValid = true;
+            this.isValid = false;
         }
     }
 
