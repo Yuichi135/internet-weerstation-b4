@@ -14,6 +14,6 @@ public class ConsecutiveRainCal {
     }
 
     public static double berekenRegen(double rainrate) {
-        return rainrate/60;
+        return rainrate/ 60;
     }
 }
