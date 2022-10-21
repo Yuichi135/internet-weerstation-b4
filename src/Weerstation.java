@@ -14,7 +14,6 @@ public class Weerstation {
     public static ArrayList<Integer> display3 = new ArrayList<>();
 
     private Period period;
-//    private boolean redButton = (IO.readShort(0x80) != 0);
     private boolean redButton;
     private boolean blueButtonRight;
     private boolean blueButtonLeft;
@@ -31,18 +30,19 @@ public class Weerstation {
 
     public void init() {
 //        int days = readDateFromTerminal();
-        int days = 175;
+        int days = 5;
         this.period = new Period(days);
         this.period.getMeasurements();
         mainMenu();
     }
 
-    public void menu(ArrayList<String> menuOptions) {
+    public void menu(ArrayList<String> menuOptions, String header) {
+        selectedItem = 0;
         redButton = IO.readShort(0x80) != 0;
         blueButtonRight = IO.readShort(0x100) != 0;
         blueButtonLeft = IO.readShort(0x90) != 0;
 
-        displayMenu(menuOptions, selectedItem);
+        displayMenu(header, menuOptions, selectedItem);
         while (true) {
             // Rode knop is ingedrukt
             // Selecteer de optie
@@ -58,7 +58,7 @@ public class Weerstation {
                 blueButtonRight = !blueButtonRight;
 
                 selectedItem++;
-                displayMenu(menuOptions, selectedItem);
+                displayMenu(header, menuOptions, selectedItem);
             }
             // Linker blauwe knop is ingedrukt
             // Ga naar boven in het menu
@@ -67,7 +67,7 @@ public class Weerstation {
 
                 selectedItem--;
                 if (selectedItem < 0) selectedItem += menuOptions.size();
-                displayMenu(menuOptions, selectedItem);
+                displayMenu(header, menuOptions, selectedItem);
             }
         }
 
@@ -76,10 +76,31 @@ public class Weerstation {
 
     public void mainMenu() {
         ArrayList<String> menuOptions = new ArrayList<>();
-        Collections.addAll(menuOptions, "Luchtdruk", "Buiten temperatuur", "Binnen temperatuur", "Luchtvochtigheid buiten", "Wind", "Regen",
-                "Zonsopgang/ondergang", "Windchill", "Heat index", "Dewpoint", "Grafieken");
+        Collections.addAll(menuOptions, "Luchtdruk", "Temperatuur", "Luchtvochtigheid", "Wind", "Regen",
+                "Zonsopgang/ondergang", "Windchill", "Heat index", "Dewpoint");
 
-        menu(menuOptions);
+        menu(menuOptions, "");
+    }
+
+    public void temperatureMenu() {
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Buiten temperatuur", "Binnen temperatuur");
+
+        menu(menuOptions, "Temperatuur");
+    }
+
+    public void humidityMenu() {
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Buiten", "Binnen");
+
+        menu(menuOptions, "Luchtvochtigheid");
+    }
+
+    public void windMenu() {
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Windsnelheid", "Windrichting");
+
+        menu(menuOptions, "Wind");
     }
 
     // TODO: wanneer er een string in wordt gestopt opvangen
@@ -94,23 +115,30 @@ public class Weerstation {
         return true;
     }
 
-    public void displayMenu(ArrayList<String> menuOptions, int selectedItem) {
+    public void displayMenu(String header, ArrayList<String> menuOptions, int selectedItem) {
         clearDMDisplay();
-        for (int i = 0; i < 3; i++) {
+        int availableLines = 3;
+
+        if (!header.equals("")) {
+            displayString(header + "\n");
+            availableLines = 2;
+        }
+
+        for (int i = 0; i < availableLines; i++) {
             displayString(menuOptions.get((selectedItem + i) % menuOptions.size()) + "\n");
         }
-        highlightMenuItem();
+        highlightMenuItem(3 - availableLines);
     }
 
-    public void highlightMenuItem() {
+    public void highlightMenuItem(int line) {
         for (int i = 0; i < 128; i++) {
-            IO.writeShort(0x42, 1 << 12 | i << 5 | 0);
-            IO.writeShort(0x42, 1 << 12 | i << 5 | 10);
+            IO.writeShort(0x42, 1 << 12 | i << 5 | (0 + (line * 10)));
+            IO.writeShort(0x42, 1 << 12 | i << 5 | (10 + (line * 10)));
         }
 
         for (int i = 0; i < 10; i++) {
-            IO.writeShort(0x42, 1 << 12 | 0 << 5 | i);
-            IO.writeShort(0x42, 1 << 12 | 127 << 5 | i);
+            IO.writeShort(0x42, 1 << 12 | 0 << 5 | (i + (line * 10)));
+            IO.writeShort(0x42, 1 << 12 | 127 << 5 | (i + (line * 10)));
         }
     }
 
@@ -122,19 +150,50 @@ public class Weerstation {
                 System.out.println(period.getHighestAirPressure());
                 System.out.println(period.getLowestAirPressure());
                 clearAll();
-                displayString("WIP");
+                displayString("Manier bekijken\nom te laten zien");
 
                 break;
-            case "Buiten temperatuur":
+            case "Temperatuur":
+                temperatureMenu();
+                break;
+            case "Luchtvochtigheid":
+                humidityMenu();
+                break;
+            case "Wind" :
+                windMenu();
+                break;
+            case "Regen" :
+                clearDMDisplay();
+                displayString("Period methodes \nnog niet aangemaakt \nRegenRate");
+                break;
+            case "Zonsopgang/ondergang" :
+                clearDMDisplay();
+                displayString("Period methodes \nnog niet aangemaakt \nZonsopgang/ondergang");
+                break;
+            case "Windchill" :
+                clearDMDisplay();
+                displayString("Period methodes \nnog niet aangemaakt \nWindchill");
+                break;
+            case "Heat index" :
+                clearDMDisplay();
+                displayString("Period methodes \nnog niet aangemaakt \nHeat index");
+                break;
+            case "Dewpoint" :
+                clearDMDisplay();
+                displayString("Period methodes \nnog niet aangemaakt \nDewpoint");
+                break;
+
+                // Submenu's
+            // Temperatuur
+            case "Buiten temperatuur" :
                 displayDoubleNumber(display1, period.getAverageOutsideTemperature(), 2);
                 displayDoubleNumber(display2, period.getHighestOutsideTemperature(), 1);
                 displayDoubleNumber(display3, period.getLowestOutsideTemptemperature(), 1);
 
                 clearDMDisplay();
                 displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
-
                 break;
-            case "Binnen temperatuur":
+            case "Binnen temperatuur" :
                 displayDoubleNumber(display1, period.getAverageInsideTemperature(), 2);
                 displayDoubleNumber(display2, period.getHighestInsideTemperature(), 1);
                 displayDoubleNumber(display3, period.getLowestInsideTemperature(), 1);
@@ -142,22 +201,38 @@ public class Weerstation {
                 clearDMDisplay();
                 displayString("Max - Gemiddeld - Min\nBinnen temperatuur\nin graden Celsius");
                 break;
-            case "Luchtvochtigheid buiten":
+
+                // Luchtvochtigheid
+            case "Buiten" :
                 displayDoubleNumber(display1, period.getAverageOutsideHumdity(), 0);
                 displayDoubleNumber(display2, period.getHighestOutsideHumdity(), 0);
                 displayDoubleNumber(display3, period.getLowestOutsideHumdity(), 0);
 
                 clearDMDisplay();
-                displayString("Max - Gemiddeld - Min\nLuchtvochtigheid buiten\nin graden Celsius");
+                displayString("Max - Gemiddeld - Min\nLuchtvochtigheid buiten\nin procenten");
+                break;
+            case "Binnen" :
+                clearDMDisplay();
+                displayString("Period methodes \nnog niet aangemaakt \nhum in");
+                break;
+
+                // Wind
+            case "Windsnelheid" :
+                clearDMDisplay();
+                displayString("Period methodes \nnog niet aangemaakt \nwind");
+                break;
+            case "Windrichting" :
+                clearDMDisplay();
+                displayString("Period methodes \nnog niet aangemaakt \nwind dir");
                 break;
             default:
                 clearAll();
-                displayString("Functie is nog niet \ngemaakt");
+                displayString("Functie bestaat niet");
                 System.out.println("?");
         }
 
         while (true) {
-            // Rode knop - Ga terug naar het menu
+            // Rode knop - Ga terug naar het hoofd menu
             if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
                 redButton = !redButton;
 
@@ -165,26 +240,9 @@ public class Weerstation {
                 clearAll();
                 break;
             }
-            // Rechter blauwe knop is ingedrukt
-            // Ga naar het volgende item
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-
-                selectedItem++;
-                showSelectedMenuItem(menuOptions, selectedItem);
-            }
-            // Linker blauwe knop is ingedrukt
-            // Ga naar de vorige item
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-
-                selectedItem--;
-                if (selectedItem < 0) selectedItem += menuOptions.size();
-                showSelectedMenuItem(menuOptions, selectedItem);
-            }
         }
 
-        menu(menuOptions);
+        mainMenu();
     }
 
     public void displayString(String string) {
