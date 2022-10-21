@@ -1,10 +1,7 @@
 import java.lang.reflect.Array;
 import java.time.*;
 import java.time.temporal.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A class to contain a period of time
@@ -483,10 +480,10 @@ public class Period {
     /**
      * Todo more methods
      */
-
     private int year = 2020;
 
     public double getRainfall(ArrayList<Double> numbers) {// Berekent het totaal van alle regen dat is gevallen.
+
         double sumOfRainfall = 0.0;
         for (double number : numbers) {
             sumOfRainfall = (sumOfRainfall + (number / 60));            // delen door zestig, omdat elke waarde in mm/h staan en om de minuut 1 waarde geeft.
@@ -518,7 +515,6 @@ public class Period {
     public Month mostRainfall(){
         ArrayList<Period> months = new ArrayList<>();
 
-
         int lengthFebruary;
         if (isLeapYear()){
             lengthFebruary = 29;
@@ -548,35 +544,36 @@ public class Period {
 
         Month greatestRainfallMonth;
 
-        for (Period period:months) {
-            rainfall.add(period.getRainfallMonths()); //voegt alle omgerekende waarden aan rainfall
-        }
+        if (year >= 2009){
+            for (Period period:months) {
+                rainfall.add(period.getRainfallMonths()); //voegt alle omgerekende waarden aan rainfall
+            }
 
-        if (january.getRainfallMonths() == getHighest(rainfall)){  //kijkt in welke maand het meest heeft geregend.
-            greatestRainfallMonth = Month.JANUARY;
-        }else if (february.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.FEBRUARY;
-        }else if (march.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.MARCH;
-        }else if (april.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.APRIL;
-        }else if (may.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.MAY;
-        }else if (june.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.JUNE;
-        }else if (july.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.JULY;
-        }else if (august.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.AUGUST;
-        }else if (september.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.SEPTEMBER;
-        }else if (october.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.OCTOBER;
-        }else if (november.getRainfallMonths() == getHighest(rainfall)){
-            greatestRainfallMonth = Month.NOVEMBER;
-        }else{
-            greatestRainfallMonth = Month.DECEMBER;
-        }
+            if (january.getRainfallMonths() == getHighest(rainfall)){  //kijkt in welke maand het meest heeft geregend.
+                greatestRainfallMonth = Month.JANUARY;
+            }else if (february.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.FEBRUARY;
+            }else if (march.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.MARCH;
+            }else if (april.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.APRIL;
+            }else if (may.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.MAY;
+            }else if (june.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.JUNE;
+            }else if (july.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.JULY;
+            }else if (august.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.AUGUST;
+            }else if (september.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.SEPTEMBER;
+            }else if (october.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.OCTOBER;
+            }else if (november.getRainfallMonths() == getHighest(rainfall)){
+                greatestRainfallMonth = Month.NOVEMBER;
+            }else{
+                greatestRainfallMonth = Month.DECEMBER;
+            }
 
 //        if (test.get(0) == getHighest(test)){  //kijkt in welke maand het meest heeft geregend.
 //            greatestRainfallMonth = Month.JANUARY;
@@ -604,7 +601,10 @@ public class Period {
 //            greatestRainfallMonth = Month.DECEMBER;
 //        }
 
-        return greatestRainfallMonth; // returned de maand waarin het het meest heeft geregend
+            return greatestRainfallMonth; // returned de maand waarin het het meest heeft geregend
+        }else{
+            return greatestRainfallMonth = null;
+        }
     }
 
     public ArrayList<Double> getRainRate() {
