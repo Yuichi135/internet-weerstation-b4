@@ -69,7 +69,7 @@ public class Grafiek {
             Period period = createSinglePeriod(LocalDate.now().minusDays(days - i));
 
             // Inhoud veranderen?
-            averageAirPressure = period.getAverageAirPressure();
+            averageAirPressure = period.getAverageAirpressure();
             if (averageAirPressure == 0.0) {
                 continue;
             }
@@ -88,7 +88,7 @@ public class Grafiek {
             Period period = createSinglePeriod(LocalDate.now().minusDays(days - i));
 
             // Inhoud veranderen?
-            averageHumidity = period.getAverageOutsideHumdity();
+            averageHumidity = period.getAverageOutsideHumidity();
             if (averageHumidity == 0.0) {
                 continue;
             }
@@ -128,7 +128,7 @@ public class Grafiek {
 
             // period.x aanpassen
             // if x == 0.0 mogelijk aanpassen (ligt eraan wat er wordt gestuurd in methode x
-            highestTemperature = period.getHighestAirPressure();
+            highestTemperature = period.getHighestAirpressure();
             if (highestTemperature == 0.0) {
                 continue;
             }

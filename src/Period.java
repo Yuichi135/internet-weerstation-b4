@@ -815,4 +815,61 @@ public class Period {
         ConsecutiveRainCal.print(grootsteConsecutiveDays, totaalMmGevallen);
     }
 
+    public ArrayList<ArrayList<Measurement>> divideMeasurementsInDays(ArrayList<Measurement> measurements) {
+//        Arraylist gevuld met een arraylist met alle data van één dag
+        ArrayList<ArrayList<Measurement>> sortedMeasurements = new ArrayList<>();
+
+        int dayOfYear = -1;
+        int days = -1;
+        for (Measurement measurement : measurements) {
+            // Maak een nieuwe arraylist aan voor een nieuwe dag
+            if (dayOfYear != measurement.getDateStamp().getDayOfYear()) {
+                dayOfYear = measurement.getDateStamp().getDayOfYear();
+                sortedMeasurements.add(new ArrayList<Measurement>());
+                days++;
+            }
+
+            sortedMeasurements.get(days).add(measurement);
+        }
+        // Verwijder 2 uur aan data van de dag ervoor
+        sortedMeasurements.remove(0);
+
+        return sortedMeasurements;
+    }
+
+    public void getBiggestDifferenceMinMaxTemperature() {
+        ArrayList<ArrayList<Measurement>> measurementsInDays = new ArrayList<>();
+        measurementsInDays = divideMeasurementsInDays(getMeasurements());
+
+        ArrayList<Double> temperatures = new ArrayList<>();
+        double tempHeighest = 0;
+        double tempLowest = 0;
+        double heighest = 0;
+        double lowest = 0;
+        double biggestDifference = 0;
+
+        LocalDate date = measurementsInDays.get(0).get(0).getDateStamp().toLocalDate();
+
+        int index = 0;
+        for (ArrayList<Measurement> singleDay : measurementsInDays) {
+            temperatures.clear();
+            for (Measurement measurement : singleDay) {
+                temperatures.add(measurement.getOutsideTemp());
+            }
+            tempHeighest = Period.getHighest(temperatures);
+            tempLowest = Period.getLowest(temperatures);
+
+            if (biggestDifference < (tempHeighest - tempLowest)) {
+                heighest = tempHeighest;
+                lowest = tempLowest;
+                biggestDifference = heighest - lowest;
+                date = singleDay.get(index).getDateStamp().toLocalDate();
+            }
+            index++;
+        }
+
+        System.out.println("The biggest temperature difference was on " + date);
+        System.out.println("With the difference " + biggestDifference);
+        System.out.println("Heighest temperature: " + heighest + " and lowest " + lowest);
+    }
 }

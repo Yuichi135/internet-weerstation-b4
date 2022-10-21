@@ -149,7 +149,7 @@ public class Opdracht2Yuichi {
             // Check of er records zijn in de period
             if (!period.getMeasurements().isEmpty()) {
                 tempHeighest = period.getHighestOutsideTemperature();
-                tempLowest = period.getLowestOutsideTemptemperature();
+                tempLowest = period.getLowestOutsideTemperature();
 
                 // Sla alles op als het verschil groter is
                 if (biggestDifference < (tempHeighest - tempLowest)) {

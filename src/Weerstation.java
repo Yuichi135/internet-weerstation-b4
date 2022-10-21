@@ -146,9 +146,9 @@ public class Weerstation {
         // De cases moeten overeen komen met de items in menuOptions
         switch (menuOptions.get(selectedItem % menuOptions.size())) {
             case "Luchtdruk":
-                System.out.println(period.getAverageAirPressure());
-                System.out.println(period.getHighestAirPressure());
-                System.out.println(period.getLowestAirPressure());
+                System.out.println(period.getAverageAirpressure());
+                System.out.println(period.getHighestAirpressure());
+                System.out.println(period.getLowestAirpressure());
                 clearAll();
                 displayString("Manier bekijken\nom te laten zien");
 
@@ -188,7 +188,7 @@ public class Weerstation {
             case "Buiten temperatuur" :
                 displayDoubleNumber(display1, period.getAverageOutsideTemperature(), 2);
                 displayDoubleNumber(display2, period.getHighestOutsideTemperature(), 1);
-                displayDoubleNumber(display3, period.getLowestOutsideTemptemperature(), 1);
+                displayDoubleNumber(display3, period.getLowestOutsideTemperature(), 1);
 
                 clearDMDisplay();
                 displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
@@ -204,9 +204,9 @@ public class Weerstation {
 
                 // Luchtvochtigheid
             case "Buiten" :
-                displayDoubleNumber(display1, period.getAverageOutsideHumdity(), 0);
-                displayDoubleNumber(display2, period.getHighestOutsideHumdity(), 0);
-                displayDoubleNumber(display3, period.getLowestOutsideHumdity(), 0);
+                displayDoubleNumber(display1, period.getAverageOutsideHumidity(), 0);
+                displayDoubleNumber(display2, period.getHighestOutsideHumidity(), 0);
+                displayDoubleNumber(display3, period.getLowestOutsideHumidity(), 0);
 
                 clearDMDisplay();
                 displayString("Max - Gemiddeld - Min\nLuchtvochtigheid buiten\nin procenten");

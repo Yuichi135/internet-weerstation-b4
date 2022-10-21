@@ -9,7 +9,9 @@ public class PeriodTestMain {
     public static void main(String[] args) {
 		ArrayList<Period> months = new ArrayList<>();
 
-        Period period = new Period();
+        Period period = new Period(365);
+
+        period.getBiggestDifferenceMinMaxTemperature();
 
 //        int year = 2018;
 //        if((year % 100 == 0 && year % 400 == 0) || (( year % 4 == 0 && year % 100 != 0 && year % 400 != 0) )  ){ // checkt if het jaar een schrikkeljaar is of niet.
@@ -18,7 +20,7 @@ public class PeriodTestMain {
 //            System.out.println(false);
 //        }
 
-        System.out.println("The month when it rained the most: " + period.mostRainfall());
+//        System.out.println("The month when it rained the most: " + period.mostRainfall());
 
 //
 //		System.out.println("The average temperature of last week was " + period.getAverageOutsideTemperature());
