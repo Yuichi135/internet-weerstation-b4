@@ -169,6 +169,8 @@ public class Period {
             temperatures.add(measurement.getOutsideTemp());
         }
 
+        System.out.println(temperatures);
+//        return 1;
         return getHighest(temperatures);
     }
 
@@ -492,17 +494,6 @@ public class Period {
         return sumOfRainfall;
     }
 
-    public ArrayList<Double> getRainRate() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> rainRate = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            rainRate.add(measurement.getRainRate());
-        }
-
-        return rainRate;
-    }
-
     public double getRainfallMonths() { //Voegt alle waarden van rainRate van de maand toe aan rainfall.
         ArrayList<Measurement> measurements = getMeasurements();
         ArrayList<Double> rainfall = new ArrayList<>();
@@ -515,92 +506,59 @@ public class Period {
     }
 
 
-    public Month mostRainfall() {
+
+    public Month mostRainfall(){
         ArrayList<Period> months = new ArrayList<>();
         int year = 2015;
 
-        Period january = new Period(LocalDate.of(year, Month.JANUARY, 1), LocalDate.of(year, Month.JANUARY, 31));
-        Period february = new Period(LocalDate.of(year, Month.FEBRUARY, 1), LocalDate.of(year, Month.FEBRUARY, 28));
-        Period march = new Period(LocalDate.of(year, Month.MARCH, 1), LocalDate.of(year, Month.MARCH, 31));
-        Period april = new Period(LocalDate.of(year, Month.APRIL, 1), LocalDate.of(year, Month.APRIL, 30));
-        Period may = new Period(LocalDate.of(year, Month.MAY, 1), LocalDate.of(year, Month.MAY, 31));
-        Period june = new Period(LocalDate.of(year, Month.JUNE, 1), LocalDate.of(year, Month.JUNE, 30));
-        Period july = new Period(LocalDate.of(year, Month.JULY, 1), LocalDate.of(year, Month.JULY, 31));
-        Period august = new Period(LocalDate.of(year, Month.AUGUST, 1), LocalDate.of(year, Month.AUGUST, 31));
-        Period september = new Period(LocalDate.of(year, Month.SEPTEMBER, 1), LocalDate.of(year, Month.SEPTEMBER, 30));
-        Period october = new Period(LocalDate.of(year, Month.OCTOBER, 1), LocalDate.of(year, Month.OCTOBER, 31));
-        Period november = new Period(LocalDate.of(year, Month.NOVEMBER, 1), LocalDate.of(year, Month.NOVEMBER, 30));
-        Period december = new Period(LocalDate.of(year, Month.DECEMBER, 1), LocalDate.of(year, Month.DECEMBER, 31));
+        Period january = new Period(LocalDate.of(year,Month.JANUARY,1),LocalDate.of(year,Month.JANUARY,31));
+        Period february = new Period(LocalDate.of(year,Month.FEBRUARY,1 ),LocalDate.of(year,Month.FEBRUARY,28));
+        Period march = new Period(LocalDate.of(year,Month.MARCH,1),LocalDate.of(year,Month.MARCH,31));
+        Period april = new Period(LocalDate.of(year,Month.APRIL,1),LocalDate.of(year,Month.APRIL,30));
+        Period may = new Period(LocalDate.of(year,Month.MAY,1),LocalDate.of(year,Month.MAY,31));
+        Period june = new Period(LocalDate.of(year,Month.JUNE,1),LocalDate.of(year,Month.JUNE,30));
+        Period july = new Period(LocalDate.of(year,Month.JULY,1),LocalDate.of(year,Month.JULY,31));
+        Period august = new Period(LocalDate.of(year,Month.AUGUST,1),LocalDate.of(year,Month.AUGUST,31));
+        Period september = new Period(LocalDate.of(year,Month.SEPTEMBER,1),LocalDate.of(year,Month.SEPTEMBER,30));
+        Period october = new Period(LocalDate.of(year,Month.OCTOBER,1),LocalDate.of(year,Month.OCTOBER,31));
+        Period november = new Period(LocalDate.of(year,Month.NOVEMBER,1),LocalDate.of(year,Month.NOVEMBER,30));
+        Period december = new Period(LocalDate.of(year,Month.DECEMBER,1),LocalDate.of(year,Month.DECEMBER,31));
 
-        Collections.addAll(months, january, february, march, april, may, june, july, august, september, october, november, december); // voegt alle periodes aan months.
+        Collections.addAll(months, january, february, march, april, may, june, july, august, september, october,november,december); // voegt alle periodes aan months.
 
         ArrayList<Double> rainfall = new ArrayList<>();
         Month greatestRainfallMonth;
 
-        for (Period period : months) {
+        for (Period period:months) {
             rainfall.add(period.getRainfallMonths()); //voegt alle omgerekende waarden aan rainfall
         }
 
-        if (january.getRainfallMonths() == getHighest(rainfall)) {  //kijkt in welke maand het meest heeft geregend.
+        if (january.getRainfallMonths() == getHighest(rainfall)){  //kijkt in welke maand het meest heeft geregend.
             greatestRainfallMonth = Month.JANUARY;
-        } else if (february.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (february.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.FEBRUARY;
-        } else if (march.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (march.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.MARCH;
-        } else if (april.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (april.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.APRIL;
-        } else if (may.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (may.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.MAY;
-        } else if (june.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (june.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.JUNE;
-        } else if (july.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (july.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.JULY;
-        } else if (august.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (august.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.AUGUST;
-        } else if (september.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (september.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.SEPTEMBER;
-        } else if (october.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (october.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.OCTOBER;
-        } else if (november.getRainfallMonths() == getHighest(rainfall)) {
+        }else if (november.getRainfallMonths() == getHighest(rainfall)){
             greatestRainfallMonth = Month.NOVEMBER;
-        } else {
+        }else{
             greatestRainfallMonth = Month.DECEMBER;
         }
         return greatestRainfallMonth; // returned de maand waarin het het meest heeft geregend
     }
 
-    public void consecutiveRain( ) {
-        double k;
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> rainRate = new ArrayList<>();
-        Period days = new Period(31);
-
-        for (Measurement measurement : measurements) {
-            rainRate.add(measurement.getRainRate());
-        }
-
-        int grootsteConsecutiveDays = 0;
-        int consecutiveDays = 0;
-        double mmGevallen = 0;
-        double totaalMmGevallen = 0;
-
-        days.getRainRate();
-
-        for (int i = 0; i < rainRate.size(); i++) {
-            k = rainRate.get(i);
-
-            if (k == 0) {
-                consecutiveDays = 0;
-                mmGevallen = 0;
-            } else {
-                mmGevallen += ConsecutiveRainCal.berekenRegen(k);
-                consecutiveDays++;
-            }
-            if (consecutiveDays > grootsteConsecutiveDays) {
-                grootsteConsecutiveDays = consecutiveDays;
-                totaalMmGevallen = mmGevallen;
-            }
-        }
-        ConsecutiveRainCal.print(grootsteConsecutiveDays, totaalMmGevallen);
-    }
 }
