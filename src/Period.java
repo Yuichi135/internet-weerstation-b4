@@ -485,6 +485,8 @@ public class Period {
      * Todo more methods
      */
 
+    private int year = 2020;
+
     public double getRainfall(ArrayList<Double> numbers) {// Berekent het totaal van alle regen dat is gevallen.
         double sumOfRainfall = 0.0;
         for (double number : numbers) {
@@ -505,14 +507,28 @@ public class Period {
         return getRainfall(rainfall);
     }
 
+    private boolean isLeapYear(){
 
+        if((year % 100 == 0 && year % 400 == 0) || (( year % 4 == 0 && year % 100 != 0 && year % 400 != 0) )  ){ // checkt if het jaar een schrikkeljaar is of niet.
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public Month mostRainfall(){
         ArrayList<Period> months = new ArrayList<>();
-        int year = 2015;
+
+
+        int lengthFebruary;
+        if (isLeapYear()){
+            lengthFebruary = 29;
+        }else{
+            lengthFebruary = 28;
+        }
 
         Period january = new Period(LocalDate.of(year,Month.JANUARY,1),LocalDate.of(year,Month.JANUARY,31));
-        Period february = new Period(LocalDate.of(year,Month.FEBRUARY,1 ),LocalDate.of(year,Month.FEBRUARY,28));
+        Period february = new Period(LocalDate.of(year,Month.FEBRUARY,1 ),LocalDate.of(year,Month.FEBRUARY,lengthFebruary));
         Period march = new Period(LocalDate.of(year,Month.MARCH,1),LocalDate.of(year,Month.MARCH,31));
         Period april = new Period(LocalDate.of(year,Month.APRIL,1),LocalDate.of(year,Month.APRIL,30));
         Period may = new Period(LocalDate.of(year,Month.MAY,1),LocalDate.of(year,Month.MAY,31));
@@ -527,6 +543,10 @@ public class Period {
         Collections.addAll(months, january, february, march, april, may, june, july, august, september, october,november,december); // voegt alle periodes aan months.
 
         ArrayList<Double> rainfall = new ArrayList<>();
+
+        //        ArrayList<Double> test = new ArrayList<>();
+        //        Collections.addAll(test, 13.8, 10.7, 14.0, 3.0, 5.2, 16.6, 20.4, 24.6, 30.6, 38.6, 44.5, 52.4);
+
         Month greatestRainfallMonth;
 
         for (Period period:months) {
@@ -558,6 +578,33 @@ public class Period {
         }else{
             greatestRainfallMonth = Month.DECEMBER;
         }
+
+//        if (test.get(0) == getHighest(test)){  //kijkt in welke maand het meest heeft geregend.
+//            greatestRainfallMonth = Month.JANUARY;
+//        }else if (test.get(1) == getHighest(test)){
+//            greatestRainfallMonth = Month.FEBRUARY;
+//        }else if (test.get(2) == getHighest(test)){
+//            greatestRainfallMonth = Month.MARCH;
+//        }else if (test.get(3) == getHighest(test)){
+//            greatestRainfallMonth = Month.APRIL;
+//        }else if (test.get(4) == getHighest(test)){
+//            greatestRainfallMonth = Month.MAY;
+//        }else if (test.get(5) == getHighest(test)){
+//            greatestRainfallMonth = Month.JUNE;
+//        }else if (test.get(6) == getHighest(test)){
+//            greatestRainfallMonth = Month.JULY;
+//        }else if (test.get(7) == getHighest(test)){
+//            greatestRainfallMonth = Month.AUGUST;
+//        }else if (test.get(8) == getHighest(test)){
+//            greatestRainfallMonth = Month.SEPTEMBER;
+//        }else if (test.get(9) == getHighest(test)){
+//            greatestRainfallMonth = Month.OCTOBER;
+//        }else if (test.get(10) == getHighest(test)){
+//            greatestRainfallMonth = Month.NOVEMBER;
+//        }else{
+//            greatestRainfallMonth = Month.DECEMBER;
+//        }
+
         return greatestRainfallMonth; // returned de maand waarin het het meest heeft geregend
     }
 
