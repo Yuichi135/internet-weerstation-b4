@@ -784,7 +784,6 @@ public class Period {
         double k;
         ArrayList<Measurement> measurements = getMeasurements();
         ArrayList<Double> rainRate = new ArrayList<>();
-        Period days = new Period(31);
 
         for (Measurement measurement : measurements) {
             rainRate.add(measurement.getRainRate());
@@ -794,8 +793,6 @@ public class Period {
         int consecutiveDays = 0;
         double mmGevallen = 0;
         double totaalMmGevallen = 0;
-
-        days.getRainRate();
 
         for (int i = 0; i < rainRate.size(); i++) {
             k = rainRate.get(i);
