@@ -116,256 +116,429 @@ public class Period {
 
     // Average
     public double getAverageOutsideTemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getOutsideTemp());
-        }
-        return getAverage(temperatures);
+        return getAverage(getOutsideTemperature());
     }
 
     public double getAverageInsideTemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getInsideTemp());
-        }
-        return getAverage(temperatures);
+        return getAverage(getInsideTemperature());
     }
 
-    public double getAverageAirPressure() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            airPressures.add(measurement.getAirPressure());
-        }
-        return getAverage(airPressures);
+    public double getAverageOutsideHumidity() {
+        return getAverage(getOutsideHumidity());
     }
 
-    public double getAverageOutsideHumdity() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            airPressures.add((double) measurement.getOutsideHumidity());
-        }
-        return getAverage(airPressures);
+    public double getAverageInsideHumidity() {
+        return getAverage(getInsideHumidity());
     }
 
+    public double getAverageAirpressure() {
+        return getAverage(getAirpressure());
+    }
+
+    public double getAverageRainRate() {
+        return getAverage(getRainRate());
+    }
+
+    public double getAverageUVIndex() {
+        return getAverage(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getAverageWindDirection() {
+//        return getAverage(getWindDirection());
+//    }
+
+    public double getAverageWindSpeed() {
+        return getAverage(getWindSpeed());
+    }
+
+    public double getAverageHeatIndex() {
+        return getAverage(getHeatIndex());
+    }
+
+    public double getAverageWindChill() {
+        return getAverage(getWindChill());
+    }
+
+    public double getAverageDewpoint() {
+        return getAverage(getDewpoint());
+    }
 
     // Highest
     public double getHighestOutsideTemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getOutsideTemp());
-        }
-
-        System.out.println(temperatures);
-//        return 1;
-        return getHighest(temperatures);
+        return getHighest(getOutsideTemperature());
     }
 
     public double getHighestInsideTemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getInsideTemp());
-        }
-        return getHighest(temperatures);
+        return getHighest(getInsideTemperature());
     }
 
-    public double getHighestAirPressure() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            airPressures.add(measurement.getAirPressure());
-        }
-        return getHighest(airPressures);
+    public double getHighestOutsideHumidity() {
+        return getHighest(getOutsideHumidity());
     }
 
-    public double getHighestOutsideHumdity() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            airPressures.add((double) measurement.getOutsideHumidity());
-        }
-        return getHighest(airPressures);
+    public double getHighestInsideHumidity() {
+        return getHighest(getInsideHumidity());
     }
 
+    public double getHighestAirpressure() {
+        return getHighest(getAirpressure());
+    }
+
+    public double getHighestRainRate() {
+        return getHighest(getRainRate());
+    }
+
+    public double getHighestUVIndex() {
+        return getHighest(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getHighestWindDirection() {
+//        return getHighest(getWindDirection());
+//    }
+
+    public double getHighestWindSpeed() {
+        return getHighest(getWindSpeed());
+    }
+
+    public double getHighestHeatIndex() {
+        return getHighest(getHeatIndex());
+    }
+
+    public double getHighestWindChill() {
+        return getHighest(getWindChill());
+    }
+
+    public double getHighestDewpoint() {
+        return getHighest(getDewpoint());
+    }
 
     // Lowest
-    public double getLowestOutsideTemptemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getOutsideTemp());
-        }
-        return getLowest(temperatures);
+    public double getLowestOutsideTemperature() {
+        return getLowest(getOutsideTemperature());
     }
 
     public double getLowestInsideTemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getInsideTemp());
-        }
-        return getLowest(temperatures);
+        return getLowest(getInsideTemperature());
     }
 
-    public double getLowestAirPressure() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            airPressures.add(measurement.getAirPressure());
-        }
-        return getLowest(airPressures);
+    public double getLowestOutsideHumidity() {
+        return getLowest(getOutsideHumidity());
     }
 
-    public double getLowestOutsideHumdity() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            airPressures.add((double) measurement.getOutsideHumidity());
-        }
-        return getLowest(airPressures);
+    public double getLowestInsideHumidity() {
+        return getLowest(getInsideHumidity());
     }
 
+    public double getLowestAirpressure() {
+        return getLowest(getAirpressure());
+    }
+
+    public double getLowestRainRate() {
+        return getLowest(getRainRate());
+    }
+
+    public double getLowestUVIndex() {
+        return getLowest(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getLowestWindDirection() {
+//        return getLowest(getWindDirection());
+//    }
+
+    public double getLowestWindSpeed() {
+        return getLowest(getWindSpeed());
+    }
+
+    public double getLowestHeatIndex() {
+        return getLowest(getHeatIndex());
+    }
+
+    public double getLowestWindChill() {
+        return getLowest(getWindChill());
+    }
+
+    public double getLowestDewpoint() {
+        return getLowest(getDewpoint());
+    }
 
     // Modus
     public double getModusOutsideTemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getOutsideTemp());
-        }
-        return getModus(temperatures);
+        return getModus(getOutsideTemperature());
     }
 
     public double getModusInsideTemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getInsideTemp());
-        }
-        return getModus(temperatures);
+        return getModus(getInsideTemperature());
     }
 
-    public double getModusAirPressure() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            airPressures.add(measurement.getAirPressure());
-        }
-        return getModus(airPressures);
+    public double getModusOutsideHumidity() {
+        return getModus(getOutsideHumidity());
     }
 
-    public double getModusOutsideHumdity() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            airPressures.add((double) measurement.getOutsideHumidity());
-        }
-        return getModus(airPressures);
+    public double getModusInsideHumidity() {
+        return getModus(getInsideHumidity());
     }
 
+    public double getModusAirpressure() {
+        return getModus(getAirpressure());
+    }
+
+    public double getModusRainRate() {
+        return getModus(getRainRate());
+    }
+
+    public double getModusUVIndex() {
+        return getModus(getUVIndex());
+    }
+
+    public double getModusWindDirection() {
+        return getModus(getWindDirection());
+    }
+
+    public double getModusWindSpeed() {
+        return getModus(getWindSpeed());
+    }
+
+    public double getModusHeatIndex() {
+        return getModus(getHeatIndex());
+    }
+
+    public double getModusWindChill() {
+        return getModus(getWindChill());
+    }
+
+    public double getModusDewpoint() {
+        return getModus(getDewpoint());
+    }
 
     // Median
     public double getMedianOutsideTemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getOutsideTemp());
-        }
-
-        return getMedian(temperatures);
+        return getMedian(getOutsideTemperature());
     }
 
     public double getMedianInsideTemperature() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> temperatures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            temperatures.add(measurement.getInsideTemp());
-        }
-        return getMedian(temperatures);
+        return getMedian(getInsideTemperature());
     }
 
-    public double getMedianAirPressure() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            airPressures.add(measurement.getAirPressure());
-        }
-        return getMedian(airPressures);
+    public double getMedianOutsideHumidity() {
+        return getMedian(getOutsideHumidity());
     }
 
-    public double getMedianOutsideHumdity() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
+    public double getMedianInsideHumidity() {
+        return getMedian(getInsideHumidity());
+    }
 
-        for (Measurement measurement : measurements) {
-            airPressures.add((double) measurement.getOutsideHumidity());
-        }
-        return getMedian(airPressures);
+    public double getMedianAirpressure() {
+        return getMedian(getAirpressure());
+    }
+
+    public double getMedianRainRate() {
+        return getMedian(getRainRate());
+    }
+
+    public double getMedianUVIndex() {
+        return getMedian(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getMedianWindDirection() {
+//        return getMedian(getWindDirection());
+//    }
+
+    public double getMedianWindSpeed() {
+        return getMedian(getWindSpeed());
+    }
+
+    public double getMedianHeatIndex() {
+        return getMedian(getHeatIndex());
+    }
+
+    public double getMedianWindChill() {
+        return getMedian(getWindChill());
+    }
+
+    public double getMedianDewpoint() {
+        return getMedian(getDewpoint());
     }
 
     // StandardDeviation
     public double getStandardDeviationOutsideTemperature() {
+        return getStandardDeviation(getOutsideTemperature());
+    }
+
+    public double getStandardDeviationInsideTemperature() {
+        return getStandardDeviation(getInsideTemperature());
+    }
+
+    public double getStandardDeviationOutsideHumidity() {
+        return getStandardDeviation(getOutsideHumidity());
+    }
+
+    public double getStandardDeviationInsideHumidity() {
+        return getStandardDeviation(getInsideHumidity());
+    }
+
+    public double getStandardDeviationAirpressure() {
+        return getStandardDeviation(getAirpressure());
+    }
+
+    public double getStandardDeviationRainRate() {
+        return getStandardDeviation(getRainRate());
+    }
+
+    public double getStandardDeviationUVIndex() {
+        return getStandardDeviation(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getStandardDeviationWindDirection() {
+//        return getStandardDeviation(getWindDirection());
+//    }
+
+    public double getStandardDeviationWindSpeed() {
+        return getStandardDeviation(getWindSpeed());
+    }
+
+    public double getStandardDeviationHeatIndex() {
+        return getStandardDeviation(getHeatIndex());
+    }
+
+    public double getStandardDeviationWindChill() {
+        return getStandardDeviation(getWindChill());
+    }
+
+    public double getStandardDeviationDewpoint() {
+        return getStandardDeviation(getDewpoint());
+    }
+
+    // Getters (In een double arraylist)
+    public ArrayList<Double> getOutsideTemperature() {
         ArrayList<Measurement> measurements = getMeasurements();
         ArrayList<Double> temperatures = new ArrayList<>();
 
         for (Measurement measurement : measurements) {
             temperatures.add(measurement.getOutsideTemp());
         }
-        return getStandardDeviation(temperatures);
+        return temperatures;
     }
 
-    public double getStandardDeviationInsideTemperature() {
+    public ArrayList<Double> getInsideTemperature() {
         ArrayList<Measurement> measurements = getMeasurements();
         ArrayList<Double> temperatures = new ArrayList<>();
 
         for (Measurement measurement : measurements) {
             temperatures.add(measurement.getInsideTemp());
         }
-        return getStandardDeviation(temperatures);
+        return temperatures;
     }
 
-    public double getStandardDeviationInsideAirpressure() {
+    public ArrayList<Double> getOutsideHumidity() {
         ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
+        ArrayList<Double> humidity = new ArrayList<>();
 
         for (Measurement measurement : measurements) {
-            airPressures.add(measurement.getAirPressure());
+            humidity.add((double) measurement.getOutsideHumidity());
         }
-        return getStandardDeviation(airPressures);
+        return humidity;
     }
 
-    public double getStandardDeviationOutsideHumdity() {
+    public ArrayList<Double> getInsideHumidity() {
         ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> airPressures = new ArrayList<>();
+        ArrayList<Double> humidity = new ArrayList<>();
 
         for (Measurement measurement : measurements) {
-            airPressures.add((double) measurement.getOutsideHumidity());
+            humidity.add((double) measurement.getInsideHumidity());
         }
-        return getStandardDeviation(airPressures);
+        return humidity;
+    }
+
+    public ArrayList<Double> getAirpressure() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> airpressure = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            airpressure.add(measurement.getAirPressure());
+        }
+        return airpressure;
+    }
+
+    public ArrayList<Double> getRainRate() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> rainRate = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            rainRate.add(measurement.getRainRate());
+        }
+
+        return rainRate;
+    }
+
+    public ArrayList<Double> getUVIndex() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> uvIndex = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            uvIndex.add(measurement.getUvIndex());
+        }
+
+        return uvIndex;
+    }
+
+    public ArrayList<Double> getWindDirection() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> windDirection = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            windDirection.add(measurement.getWindDirection());
+        }
+
+        return windDirection;
+    }
+
+    public ArrayList<Double> getWindSpeed() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> windSpeed = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            windSpeed.add(measurement.getWindSpeed());
+        }
+
+        return windSpeed;
+    }
+
+    public ArrayList<Double> getHeatIndex() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> heatIndex = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            heatIndex.add(measurement.getHeatIndex());
+        }
+
+        return heatIndex;
+    }
+
+    public ArrayList<Double> getWindChill() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> windChill = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            windChill.add(measurement.getWindChill());
+        }
+
+        return windChill;
+    }
+
+    public ArrayList<Double> getDewpoint() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> dewPoint = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            dewPoint.add(measurement.getDewPoint());
+        }
+
+        return dewPoint;
     }
 
 
@@ -503,39 +676,39 @@ public class Period {
         return getRainfall(rainfall);
     }
 
-    private boolean isLeapYear(){
+    private boolean isLeapYear() {
 
-        if((year % 100 == 0 && year % 400 == 0) || (( year % 4 == 0 && year % 100 != 0 && year % 400 != 0) )  ){ // checkt if het jaar een schrikkeljaar is of niet.
+        if ((year % 100 == 0 && year % 400 == 0) || ((year % 4 == 0 && year % 100 != 0 && year % 400 != 0))) { // checkt if het jaar een schrikkeljaar is of niet.
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public Month mostRainfall(){
+    public Month mostRainfall() {
         ArrayList<Period> months = new ArrayList<>();
 
         int lengthFebruary;
-        if (isLeapYear()){
+        if (isLeapYear()) {
             lengthFebruary = 29;
-        }else{
+        } else {
             lengthFebruary = 28;
         }
 
-        Period january = new Period(LocalDate.of(year,Month.JANUARY,1),LocalDate.of(year,Month.JANUARY,31));
-        Period february = new Period(LocalDate.of(year,Month.FEBRUARY,1 ),LocalDate.of(year,Month.FEBRUARY,lengthFebruary));
-        Period march = new Period(LocalDate.of(year,Month.MARCH,1),LocalDate.of(year,Month.MARCH,31));
-        Period april = new Period(LocalDate.of(year,Month.APRIL,1),LocalDate.of(year,Month.APRIL,30));
-        Period may = new Period(LocalDate.of(year,Month.MAY,1),LocalDate.of(year,Month.MAY,31));
-        Period june = new Period(LocalDate.of(year,Month.JUNE,1),LocalDate.of(year,Month.JUNE,30));
-        Period july = new Period(LocalDate.of(year,Month.JULY,1),LocalDate.of(year,Month.JULY,31));
-        Period august = new Period(LocalDate.of(year,Month.AUGUST,1),LocalDate.of(year,Month.AUGUST,31));
-        Period september = new Period(LocalDate.of(year,Month.SEPTEMBER,1),LocalDate.of(year,Month.SEPTEMBER,30));
-        Period october = new Period(LocalDate.of(year,Month.OCTOBER,1),LocalDate.of(year,Month.OCTOBER,31));
-        Period november = new Period(LocalDate.of(year,Month.NOVEMBER,1),LocalDate.of(year,Month.NOVEMBER,30));
-        Period december = new Period(LocalDate.of(year,Month.DECEMBER,1),LocalDate.of(year,Month.DECEMBER,31));
+        Period january = new Period(LocalDate.of(year, Month.JANUARY, 1), LocalDate.of(year, Month.JANUARY, 31));
+        Period february = new Period(LocalDate.of(year, Month.FEBRUARY, 1), LocalDate.of(year, Month.FEBRUARY, lengthFebruary));
+        Period march = new Period(LocalDate.of(year, Month.MARCH, 1), LocalDate.of(year, Month.MARCH, 31));
+        Period april = new Period(LocalDate.of(year, Month.APRIL, 1), LocalDate.of(year, Month.APRIL, 30));
+        Period may = new Period(LocalDate.of(year, Month.MAY, 1), LocalDate.of(year, Month.MAY, 31));
+        Period june = new Period(LocalDate.of(year, Month.JUNE, 1), LocalDate.of(year, Month.JUNE, 30));
+        Period july = new Period(LocalDate.of(year, Month.JULY, 1), LocalDate.of(year, Month.JULY, 31));
+        Period august = new Period(LocalDate.of(year, Month.AUGUST, 1), LocalDate.of(year, Month.AUGUST, 31));
+        Period september = new Period(LocalDate.of(year, Month.SEPTEMBER, 1), LocalDate.of(year, Month.SEPTEMBER, 30));
+        Period october = new Period(LocalDate.of(year, Month.OCTOBER, 1), LocalDate.of(year, Month.OCTOBER, 31));
+        Period november = new Period(LocalDate.of(year, Month.NOVEMBER, 1), LocalDate.of(year, Month.NOVEMBER, 30));
+        Period december = new Period(LocalDate.of(year, Month.DECEMBER, 1), LocalDate.of(year, Month.DECEMBER, 31));
 
-        Collections.addAll(months, january, february, march, april, may, june, july, august, september, october,november,december); // voegt alle periodes aan months.
+        Collections.addAll(months, january, february, march, april, may, june, july, august, september, october, november, december); // voegt alle periodes aan months.
 
         ArrayList<Double> rainfall = new ArrayList<>();
 
@@ -544,34 +717,34 @@ public class Period {
 
         Month greatestRainfallMonth;
 
-        if (year >= 2009){
-            for (Period period:months) {
+        if (year >= 2009) {
+            for (Period period : months) {
                 rainfall.add(period.getRainfallMonths()); //voegt alle omgerekende waarden aan rainfall
             }
 
-            if (january.getRainfallMonths() == getHighest(rainfall)){  //kijkt in welke maand het meest heeft geregend.
+            if (january.getRainfallMonths() == getHighest(rainfall)) {  //kijkt in welke maand het meest heeft geregend.
                 greatestRainfallMonth = Month.JANUARY;
-            }else if (february.getRainfallMonths() == getHighest(rainfall)){
+            } else if (february.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.FEBRUARY;
-            }else if (march.getRainfallMonths() == getHighest(rainfall)){
+            } else if (march.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.MARCH;
-            }else if (april.getRainfallMonths() == getHighest(rainfall)){
+            } else if (april.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.APRIL;
-            }else if (may.getRainfallMonths() == getHighest(rainfall)){
+            } else if (may.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.MAY;
-            }else if (june.getRainfallMonths() == getHighest(rainfall)){
+            } else if (june.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.JUNE;
-            }else if (july.getRainfallMonths() == getHighest(rainfall)){
+            } else if (july.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.JULY;
-            }else if (august.getRainfallMonths() == getHighest(rainfall)){
+            } else if (august.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.AUGUST;
-            }else if (september.getRainfallMonths() == getHighest(rainfall)){
+            } else if (september.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.SEPTEMBER;
-            }else if (october.getRainfallMonths() == getHighest(rainfall)){
+            } else if (october.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.OCTOBER;
-            }else if (november.getRainfallMonths() == getHighest(rainfall)){
+            } else if (november.getRainfallMonths() == getHighest(rainfall)) {
                 greatestRainfallMonth = Month.NOVEMBER;
-            }else{
+            } else {
                 greatestRainfallMonth = Month.DECEMBER;
             }
 
@@ -602,20 +775,9 @@ public class Period {
 //        }
 
             return greatestRainfallMonth; // returned de maand waarin het het meest heeft geregend
-        }else{
+        } else {
             return greatestRainfallMonth = null;
         }
-    }
-
-    public ArrayList<Double> getRainRate() {
-        ArrayList<Measurement> measurements = getMeasurements();
-        ArrayList<Double> rainRate = new ArrayList<>();
-
-        for (Measurement measurement : measurements) {
-            rainRate.add(measurement.getRainRate());
-        }
-
-        return rainRate;
     }
 
     public void consecutiveRain() {
@@ -633,7 +795,7 @@ public class Period {
         double mmGevallen = 0;
         double totaalMmGevallen = 0;
 
-        days.getRainRate()  ;
+        days.getRainRate();
 
         for (int i = 0; i < rainRate.size(); i++) {
             k = rainRate.get(i);
