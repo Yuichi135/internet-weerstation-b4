@@ -9,7 +9,6 @@ public class Test {
 
         RawMeasurement mostRecent = DatabaseConnection.getMostRecentMeasurement();
         Measurement converted = new Measurement(mostRecent);
-        Period period = new Period(31);
 
         System.out.println(converted);
 
@@ -32,6 +31,6 @@ public class Test {
         System.out.println(Math.round(converted.getWindChill() * 10) / 10.0 + " °C");
         System.out.println(Math.round(converted.getDewPoint() * 100) / 100.0 + "\n");
 
-        period.consecutiveRain();
+        Period.consecutiveRain();
     }
 }

@@ -14,7 +14,7 @@
 //    }
 //
 //    public double getRainfallMonths() { //Voegt alle waarden van rainRate van de maand toe aan rainfall.
-//        ArrayList<Measurement> measurements = getMeasurements();
+//        ArrayList<Measurement> measurements = Period.getMeasurements();
 //        ArrayList<Double> rainfall = new ArrayList<>();
 //
 //

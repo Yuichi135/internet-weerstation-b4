@@ -111,7 +111,6 @@ public class Period {
 //        return measurements;
     }
 
-
     /**
      * todo
      *
@@ -606,6 +605,52 @@ public class Period {
 //        }
 
         return greatestRainfallMonth; // returned de maand waarin het het meest heeft geregend
+    }
+
+    public ArrayList<Double> getRainRate() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> rainRate = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            rainRate.add(measurement.getRainRate());
+        }
+
+        return rainRate;
+    }
+
+    public void consecutiveRain() {
+        double k;
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> rainRate = new ArrayList<>();
+        Period days = new Period(31);
+
+        for (Measurement measurement : measurements) {
+            rainRate.add(measurement.getRainRate());
+        }
+
+        int grootsteConsecutiveDays = 0;
+        int consecutiveDays = 0;
+        double mmGevallen = 0;
+        double totaalMmGevallen = 0;
+
+        days.getRainRate()  ;
+
+        for (int i = 0; i < rainRate.size(); i++) {
+            k = rainRate.get(i);
+
+            if (k == 0) {
+                consecutiveDays = 0;
+                mmGevallen = 0;
+            } else {
+                mmGevallen += ConsecutiveRainCal.berekenRegen(k);
+                consecutiveDays++;
+            }
+            if (consecutiveDays > grootsteConsecutiveDays) {
+                grootsteConsecutiveDays = consecutiveDays;
+                totaalMmGevallen = mmGevallen;
+            }
+        }
+        ConsecutiveRainCal.print(grootsteConsecutiveDays, totaalMmGevallen);
     }
 
 }
