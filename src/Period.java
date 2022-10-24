@@ -839,7 +839,7 @@ public class Period {
         return sortedMeasurements;
     }
 
-    public void getBiggestDifferenceMinMaxTemperature() {
+    public LocalDate getBiggestDifferenceMinMaxTemperature() {
         ArrayList<ArrayList<Measurement>> measurementsInDays = new ArrayList<>();
         measurementsInDays = divideMeasurementsInDays(getMeasurements());
 
@@ -870,8 +870,6 @@ public class Period {
             index++;
         }
 
-        System.out.println("The biggest temperature difference was on " + date);
-        System.out.println("With the difference " + biggestDifference);
-        System.out.println("Heighest temperature: " + heighest + " and lowest " + lowest);
+        return date;
     }
 }

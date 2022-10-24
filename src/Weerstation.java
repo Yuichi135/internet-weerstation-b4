@@ -242,7 +242,7 @@ public class Weerstation {
 
                 break;
             case "Yuichi" :
-
+                individueleOpdrachtYuichi();
                 break;
             case "Rick" :
                 displayDoubleNumber(display1, period.consecutiveRain(0), 2);
@@ -269,6 +269,18 @@ public class Weerstation {
         }
 
         mainMenu();
+    }
+
+    public void individueleOpdrachtYuichi() {
+        Period biggestDiffTemp = new Period(period.getBiggestDifferenceMinMaxTemperature(), period.getBiggestDifferenceMinMaxTemperature());
+        double difference = biggestDiffTemp.getHighestOutsideTemperature() - biggestDiffTemp.getLowestOutsideTemperature();
+
+        displayDoubleNumber(display1, difference, 2);
+        displayDoubleNumber(display2, biggestDiffTemp.getHighestInsideTemperature(), 1);
+        displayDoubleNumber(display3, biggestDiffTemp.getLowestOutsideTemperature(), 1);
+
+        clearDMDisplay();
+        displayString("Max - Verschil  - Min\nTemperatuur celsius\nop " + period.getBiggestDifferenceMinMaxTemperature());
     }
 
     public void displayString(String string) {
