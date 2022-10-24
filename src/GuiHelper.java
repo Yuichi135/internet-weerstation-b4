@@ -2,9 +2,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GuiHelper {
-    public static ArrayList<Integer> display1 = new ArrayList<>(Arrays.asList(0x10, 0x12, 0x14, 0x16, 0x18));
-    public static ArrayList<Integer> display2 = new ArrayList<>(Arrays.asList(0x20, 0x22, 0x24));
-    public static ArrayList<Integer> display3 = new ArrayList<>(Arrays.asList(0x30, 0x32, 0x34));
+    // IO.init(); moet wel gedaan worden
+
+    // Displays bevatten de adressen van de segment displays (van rechts naar links)
+    public final static ArrayList<Integer> display1 = new ArrayList<>(Arrays.asList(0x10, 0x12, 0x14, 0x16, 0x18));
+    public final static ArrayList<Integer> display2 = new ArrayList<>(Arrays.asList(0x20, 0x22, 0x24));
+    public final static ArrayList<Integer> display3 = new ArrayList<>(Arrays.asList(0x30, 0x32, 0x34));
+    // Alle getallen met een punt erachter ('0.', '1.', '2.', etc.)
+    private final static int[] lookUpTable = {0b110111111, 0b110000110, 0b111011011, 0b111001111, 0b111100110,
+            0b111101101, 0b111111101, 0b110000111, 0b111111111, 0b111101111};
 
     // Laat string op DMDisplay zien
     public static void displayString(String string) {
@@ -15,9 +21,15 @@ public class GuiHelper {
         }
     }
 
-    // TODO: 0.xxx fixen (laat de eerste 0 niet zien)
     // Support negatieve en positieve getallen met decimalen
+    // Snijdt aan de linkerkant af als het getal te groot is (-4242572372 -> 72372)
     public static void displayDoubleNumber(ArrayList<Integer> display, double number, int decimals) {
+        // Gebruik de displayNumber die alleen gehele nummers support bij 0 decimalen
+        if (decimals == 0) {
+            improvedDisplayNumber(display, (int) Math.round(number));
+            return;
+        }
+
         int prod;
         boolean finalLoop = false;
         boolean negative = false;
@@ -29,59 +41,35 @@ public class GuiHelper {
             number = -number;
         }
 
+//        number = number * Math.pow(10, decimals);
+        // Math.pow gebruikt blijkbaar erg veel 'power', daarom een for loopje gebruikt
         // Maak van het nummer een niet kommagetal
-        number = number * Math.pow(10, decimals);
+        int zeroes = 1;
+        for (int i = 0; i < decimals; i++) zeroes *= 10;
+
+        number = number * zeroes;
         int roundedNumber = (int) Math.round(number);
 
         for (Integer adress : display) {
+
+            prod = roundedNumber % 10;
+            if (iteration == decimals) {
+                // lookUpTable bevat de juiste bits om een getal met punt erachter te zetten
+                IO.writeShort(adress, lookUpTable[prod]);
+            } else {
+                IO.writeShort(adress, prod);
+            }
+
             // Stopt de loop, als het negatief is komt er een - voor
             if (finalLoop) {
                 if (negative) {
-                    IO.writeShort(adress, 0b101000000);
+                    // adress + 2 gaat naar het volgende adres
+                    if (iteration == decimals) IO.writeShort(adress + 2, 0b101000000);
+                    else IO.writeShort(adress, 0b101000000);
                 }
                 break;
             }
 
-            prod = roundedNumber % 10;
-            if (iteration == decimals) {
-                // TODO: BETERE MANIER VINDEN
-                switch (prod) {
-                    case 1:
-                        IO.writeShort(adress, 0b110000110); // 1.
-                        break;
-                    case 2:
-                        IO.writeShort(adress, 0b111011011); // 2.
-                        break;
-                    case 3:
-                        IO.writeShort(adress, 0b111001111); // 3.
-                        break;
-                    case 4:
-                        IO.writeShort(adress, 0b111100110); // 4.
-                        break;
-                    case 5:
-                        IO.writeShort(adress, 0b111101101); // 5.
-                        break;
-                    case 6:
-                        IO.writeShort(adress, 0b111111101); // 6.
-                        break;
-                    case 7:
-                        IO.writeShort(adress, 0b110000111); // 7.
-                        break;
-                    case 8:
-                        IO.writeShort(adress, 0b111111111); // 8.
-                        break;
-                    case 9:
-                        IO.writeShort(adress, 0b111101111); // 9.
-                        break;
-                    case 0:
-                        IO.writeShort(adress, 0b110111111); // 0.
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                IO.writeShort(adress, prod);
-            }
             roundedNumber = (roundedNumber - prod) / 10;
 
             if (roundedNumber == 0) {
