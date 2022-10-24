@@ -9,10 +9,6 @@ public class Weerstation {
         weerstation.init();
 }
 
-    public static ArrayList<Integer> display1 = new ArrayList<>();
-    public static ArrayList<Integer> display2 = new ArrayList<>();
-    public static ArrayList<Integer> display3 = new ArrayList<>();
-
     private Period period;
     private boolean redButton;
     private boolean blueButtonRight;
@@ -20,17 +16,13 @@ public class Weerstation {
     private int selectedItem = 0;
 
     public Weerstation() {
-        Collections.addAll(display1, 0x10, 0x12, 0x14, 0x16, 0x18);
-        Collections.addAll(display2, 0x20, 0x22, 0x24);
-        Collections.addAll(display3, 0x30, 0x32, 0x34);
-
         IO.init();
-        clearAll();
+        GuiHelper.clearAllDisplays();
     }
 
     public void init() {
 //        int days = readDateFromTerminal();
-        int days = 5;
+        int days = 365;
         this.period = new Period(days);
         this.period.getMeasurements();
         mainMenu();
@@ -123,16 +115,16 @@ public class Weerstation {
     }
 
     public void displayMenu(String header, ArrayList<String> menuOptions, int selectedItem) {
-        clearDMDisplay();
+        GuiHelper.clearDMDisplay();
         int availableLines = 3;
 
         if (!header.equals("")) {
-            displayString(header + "\n");
+            GuiHelper.displayString(header + "\n");
             availableLines = 2;
         }
 
         for (int i = 0; i < availableLines; i++) {
-            displayString(menuOptions.get((selectedItem + i) % menuOptions.size()) + "\n");
+            GuiHelper.displayString(menuOptions.get((selectedItem + i) % menuOptions.size()) + "\n");
         }
         highlightMenuItem(3 - availableLines);
     }
@@ -156,8 +148,8 @@ public class Weerstation {
                 System.out.println(period.getAverageAirpressure());
                 System.out.println(period.getHighestAirpressure());
                 System.out.println(period.getLowestAirpressure());
-                clearAll();
-                displayString("Manier bekijken\nom te laten zien");
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayString("Manier bekijken\nom te laten zien");
 
                 break;
             case "Temperatuur":
@@ -170,24 +162,24 @@ public class Weerstation {
                 windMenu();
                 break;
             case "Regen" :
-                clearDMDisplay();
-                displayString("Period methodes \nnog niet aangemaakt \nRegenRate");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nRegenRate");
                 break;
             case "Zonsopgang/ondergang" :
-                clearDMDisplay();
-                displayString("Period methodes \nnog niet aangemaakt \nZonsopgang/ondergang");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nZonsopgang/ondergang");
                 break;
             case "Windchill" :
-                clearDMDisplay();
-                displayString("Period methodes \nnog niet aangemaakt \nWindchill");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nWindchill");
                 break;
             case "Heat index" :
-                clearDMDisplay();
-                displayString("Period methodes \nnog niet aangemaakt \nHeat index");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nHeat index");
                 break;
             case "Dewpoint" :
-                clearDMDisplay();
-                displayString("Period methodes \nnog niet aangemaakt \nDewpoint");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nDewpoint");
                 break;
             case "Individueel" :
                 individueelMenu();
@@ -196,44 +188,44 @@ public class Weerstation {
                 // Submenu's
             // Temperatuur
             case "Buiten temperatuur" :
-                displayDoubleNumber(display1, period.getAverageOutsideTemperature(), 2);
-                displayDoubleNumber(display2, period.getHighestOutsideTemperature(), 1);
-                displayDoubleNumber(display3, period.getLowestOutsideTemperature(), 1);
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideTemperature(), 2);
+                GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideTemperature(), 1);
+                GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideTemperature(), 1);
 
-                clearDMDisplay();
-                displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
                 break;
             case "Binnen temperatuur" :
-                displayDoubleNumber(display1, period.getAverageInsideTemperature(), 2);
-                displayDoubleNumber(display2, period.getHighestInsideTemperature(), 1);
-                displayDoubleNumber(display3, period.getLowestInsideTemperature(), 1);
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageInsideTemperature(), 2);
+                GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestInsideTemperature(), 1);
+                GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestInsideTemperature(), 1);
 
-                clearDMDisplay();
-                displayString("Max - Gemiddeld - Min\nBinnen temperatuur\nin graden Celsius");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Max - Gemiddeld - Min\nBinnen temperatuur\nin graden Celsius");
                 break;
 
                 // Luchtvochtigheid
             case "Buiten" :
-                displayDoubleNumber(display1, period.getAverageOutsideHumidity(), 0);
-                displayDoubleNumber(display2, period.getHighestOutsideHumidity(), 0);
-                displayDoubleNumber(display3, period.getLowestOutsideHumidity(), 0);
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideHumidity(), 0);
+                GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideHumidity(), 0);
+                GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideHumidity(), 0);
 
-                clearDMDisplay();
-                displayString("Max - Gemiddeld - Min\nLuchtvochtigheid buiten\nin procenten");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Max - Gemiddeld - Min\nLuchtvochtigheid buiten\nin procenten");
                 break;
             case "Binnen" :
-                clearDMDisplay();
-                displayString("Period methodes \nnog niet aangemaakt \nhum in");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nhum in");
                 break;
 
                 // Wind
             case "Windsnelheid" :
-                clearDMDisplay();
-                displayString("Period methodes \nnog niet aangemaakt \nwind");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nwind");
                 break;
             case "Windrichting" :
-                clearDMDisplay();
-                displayString("Period methodes \nnog niet aangemaakt \nwind dir");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nwind dir");
                 break;
             case "Sam" :
 
@@ -245,15 +237,15 @@ public class Weerstation {
                 individueleOpdrachtYuichi();
                 break;
             case "Rick" :
-                displayDoubleNumber(display1, period.consecutiveRain(0), 2);
-                displayDoubleNumber(display2, period.consecutiveRain(1), 0);
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.consecutiveRain(0), 2);
+                GuiHelper.displayDoubleNumber(GuiHelper.display2, period.consecutiveRain(1), 0);
 
-                clearDMDisplay();
-                displayString("Minutes - Rain mm \n");
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("Minutes - Rain mm \n");
                 break;
             default:
-                clearAll();
-                displayString("Functie bestaat niet");
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayString("Functie bestaat niet");
                 System.out.println("?");
         }
 
@@ -263,7 +255,7 @@ public class Weerstation {
                 redButton = !redButton;
 
                 System.out.println("Quit");
-                clearAll();
+                GuiHelper.clearAllDisplays();
                 break;
             }
         }
@@ -275,112 +267,11 @@ public class Weerstation {
         Period biggestDiffTemp = new Period(period.getBiggestDifferenceMinMaxTemperature(), period.getBiggestDifferenceMinMaxTemperature());
         double difference = biggestDiffTemp.getHighestOutsideTemperature() - biggestDiffTemp.getLowestOutsideTemperature();
 
-        displayDoubleNumber(display1, difference, 2);
-        displayDoubleNumber(display2, biggestDiffTemp.getHighestInsideTemperature(), 1);
-        displayDoubleNumber(display3, biggestDiffTemp.getLowestOutsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, difference, 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, biggestDiffTemp.getHighestInsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, biggestDiffTemp.getLowestOutsideTemperature(), 1);
 
-        clearDMDisplay();
-        displayString("Max - Verschil  - Min\nTemperatuur celsius\nop " + period.getBiggestDifferenceMinMaxTemperature());
-    }
-
-    public void displayString(String string) {
-        char character;
-        for (int i = 0; i < string.length(); i++) {
-            character = string.charAt(i);
-            IO.writeShort(0x40, character);
-        }
-    }
-
-    public static void displayDoubleNumber(ArrayList<Integer> display, double number, int decimals) {
-        clearDisplay(display);
-
-        int prod;
-        boolean finalLoop = false;
-        boolean negative = false;
-        int iteration = 0;
-
-        // Maak number positief
-        if (number < 0) {
-            negative = true;
-            number = -number;
-        }
-
-        number = number * Math.pow(10, decimals);
-        int roundedNumber = (int) Math.round(number);
-
-        for (Integer adress : display) {
-            // Stopt de loop, als het negatief is komt er een - voor
-            if (finalLoop) {
-                if (negative) {
-                    IO.writeShort(adress, 0b101000000);
-                }
-                break;
-            }
-
-            prod = roundedNumber % 10;
-            if (iteration == decimals) {
-                // TODO: BETERE MANIER VINDEN
-                switch (prod) {
-                    case 1:
-                        IO.writeShort(adress, 0b110000110); // 1.
-                        break;
-                    case 2:
-                        IO.writeShort(adress, 0b111011011); // 2.
-                        break;
-                    case 3:
-                        IO.writeShort(adress, 0b111001111); // 3.
-                        break;
-                    case 4:
-                        IO.writeShort(adress, 0b111100110); // 4.
-                        break;
-                    case 5:
-                        IO.writeShort(adress, 0b111101101); // 5.
-                        break;
-                    case 6:
-                        IO.writeShort(adress, 0b111111101); // 6.
-                        break;
-                    case 7:
-                        IO.writeShort(adress, 0b110000111); // 7.
-                        break;
-                    case 8:
-                        IO.writeShort(adress, 0b111111111); // 8.
-                        break;
-                    case 9:
-                        IO.writeShort(adress, 0b111101111); // 9.
-                        break;
-                    case 0:
-                        IO.writeShort(adress, 0b110111111); // 0.
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                IO.writeShort(adress, prod);
-            }
-            roundedNumber = (roundedNumber - prod) / 10;
-
-            if (roundedNumber == 0) {
-                finalLoop = true;
-            }
-            iteration++;
-        }
-    }
-
-    public static void clearDisplay(ArrayList<Integer> display) {
-        for (Integer adress : display) {
-            IO.writeShort(adress, 0b100000000);
-        }
-    }
-
-    public void clearDMDisplay() {
-        IO.writeShort(0x40, 0xFE);
-        IO.writeShort(0x40, 0x01);
-    }
-
-    public void clearAll() {
-        clearDisplay(display1);
-        clearDisplay(display2);
-        clearDisplay(display3);
-        clearDMDisplay();
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Verschil  - Min\nTemperatuur celsius\nop " + period.getBiggestDifferenceMinMaxTemperature());
     }
 }
