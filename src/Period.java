@@ -780,7 +780,7 @@ public class Period {
         }
     }
 
-    public void consecutiveRain() {
+    public double consecutiveRain(int choice) {
         double k;
         ArrayList<Measurement> measurements = getMeasurements();
         ArrayList<Double> rainRate = new ArrayList<>();
@@ -809,8 +809,13 @@ public class Period {
                 totaalMmGevallen = mmGevallen;
             }
         }
-        ConsecutiveRainCal.print(grootsteConsecutiveDays, totaalMmGevallen);
+        if (choice == 1) {
+            return grootsteConsecutiveDays;
+        } else {
+            return totaalMmGevallen;
+        }
     }
+
 
     public ArrayList<ArrayList<Measurement>> divideMeasurementsInDays(ArrayList<Measurement> measurements) {
 //        Arraylist gevuld met een arraylist met alle data van één dag

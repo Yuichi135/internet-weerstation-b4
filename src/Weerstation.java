@@ -77,7 +77,7 @@ public class Weerstation {
     public void mainMenu() {
         ArrayList<String> menuOptions = new ArrayList<>();
         Collections.addAll(menuOptions, "Luchtdruk", "Temperatuur", "Luchtvochtigheid", "Wind", "Regen",
-                "Zonsopgang/ondergang", "Windchill", "Heat index", "Dewpoint");
+                "Zonsopgang/ondergang", "Windchill", "Heat index", "Dewpoint", "Individueel");
 
         menu(menuOptions, "");
     }
@@ -101,6 +101,13 @@ public class Weerstation {
         Collections.addAll(menuOptions, "Windsnelheid", "Windrichting");
 
         menu(menuOptions, "Wind");
+    }
+
+    public void individueelMenu() {
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Sam", "Yuichi", "Sander", "Rick");
+
+        menu(menuOptions, "Individuele opdr");
     }
 
     // TODO: wanneer er een string in wordt gestopt opvangen
@@ -182,6 +189,9 @@ public class Weerstation {
                 clearDMDisplay();
                 displayString("Period methodes \nnog niet aangemaakt \nDewpoint");
                 break;
+            case "Individueel" :
+                individueelMenu();
+                break;
 
                 // Submenu's
             // Temperatuur
@@ -224,6 +234,22 @@ public class Weerstation {
             case "Windrichting" :
                 clearDMDisplay();
                 displayString("Period methodes \nnog niet aangemaakt \nwind dir");
+                break;
+            case "Sam" :
+
+                break;
+            case "Sander" :
+
+                break;
+            case "Yuichi" :
+
+                break;
+            case "Rick" :
+                displayDoubleNumber(display1, period.consecutiveRain(0), 2);
+                displayDoubleNumber(display2, period.consecutiveRain(1), 0);
+
+                clearDMDisplay();
+                displayString("Minutes - Rain mm \n");
                 break;
             default:
                 clearAll();
