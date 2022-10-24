@@ -4,7 +4,7 @@ public class PeriodTestMain {
         Period period = new Period(365);
 
         System.out.println(period.mostRainfall());
-        period.consecutiveRain();
+//        period.consecutiveRain();
         period.getBiggestDifferenceMinMaxTemperature();
     }
 }
