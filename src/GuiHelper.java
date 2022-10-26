@@ -120,6 +120,8 @@ public class GuiHelper {
             prod = number % 10;
             IO.writeShort(adress, prod);
             number = (number - prod) / 10;
+
+            if (number == 0) break;
         }
     }
 
