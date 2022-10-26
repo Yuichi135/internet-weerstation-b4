@@ -168,8 +168,6 @@ public class Weerstation {
                 windMenu();
                 break;
             case "Regen":
-                GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nRegenRate");
                 break;
             case "Zonsopgang/ondergang":
                 GuiHelper.clearDMDisplay();
@@ -194,15 +192,11 @@ public class Weerstation {
             // Submenu's
             // Temperatuur
             case "Buiten temperatuur" :
-                GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("WIP");
-                break;
             case "Binnen temperatuur" :
-                break;
 
                 // Luchtvochtigheid
             case "Buiten" :
-                break;
+            
             case "Binnen" :
                 break;
 
@@ -383,4 +377,85 @@ public class Weerstation {
     }
 
     //---------------------------------------------------------------------------------------------//
+
+    public void displayOutsideTemp() {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideTemperature(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideTemperature(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
+
+    }
+
+    public void displayInsideTemp() {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageInsideTemperature(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestInsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestInsideTemperature(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nBinnen temperatuur\nin graden Celsius");
+
+    }
+
+    public void displayOutsideHum() {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideHumidity(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideHumidity(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideHumidity(), 0);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nluchtvochtigheid\nbuiten in %");
+    }
+
+    public void displayInsideHum(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageInsideHumidity(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestInsideHumidity(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestInsideHumidity(), 0);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nluchtvochtigheid\nbinnen in %");
+    }
+
+    public void displayWindSpeed(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageWindSpeed(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestWindSpeed(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestWindSpeed(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nwindsnelheid\n in km/h");
+    }
+    public void displayRainRate(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageRainRate(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestRainRate(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestRainRate(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nRainrate\n in mm/h");
+    }
+
+    public void displayWindChill(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageWindChill(),2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestWindChill(),2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3,period.getLowestWindChill(),2);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nWindchill in\ngraden celsius");
+    }
+
+    public void displayHeatIndex(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageHeatIndex(),2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestHeatIndex(),2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3,period.getLowestHeatIndex(),2);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nHeatindex in\ngraden celsius");
+    }
+    public void displayDewPoint(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageDewpoint(),2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestDewpoint(),2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3,period.getLowestDewpoint(),2);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nDewpoint in\ngraden celsius");
+    }
 }
