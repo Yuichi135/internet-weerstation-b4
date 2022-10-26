@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class Weerstation {
 
@@ -17,6 +15,8 @@ public class Weerstation {
     private boolean blueButtonRight;
     private boolean blueButtonLeft;
     private int selectedItem = 0;
+    private ArrayList<String> graphs = new ArrayList<>(Arrays.asList("Buiten temperatuur", "Binnen temperatuur",
+            "Buiten", "Binnen", "Windsnelheid", "Windchill", "Heat index", "Dewpoint"));
 
     public Weerstation() {
         IO.init();
@@ -25,7 +25,7 @@ public class Weerstation {
 
     public void init() {
 //        int days = readDateFromTerminal();
-        int days = 365;
+        int days = 5;
         this.period = new Period(days);
         this.period.getMeasurements();
         mainMenu();
@@ -194,20 +194,20 @@ public class Weerstation {
             // Submenu's
             // Temperatuur
             case "Buiten temperatuur" :
-                outsideTemp();
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString("WIP");
+                break;
             case "Binnen temperatuur" :
-                insideTemp();
+                break;
 
                 // Luchtvochtigheid
             case "Buiten" :
-                outsideHum();
+                break;
             case "Binnen" :
-                insideHum();
                 break;
 
             // Wind
             case "Windsnelheid":
-                windSpeed();
                 break;
             case "Windrichting":
                 GuiHelper.displayDoubleNumber(GuiHelper.display1, rawMeasurement.getWindDir(),0);
@@ -289,6 +289,7 @@ public class Weerstation {
                 GuiHelper.clearAllDisplays();
                 GuiHelper.displayString("Functie bestaat niet");
                 System.out.println("?");
+                break;
         }
 
         while (true) {
@@ -299,6 +300,47 @@ public class Weerstation {
                 System.out.println("Quit");
                 GuiHelper.clearAllDisplays();
                 break;
+            }
+
+            // Linker blauw knop - Terug naar het originele geseleteerde item
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+
+                showSelectedMenuItem(menuOptions, selectedItem);
+            }
+
+            // Rechter blauw knop - Laat de grafiek ervan zien
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+
+                if (graphs.contains(menuOptions.get(selectedItem % menuOptions.size()))) {
+                    switch (menuOptions.get(selectedItem % menuOptions.size())) {
+                        case "Buiten temperatuur" :
+                            Grafiek.displayGraph(period.getOutsideTemperature());
+                            break;
+                        case "Binnen temperatuur" :
+                            Grafiek.displayGraph(period.getInsideTemperature());
+                            break;
+                        case "Buiten" :
+                            Grafiek.displayGraph(period.getOutsideHumidity());
+                            break;
+                        case "Binnen" :
+                            Grafiek.displayGraph(period.getInsideHumidity());
+                            break;
+                        case "Windsnelheid" :
+                            Grafiek.displayGraph(period.getWindSpeed());
+                            break;
+                        case "Windchill" :
+                            Grafiek.displayGraph(period.getWindChill());
+                            break;
+                        case "Heat index" :
+                            Grafiek.displayGraph(period.getHeatIndex());
+                            break;
+                        case "Dewpoint" :
+                            Grafiek.displayGraph(period.getDewpoint());
+                            break;
+                    }
+                }
             }
         }
 
@@ -340,331 +382,5 @@ public class Weerstation {
         menu(menuOptions, "Sander");
     }
 
-
-    //buiten temperatuur
     //---------------------------------------------------------------------------------------------//
-
-    public void outsideTemp(){
-        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideTemperature(), 2);
-        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideTemperature(), 1);
-        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideTemperature(), 1);
-
-        GuiHelper.clearDMDisplay();
-        GuiHelper.displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                outsideTempRuw();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                temperatureMenu();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void outsideTempRuw (){
-        GuiHelper.clearAllDisplays();
-        GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getOutsideTemp(),0);
-        GuiHelper.displayString("Meest recente ruwe\nwaarde");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                graphOutsideTemp();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                outsideTemp();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void graphOutsideTemp(){
-        GuiHelper.clearAllDisplays();
-        Grafiek.displayGraph(period.getOutsideTemperature());
-
-        while(true){
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                outsideTempRuw();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-    //binnen temperatuur
-//-----------------------------------------------------------------------------------------------------------------------//
-    public void insideTemp(){
-        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageInsideTemperature(), 2);
-        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestInsideTemperature(), 1);
-        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestInsideTemperature(), 1);
-
-        GuiHelper.clearDMDisplay();
-        GuiHelper.displayString("Max - Gemiddeld - Min\nBinnen temperatuur\nin graden Celsius");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                insideTempRuw();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                temperatureMenu();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void insideTempRuw (){
-        GuiHelper.clearAllDisplays();
-        GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getInsideTemp(),0);
-        GuiHelper.displayString("Meest recente ruwe\nwaarde");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                graphInsideTemp();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                insideTemp();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void graphInsideTemp(){
-        GuiHelper.clearAllDisplays();
-        Grafiek.displayGraph(period.getInsideTemperature());
-
-        while(true){
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                insideTempRuw();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-    // buiten luchtvochtigheid
-    //---------------------------------------------------------------------------------------------------------//
-    public void outsideHum(){
-        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideHumidity(), 0);
-        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideHumidity(), 0);
-        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideHumidity(), 0);
-
-        GuiHelper.clearDMDisplay();
-        GuiHelper.displayString("Max - Gemiddeld - Min\nluchtvochtigheid\nbuiten in %");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                outsideHumRaw();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                humidityMenu();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void outsideHumRaw (){
-        GuiHelper.clearAllDisplays();
-        GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getOutsideHum(),0);
-        GuiHelper.displayString("Meest recente ruwe\nwaarde");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                graphOutsideHum();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                outsideHum();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void graphOutsideHum(){
-        GuiHelper.clearAllDisplays();
-        Grafiek.displayGraph(period.getOutsideHumidity());
-
-        while(true){
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                outsideHumRaw();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-    //binnen luchtvochtigheid
-//---------------------------------------------------------------------------------------------------------------------//
-    public void insideHum(){
-        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageInsideHumidity(), 0);
-        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestInsideHumidity(), 0);
-        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestInsideHumidity(), 0);
-
-        GuiHelper.clearDMDisplay();
-        GuiHelper.displayString("Max - Gemiddeld - Min\nluchtvochtigheid\nbinnen in %");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                insideHumRaw();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                humidityMenu();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void insideHumRaw (){
-        GuiHelper.clearAllDisplays();
-        GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getInsideHum(),0);
-        GuiHelper.displayString("Meest recente ruwe\nwaarde");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                graphInsideHum();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                insideHum();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void graphInsideHum(){
-        GuiHelper.clearAllDisplays();
-        Grafiek.displayGraph(period.getInsideHumidity());
-
-        while(true){
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                insideHumRaw();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-    //Windsnelheid
-//------------------------------------------------------------------------------------------------------------------------------//
-    public void windSpeed(){
-        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageWindSpeed(), 0);
-        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestWindSpeed(), 0);
-        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestWindSpeed(), 0);
-
-        GuiHelper.clearDMDisplay();
-        GuiHelper.displayString("Max - Gemiddeld - Min\nwindsnelheid\n in km/h");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                windSpeedRaw();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                windMenu();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void windSpeedRaw(){
-        GuiHelper.clearAllDisplays();
-        GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getWindSpeed(),0);
-        GuiHelper.displayString("Meest recente ruwe\nwaarde");
-
-        while(true){
-            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
-                blueButtonRight = !blueButtonRight;
-                graphWindSpeed();
-            }
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                windSpeed();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
-
-    public void graphWindSpeed(){
-        GuiHelper.clearAllDisplays();
-        Grafiek.displayGraph(period.getWindSpeed());
-
-        while(true){
-            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
-                blueButtonLeft = !blueButtonLeft;
-                windSpeedRaw();
-            }
-            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
-                redButton = !redButton;
-                GuiHelper.clearAllDisplays();
-                mainMenu();
-            }
-        }
-    }
 }
