@@ -207,12 +207,13 @@ public class Weerstation {
 
             // Wind
             case "Windsnelheid":
-                GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nwind");
+                windSpeed();
                 break;
             case "Windrichting":
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, rawMeasurement.getWindDir(),0);
+
                 GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nwind dir");
+                GuiHelper.displayString("Windrichting in\ngraden ");
                 break;
             case "Sam":
 
@@ -253,7 +254,7 @@ public class Weerstation {
                 year = 2016;
                 individueleOpdrachtSander(year);
                 break;
-            case "20107":
+            case "2017":
                 year = 2017;
                 individueleOpdrachtSander(year);
                 break;
@@ -603,5 +604,67 @@ public class Weerstation {
     }
     //Windsnelheid
 //------------------------------------------------------------------------------------------------------------------------------//
+    public void windSpeed(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageWindSpeed(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestWindSpeed(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestWindSpeed(), 0);
 
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nwindsnelheid\n in km/h");
+
+        while(true){
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+                windSpeedRaw();
+            }
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                windMenu();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
+
+    public void windSpeedRaw(){
+        GuiHelper.clearAllDisplays();
+        GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getWindSpeed(),0);
+        GuiHelper.displayString("Meest recente ruwe\nwaarde");
+
+        while(true){
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+                graphWindSpeed();
+            }
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                windSpeed();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
+
+    public void graphWindSpeed(){
+        GuiHelper.clearAllDisplays();
+        Grafiek.displayGraph(period.getWindSpeed());
+
+        while(true){
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                windSpeedRaw();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
 }
