@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class Weerstation {
 
@@ -17,6 +15,8 @@ public class Weerstation {
     private boolean blueButtonRight;
     private boolean blueButtonLeft;
     private int selectedItem = 0;
+    private ArrayList<String> graphs = new ArrayList<>(Arrays.asList("Buiten temperatuur", "Binnen temperatuur",
+            "Buiten", "Binnen", "Windsnelheid", "Windchill", "Heat index", "Dewpoint"));
 
     public Weerstation() {
         IO.init();
@@ -25,7 +25,7 @@ public class Weerstation {
 
     public void init() {
 //        int days = readDateFromTerminal();
-        int days = 365;
+        int days = 5;
         this.period = new Period(days);
         this.period.getMeasurements();
         mainMenu();
@@ -194,15 +194,14 @@ public class Weerstation {
             case "Buiten temperatuur" :
             case "Binnen temperatuur" :
 
-
                 // Luchtvochtigheid
             case "Buiten" :
+            
             case "Binnen" :
                 break;
 
             // Wind
             case "Windsnelheid":
-
                 break;
             case "Windrichting":
                 GuiHelper.displayDoubleNumber(GuiHelper.display1, rawMeasurement.getWindDir(),0);
@@ -284,6 +283,7 @@ public class Weerstation {
                 GuiHelper.clearAllDisplays();
                 GuiHelper.displayString("Functie bestaat niet");
                 System.out.println("?");
+                break;
         }
 
         while (true) {
@@ -294,6 +294,47 @@ public class Weerstation {
                 System.out.println("Quit");
                 GuiHelper.clearAllDisplays();
                 break;
+            }
+
+            // Linker blauw knop - Terug naar het originele geseleteerde item
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+
+                showSelectedMenuItem(menuOptions, selectedItem);
+            }
+
+            // Rechter blauw knop - Laat de grafiek ervan zien
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+
+                if (graphs.contains(menuOptions.get(selectedItem % menuOptions.size()))) {
+                    switch (menuOptions.get(selectedItem % menuOptions.size())) {
+                        case "Buiten temperatuur" :
+                            Grafiek.displayGraph(period.getOutsideTemperature());
+                            break;
+                        case "Binnen temperatuur" :
+                            Grafiek.displayGraph(period.getInsideTemperature());
+                            break;
+                        case "Buiten" :
+                            Grafiek.displayGraph(period.getOutsideHumidity());
+                            break;
+                        case "Binnen" :
+                            Grafiek.displayGraph(period.getInsideHumidity());
+                            break;
+                        case "Windsnelheid" :
+                            Grafiek.displayGraph(period.getWindSpeed());
+                            break;
+                        case "Windchill" :
+                            Grafiek.displayGraph(period.getWindChill());
+                            break;
+                        case "Heat index" :
+                            Grafiek.displayGraph(period.getHeatIndex());
+                            break;
+                        case "Dewpoint" :
+                            Grafiek.displayGraph(period.getDewpoint());
+                            break;
+                    }
+                }
             }
         }
 
@@ -335,8 +376,6 @@ public class Weerstation {
         menu(menuOptions, "Sander");
     }
 
-
-    //buiten temperatuur
     //---------------------------------------------------------------------------------------------//
 
     public void displayOutsideTemp() {
@@ -419,5 +458,4 @@ public class Weerstation {
         GuiHelper.clearDMDisplay();
         GuiHelper.displayString("Max - Gemiddeld - Min\nDewpoint in\ngraden celsius");
     }
-
 }

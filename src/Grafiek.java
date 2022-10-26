@@ -185,7 +185,6 @@ public class Grafiek {
 
         for (int i = 0; i < values.size(); i++) {
             IO.writeShort(0x42, opdcode << 12 | (relativeX) << 5 | (relativeY - ((int) Math.round(y * percentages.get(i)))));
-            IO.delay(5);
             relativeX++;
         }
     }
