@@ -365,7 +365,7 @@ public class Weerstation {
     public void outsideTempRuw (){
         GuiHelper.clearAllDisplays();
         GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getOutsideTemp(),0);
-        GuiHelper.displayString("Meest recente ruwe waarde");
+        GuiHelper.displayString("Meest recente ruwe\nwaarde");
 
         while(true){
             if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
@@ -430,7 +430,7 @@ public class Weerstation {
     public void insideTempRuw (){
         GuiHelper.clearAllDisplays();
         GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getInsideTemp(),0);
-        GuiHelper.displayString("Meest recente ruwe waarde");
+        GuiHelper.displayString("Meest recente ruwe\nwaarde");
 
         while(true){
             if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
@@ -495,7 +495,7 @@ public class Weerstation {
     public void outsideHumRaw (){
         GuiHelper.clearAllDisplays();
         GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getOutsideHum(),0);
-        GuiHelper.displayString("Meest recente ruwe waarde");
+        GuiHelper.displayString("Meest recente ruwe\nwaarde");
 
         while(true){
             if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
@@ -560,7 +560,7 @@ public class Weerstation {
     public void insideHumRaw (){
         GuiHelper.clearAllDisplays();
         GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getInsideHum(),0);
-        GuiHelper.displayString("Meest recente ruwe waarde");
+        GuiHelper.displayString("Meest recente ruwe\nwaarde");
 
         while(true){
             if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
@@ -597,4 +597,5 @@ public class Weerstation {
     }
     //Windsnelheid
 //------------------------------------------------------------------------------------------------------------------------------//
+
 }
