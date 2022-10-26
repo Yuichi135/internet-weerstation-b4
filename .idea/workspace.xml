@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="6cd9a680-1f2c-40b7-8e14-5ca0df42748e" name="Default Changelist" comment="File Rename">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GuiHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GuiHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Grafiek.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Grafiek.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Period.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Period.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PeriodTestMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PeriodTestMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Weerstation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Weerstation.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,57 +18,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Weerstation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="24" column="23" lean-forward="true" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
-              <folding>
-                <element signature="method#menu#0;class#Weerstation#0" />
-                <element signature="method#mainMenu#0;class#Weerstation#0" />
-                <element signature="method#temperatureMenu#0;class#Weerstation#0" />
-                <element signature="method#humidityMenu#0;class#Weerstation#0" />
-                <element signature="method#windMenu#0;class#Weerstation#0" />
-                <element signature="method#individueelMenu#0;class#Weerstation#0" />
-                <element signature="method#readDateFromTerminal#0;class#Weerstation#0" />
-                <element signature="method#hasBooleanChanged#0;class#Weerstation#0" />
-                <element signature="method#displayMenu#0;class#Weerstation#0" />
-                <element signature="method#highlightMenuItem#0;class#Weerstation#0" />
-                <element signature="method#showSelectedMenuItem#0;class#Weerstation#0" />
-                <element signature="method#individueleOpdrachtYuichi#0;class#Weerstation#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Period.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="847" column="30" lean-forward="true" selection-start-line="847" selection-start-column="30" selection-end-line="847" selection-end-column="30" />
-              <folding>
-                <element signature="e#1068#1069#0" expanded="true" />
-                <element signature="e#1128#1129#0" expanded="true" />
-                <element signature="e#1239#1240#0" expanded="true" />
-                <element signature="e#1297#1298#0" expanded="true" />
-                <element signature="e#1443#1444#0" expanded="true" />
-                <element signature="e#1489#1490#0" expanded="true" />
-                <element signature="e#1627#1628#0" expanded="true" />
-                <element signature="e#1669#1670#0" expanded="true" />
-                <element signature="e#1770#1771#0" expanded="true" />
-                <element signature="e#1840#1841#0" expanded="true" />
-                <element signature="e#5798#5799#0" expanded="true" />
-                <element signature="e#5852#5853#0" expanded="true" />
-                <element signature="e#25023#25909#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Grafiek.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="133" lean-forward="true" selection-start-line="133" selection-end-line="133" />
+            <state relative-caret-position="268">
+              <caret line="159" lean-forward="true" selection-start-line="159" selection-end-line="159" />
               <folding>
                 <element signature="method#displayAverageOutsideTemperatureGraph#0;class#Grafiek#0" />
                 <element signature="method#displayAverageInsideTemperatureGraph#0;class#Grafiek#0" />
@@ -74,9 +30,6 @@
                 <element signature="method#displayHighestTemperatureGraph#0;class#Grafiek#0" />
                 <element signature="method#displayStandardDeviationOutsideTemperatureGraph#0;class#Grafiek#0" />
                 <element signature="method#displayLoadingScreen#0;class#Grafiek#0" />
-                <element signature="e#5102#5103#0" expanded="true" />
-                <element signature="e#5147#5148#0" expanded="true" />
-                <element signature="method#displayGraph#0;class#Grafiek#0" />
                 <element signature="method#getFullArray#0;class#Grafiek#0" />
                 <element signature="method#displayAxis#0;class#Grafiek#0" />
                 <element signature="method#getZeroPointAxis#0;class#Grafiek#0" />
@@ -85,23 +38,17 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GuiHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
+            <state relative-caret-position="527">
+              <caret line="32" column="17" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#displayString#0;class#GuiHelper#0" />
-                <element signature="e#900#989#1" />
-                <element signature="e#1044#1114#1" />
-                <element signature="e#3215#3264#1" />
                 <element signature="method#improvedDisplayNumber#0;class#GuiHelper#0" />
                 <element signature="method#displayNumber#0;class#GuiHelper#0" />
                 <element signature="method#clearAllDisplays#0;class#GuiHelper#0" />
                 <element signature="method#clearDisplay#0;class#GuiHelper#0" />
-                <element signature="e#5063#5114#1" />
-                <element signature="e#4809#4810#0" expanded="true" />
                 <element signature="method#clearDMDisplay#0;class#GuiHelper#0" />
               </folding>
             </state>
@@ -109,10 +56,56 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Test.java">
+        <entry file="file://$PROJECT_DIR$/src/Measurement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="44" lean-forward="true" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
+            <state relative-caret-position="425">
+              <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Period.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="676" column="5" selection-start-line="676" selection-start-column="5" selection-end-line="676" selection-end-column="5" />
+              <folding>
+                <element signature="e#3189#3190#0" expanded="true" />
+                <element signature="e#3247#3248#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/PeriodTestMain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/RawMeasurement.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-896">
+              <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Weerstation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="827">
+              <caret line="475" selection-start-line="475" selection-end-line="475" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -164,20 +157,20 @@
         <option value="$PROJECT_DIR$/src/Measurement.java" />
         <option value="$PROJECT_DIR$/src/Opdracht2Yuichi.java" />
         <option value="$PROJECT_DIR$/src/Sander.java" />
+        <option value="$PROJECT_DIR$/src/GuiHelper.java" />
         <option value="$PROJECT_DIR$/src/Period.java" />
+        <option value="$PROJECT_DIR$/src/Test.java" />
         <option value="$PROJECT_DIR$/src/PeriodTestMain.java" />
         <option value="$PROJECT_DIR$/src/Grafiek.java" />
         <option value="$PROJECT_DIR$/src/Weerstation.java" />
-        <option value="$PROJECT_DIR$/src/Test.java" />
-        <option value="$PROJECT_DIR$/src/GuiHelper.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-11" />
-    <option name="y" value="-11" />
-    <option name="width" value="1941" />
-    <option name="height" value="1041" />
+    <option name="x" value="-13" />
+    <option name="y" value="-13" />
+    <option name="width" value="1942" />
+    <option name="height" value="1042" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
@@ -188,6 +181,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -204,13 +198,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1666646484468" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1666784723071" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -225,7 +218,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Test">
+  <component name="RunManager" selected="Application.Weerstation">
     <configuration name="Grafiek" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Grafiek" />
       <module name="ValueConverter" />
@@ -271,8 +264,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Test" />
         <item itemvalue="Application.Weerstation" />
+        <item itemvalue="Application.Test" />
         <item itemvalue="Application.consecutiveRain" />
         <item itemvalue="Application.Grafiek" />
         <item itemvalue="Application.Main (1)" />
@@ -362,10 +355,10 @@
     <option name="totallyTimeSpent" value="78890000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="830" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.83667624" visible="true" weight="0.2510661" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.83667624" visible="true" weight="0.2590604" />
       <window_info id="Structure" order="1" sideWeight="0.16332377" side_tool="true" weight="0.30067113" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -374,17 +367,17 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2112676" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3981982" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.21060172" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39795917" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32669982" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3206934" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.31948423" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="TMC Test Results" order="11" weight="0.33333334" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.31840795" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.3178964" />
       <window_info anchor="bottom" id="Database Changes" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -397,6 +390,36 @@
       <window_info anchor="right" id="Maven" order="8" />
       <window_info anchor="right" id="Palette&#9;" order="9" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25704697" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3295129" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3295129" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3295129" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="TMC Test Results" order="10" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.3295129" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24966443" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="TMC Project List" order="4" weight="0.3295302" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Theme Preview" order="6" />
+      <window_info anchor="right" id="Maven" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -440,9 +463,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/consecutiveRain.java" />
+    <entry file="file://$PROJECT_DIR$/src/Opdracht2Yuichi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="84" column="59" selection-start-line="84" selection-start-column="59" selection-end-line="84" selection-end-column="59" />
+          <folding>
+            <element signature="method#divideMeasurementsInDays#0;class#Opdracht2Yuichi#0" />
+            <element signature="method#getBiggestDifferenceMinMaxTemperatureNew#0;class#Opdracht2Yuichi#0" />
+            <element signature="method#getBiggestDifferenceMinMaxTemperature#0;class#Opdracht2Yuichi#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Sander.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="77" column="28" selection-start-column="2" selection-end-line="81" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ConsecutiveRainCal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+          <folding>
+            <element signature="e#574#575#0" expanded="true" />
+            <element signature="e#609#610#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/DatabaseConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
+        <state relative-caret-position="1326">
           <caret line="88" column="7" selection-start-line="88" selection-start-column="7" selection-end-line="88" selection-end-column="7" />
           <folding>
             <element signature="e#2887#2888#0" expanded="true" />
@@ -451,10 +505,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/consecutiveRain.java" />
+    <entry file="file://$PROJECT_DIR$/src/GuiHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="32" column="17" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#improvedDisplayNumber#0;class#GuiHelper#0" />
+            <element signature="method#displayNumber#0;class#GuiHelper#0" />
+            <element signature="method#clearAllDisplays#0;class#GuiHelper#0" />
+            <element signature="method#clearDisplay#0;class#GuiHelper#0" />
+            <element signature="method#clearDMDisplay#0;class#GuiHelper#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="35" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ValueConverter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="784">
           <caret line="96" column="39" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="39" />
           <folding>
             <element signature="e#216#217#0" expanded="true" />
@@ -477,104 +552,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/RawMeasurement.java">
+    <entry file="file://$PROJECT_DIR$/src/Period.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Measurement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Opdracht2Yuichi.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="84" column="59" selection-start-line="84" selection-start-column="59" selection-end-line="84" selection-end-column="59" />
+        <state relative-caret-position="340">
+          <caret line="676" column="5" selection-start-line="676" selection-start-column="5" selection-end-line="676" selection-end-column="5" />
           <folding>
-            <element signature="method#divideMeasurementsInDays#0;class#Opdracht2Yuichi#0" />
-            <element signature="method#getBiggestDifferenceMinMaxTemperatureNew#0;class#Opdracht2Yuichi#0" />
-            <element signature="method#getBiggestDifferenceMinMaxTemperature#0;class#Opdracht2Yuichi#0" />
+            <element signature="e#3189#3190#0" expanded="true" />
+            <element signature="e#3247#3248#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Sander.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="77" column="28" selection-start-column="2" selection-end-line="81" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PeriodTestMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="85">
+          <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Period.java">
+    <entry file="file://$PROJECT_DIR$/src/Measurement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="847" column="30" lean-forward="true" selection-start-line="847" selection-start-column="30" selection-end-line="847" selection-end-column="30" />
-          <folding>
-            <element signature="e#1068#1069#0" expanded="true" />
-            <element signature="e#1128#1129#0" expanded="true" />
-            <element signature="e#1239#1240#0" expanded="true" />
-            <element signature="e#1297#1298#0" expanded="true" />
-            <element signature="e#1443#1444#0" expanded="true" />
-            <element signature="e#1489#1490#0" expanded="true" />
-            <element signature="e#1627#1628#0" expanded="true" />
-            <element signature="e#1669#1670#0" expanded="true" />
-            <element signature="e#1770#1771#0" expanded="true" />
-            <element signature="e#1840#1841#0" expanded="true" />
-            <element signature="e#5798#5799#0" expanded="true" />
-            <element signature="e#5852#5853#0" expanded="true" />
-            <element signature="e#25023#25909#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ConsecutiveRainCal.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
-          <folding>
-            <element signature="e#574#575#0" expanded="true" />
-            <element signature="e#609#610#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Weerstation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="24" column="23" lean-forward="true" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
-          <folding>
-            <element signature="method#menu#0;class#Weerstation#0" />
-            <element signature="method#mainMenu#0;class#Weerstation#0" />
-            <element signature="method#temperatureMenu#0;class#Weerstation#0" />
-            <element signature="method#humidityMenu#0;class#Weerstation#0" />
-            <element signature="method#windMenu#0;class#Weerstation#0" />
-            <element signature="method#individueelMenu#0;class#Weerstation#0" />
-            <element signature="method#readDateFromTerminal#0;class#Weerstation#0" />
-            <element signature="method#hasBooleanChanged#0;class#Weerstation#0" />
-            <element signature="method#displayMenu#0;class#Weerstation#0" />
-            <element signature="method#highlightMenuItem#0;class#Weerstation#0" />
-            <element signature="method#showSelectedMenuItem#0;class#Weerstation#0" />
-            <element signature="method#individueleOpdrachtYuichi#0;class#Weerstation#0" />
-          </folding>
+        <state relative-caret-position="425">
+          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Grafiek.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="133" lean-forward="true" selection-start-line="133" selection-end-line="133" />
+        <state relative-caret-position="268">
+          <caret line="159" lean-forward="true" selection-start-line="159" selection-end-line="159" />
           <folding>
             <element signature="method#displayAverageOutsideTemperatureGraph#0;class#Grafiek#0" />
             <element signature="method#displayAverageInsideTemperatureGraph#0;class#Grafiek#0" />
@@ -583,9 +589,6 @@
             <element signature="method#displayHighestTemperatureGraph#0;class#Grafiek#0" />
             <element signature="method#displayStandardDeviationOutsideTemperatureGraph#0;class#Grafiek#0" />
             <element signature="method#displayLoadingScreen#0;class#Grafiek#0" />
-            <element signature="e#5102#5103#0" expanded="true" />
-            <element signature="e#5147#5148#0" expanded="true" />
-            <element signature="method#displayGraph#0;class#Grafiek#0" />
             <element signature="method#getFullArray#0;class#Grafiek#0" />
             <element signature="method#displayAxis#0;class#Grafiek#0" />
             <element signature="method#getZeroPointAxis#0;class#Grafiek#0" />
@@ -593,30 +596,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Test.java">
+    <entry file="file://$PROJECT_DIR$/src/RawMeasurement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="44" lean-forward="true" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
+        <state relative-caret-position="-896">
+          <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GuiHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/Weerstation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
+        <state relative-caret-position="827">
+          <caret line="475" selection-start-line="475" selection-end-line="475" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#displayString#0;class#GuiHelper#0" />
-            <element signature="e#900#989#1" />
-            <element signature="e#1044#1114#1" />
-            <element signature="e#3215#3264#1" />
-            <element signature="method#improvedDisplayNumber#0;class#GuiHelper#0" />
-            <element signature="method#displayNumber#0;class#GuiHelper#0" />
-            <element signature="method#clearAllDisplays#0;class#GuiHelper#0" />
-            <element signature="method#clearDisplay#0;class#GuiHelper#0" />
-            <element signature="e#5063#5114#1" />
-            <element signature="e#4809#4810#0" expanded="true" />
-            <element signature="method#clearDMDisplay#0;class#GuiHelper#0" />
           </folding>
         </state>
       </provider>

@@ -10,6 +10,7 @@ public class Weerstation {
 }
 
     private Period period;
+    private RawMeasurement rawMeasurement = DatabaseConnection.getMostRecentMeasurement();
     private boolean redButton;
     private boolean blueButtonRight;
     private boolean blueButtonLeft;
@@ -75,6 +76,7 @@ public class Weerstation {
     }
 
     public void temperatureMenu() {
+        GuiHelper.clearAllDisplays();
         ArrayList<String> menuOptions = new ArrayList<>();
         Collections.addAll(menuOptions, "Buiten temperatuur", "Binnen temperatuur");
 
@@ -82,6 +84,7 @@ public class Weerstation {
     }
 
     public void humidityMenu() {
+        GuiHelper.clearAllDisplays();
         ArrayList<String> menuOptions = new ArrayList<>();
         Collections.addAll(menuOptions, "Buiten", "Binnen");
 
@@ -89,6 +92,7 @@ public class Weerstation {
     }
 
     public void windMenu() {
+        GuiHelper.clearAllDisplays();
         ArrayList<String> menuOptions = new ArrayList<>();
         Collections.addAll(menuOptions, "Windsnelheid", "Windrichting");
 
@@ -188,21 +192,9 @@ public class Weerstation {
                 // Submenu's
             // Temperatuur
             case "Buiten temperatuur" :
-                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideTemperature(), 2);
-                GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideTemperature(), 1);
-                GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideTemperature(), 1);
-
-                GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
-                break;
+                outsideTemp();
             case "Binnen temperatuur" :
-                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageInsideTemperature(), 2);
-                GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestInsideTemperature(), 1);
-                GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestInsideTemperature(), 1);
-
-                GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Max - Gemiddeld - Min\nBinnen temperatuur\nin graden Celsius");
-                break;
+                insideTemp();
 
                 // Luchtvochtigheid
             case "Buiten" :
@@ -229,10 +221,68 @@ public class Weerstation {
                 break;
             case "Sam" :
 
+                //Misschien is er een snellere manier.
                 break;
-            case "Sander" :
-
+            case "Sander":
+                jaarMenu();
                 break;
+            case "2009":
+                int year = 2009;
+                individueleOpdrachtSander(year);
+                break;
+            case "2010":
+                year = 2010;
+                individueleOpdrachtSander(year);
+                break;
+            case "2011":
+                year = 2011;
+                individueleOpdrachtSander(year);
+                break;
+            case "2012":
+                year = 2012;
+                individueleOpdrachtSander(year);
+                break;
+            case "2013":
+                year = 2013;
+                individueleOpdrachtSander(year);
+                break;
+            case "2014":
+                year = 2014;
+                individueleOpdrachtSander(year);
+                break;
+            case "2015":
+                year = 2015;
+                individueleOpdrachtSander(year);
+                break;
+            case "2016":
+                year = 2016;
+                individueleOpdrachtSander(year);
+                break;
+            case "20107":
+                year = 2017;
+                individueleOpdrachtSander(year);
+                break;
+            case "2018":
+                year = 2018;
+                individueleOpdrachtSander(year);
+                break;
+            case "2019":
+                year = 2019;
+                individueleOpdrachtSander(year);
+                break;
+            case "2020":
+                year = 2020;
+                individueleOpdrachtSander(year);
+                break;
+            case "2021":
+                year = 2021;
+                individueleOpdrachtSander(year);
+                break;
+            case "2022":
+                year = 2022;
+                individueleOpdrachtSander(year);
+                break;
+//---------------------------------------------------------------------------------------------------------------------------//
             case "Yuichi" :
                 individueleOpdrachtYuichi();
                 break;
@@ -274,4 +324,154 @@ public class Weerstation {
         GuiHelper.clearDMDisplay();
         GuiHelper.displayString("Max - Verschil  - Min\nTemperatuur celsius\nop " + period.getBiggestDifferenceMinMaxTemperature());
     }
+
+    public void individueleOpdrachtSander (int year){
+       GuiHelper.clearDMDisplay();
+       GuiHelper.displayString( "Maand met meeste\nregen in " + year + ":\n" + period.mostRainfall(year).toString());
+    }
+
+    public void jaarMenu(){
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "2009", "2010", "2011", "2012", "2013",
+                "2014", "2015", "2016", "2017", "2018","2019","2020","2021","2022");
+
+        menu(menuOptions, "Sander");
+    }
+
+
+    //buiten temperatuur
+    //---------------------------------------------------------------------------------------------//
+
+    public void outsideTemp(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideTemperature(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideTemperature(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
+
+        while(true){
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+                outsideTempRuw();
+            }
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                temperatureMenu();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
+
+    public void outsideTempRuw (){
+        GuiHelper.clearAllDisplays();
+        GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getOutsideTemp(),0);
+        GuiHelper.displayString("Ruwe Waarde");
+
+        while(true){
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+                graphOutsideTemp();
+            }
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                outsideTemp();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
+
+    public void graphOutsideTemp(){
+        GuiHelper.clearAllDisplays();
+        Grafiek.displayGraph(period.getOutsideTemperature());
+
+        while(true){
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                outsideTempRuw();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
+    //binnen temperatuur
+//-----------------------------------------------------------------------------------------------------------------------//
+    public void insideTemp(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageInsideTemperature(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestInsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestInsideTemperature(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
+
+        while(true){
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+                insideTempRuw();
+            }
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                temperatureMenu();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
+
+    public void insideTempRuw (){
+        GuiHelper.clearAllDisplays();
+        GuiHelper.displayDoubleNumber(GuiHelper.display1,rawMeasurement.getInsideTemp(),0);
+        GuiHelper.displayString("Ruwe Waarde");
+
+        while(true){
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+                graphInsideTemp();
+            }
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                insideTemp();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
+
+    public void graphInsideTemp(){
+        GuiHelper.clearAllDisplays();
+        Grafiek.displayGraph(period.getInsideTemperature());
+
+        while(true){
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                insideTempRuw();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
+    // buiten luchtvochtigheid
+    //---------------------------------------------------------------------------------------------------------//
+
+
 }
