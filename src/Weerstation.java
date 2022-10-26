@@ -169,7 +169,7 @@ public class Weerstation {
                 break;
             case "Zonsopgang/ondergang":
                 GuiHelper.clearDMDisplay();
-                GuiHelper.displayString(converted.getDateStamp() + "\nZonsopgang: " + converted.getSunRise() + "\nZonsondergang: " + converted.getSunSet());
+                GuiHelper.displayString(converted.getDateStamp().toLocalDate() + "\nZonsopgang: " + converted.getSunRise() + "\nZonsondergang: " + converted.getSunSet());
                 break;
             case "Windchill":
                 GuiHelper.clearDMDisplay();
