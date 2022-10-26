@@ -30,7 +30,7 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Grafiek.java">
+        <entry file="file://$PROJECT_DIR$/src/PeriodTestMain.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-364">
               <caret line="158" column="9" selection-start-line="158" selection-start-column="9" selection-end-line="158" selection-end-column="9" />
@@ -585,7 +585,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Period.java">
+    <entry file="file://$PROJECT_DIR$/src/Test.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="118">
           <caret line="816" column="25" selection-start-line="816" selection-start-column="25" selection-end-line="816" selection-end-column="25" />
@@ -640,7 +640,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Grafiek.java">
+    <entry file="file://$PROJECT_DIR$/src/Period.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-364">
           <caret line="158" column="9" selection-start-line="158" selection-start-column="9" selection-end-line="158" selection-end-column="9" />
@@ -668,6 +668,16 @@
             <element signature="method#hasBooleanChanged#0;class#Weerstation#0" />
             <element signature="method#displayMenu#0;class#Weerstation#0" />
             <element signature="method#highlightMenuItem#0;class#Weerstation#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Weerstation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="283" lean-forward="true" selection-start-line="283" selection-end-line="283" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -4,7 +4,9 @@ public class PeriodTestMain {
         Period period = new Period(365);
 
         System.out.println(period.mostRainfall(2019));
+        
 //        period.consecutiveRain();
-        period.getBiggestDifferenceMinMaxTemperature();
+//        period.getBiggestDifferenceMinMaxTemperature();
+        period.summer();
     }
 }

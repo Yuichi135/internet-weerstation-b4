@@ -213,9 +213,9 @@ public class Weerstation {
                 GuiHelper.clearDMDisplay();
                 GuiHelper.displayString("Windrichting in\ngraden ");
                 break;
-            case "Sam":
-
-                //Misschien is er een snellere manier.
+                
+            case "Sam" :
+                individueleOpdrachtSam();
                 break;
             case "Sander":
                 jaarMenu();
@@ -358,6 +358,12 @@ public class Weerstation {
         GuiHelper.clearDMDisplay();
         GuiHelper.displayString("Max - Verschil  - Min\nTemperatuur celsius\nop " + period.getBiggestDifferenceMinMaxTemperature());
     }
+    public void individueleOpdrachtSam() {
+        GuiHelper.displayNumber(GuiHelper.display3, period.summer());
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Aantal mooie dagen \nin deze periode:");
+      }
 
     public void individueleOpdrachtRick() {
         GuiHelper.displayDoubleNumber(GuiHelper.display1, period.consecutiveRain(0), 2);
