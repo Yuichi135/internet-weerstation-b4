@@ -168,8 +168,7 @@ public class Weerstation {
                 windMenu();
                 break;
             case "Regen":
-                GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nRegenRate");
+                rainRate();
                 break;
             case "Zonsopgang/ondergang":
                 GuiHelper.clearDMDisplay();
@@ -595,6 +594,10 @@ public class Weerstation {
                 blueButtonLeft = !blueButtonLeft;
                 insideHumRaw();
             }
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+                insideHum();
+            }
             if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
                 redButton = !redButton;
                 GuiHelper.clearAllDisplays();
@@ -619,7 +622,7 @@ public class Weerstation {
             }
             if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
                 blueButtonLeft = !blueButtonLeft;
-                windMenu();
+                graphWindSpeed();
             }
             if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
                 redButton = !redButton;
@@ -660,6 +663,29 @@ public class Weerstation {
                 blueButtonLeft = !blueButtonLeft;
                 windSpeedRaw();
             }
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+                windSpeed();
+            }
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+                GuiHelper.clearAllDisplays();
+                mainMenu();
+            }
+        }
+    }
+    //regen
+    //-----------------------------------------------------------------------------------------------------------------//
+
+    public void rainRate(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageRainRate(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestRainRate(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestRainRate(), 0);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nRainrate\n in mm/h");
+
+        while(true){
             if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
                 redButton = !redButton;
                 GuiHelper.clearAllDisplays();
