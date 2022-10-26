@@ -676,20 +676,11 @@ public class Period {
         return getRainfall(rainfall);
     }
 
-    private boolean isLeapYear() {
-
-        if ((year % 100 == 0 && year % 400 == 0) || ((year % 4 == 0 && year % 100 != 0 && year % 400 != 0))) { // checkt if het jaar een schrikkeljaar is of niet.
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public Month mostRainfall() {
+    public Month mostRainfall(int year) {
         ArrayList<Period> months = new ArrayList<>();
 
         int lengthFebruary;
-        if (isLeapYear()) {
+        if ((year % 100 == 0 && year % 400 == 0) || ((year % 4 == 0 && year % 100 != 0 && year % 400 != 0))) {
             lengthFebruary = 29;
         } else {
             lengthFebruary = 28;
