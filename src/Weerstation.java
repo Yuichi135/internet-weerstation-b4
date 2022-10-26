@@ -239,11 +239,7 @@ public class Weerstation {
                 individueleOpdrachtYuichi();
                 break;
             case "Rick":
-                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.consecutiveRain(0), 2);
-                GuiHelper.displayDoubleNumber(GuiHelper.display2, period.consecutiveRain(1), 0);
-
-                GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Minutes - Rain mm \n");
+                individueleOpdrachtRick();
                 break;
             default:
                 GuiHelper.clearAllDisplays();
@@ -275,5 +271,13 @@ public class Weerstation {
 
         GuiHelper.clearDMDisplay();
         GuiHelper.displayString("Max - Verschil  - Min\nTemperatuur celsius\nop " + period.getBiggestDifferenceMinMaxTemperature());
+    }
+
+    public void individueleOpdrachtRick() {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.consecutiveRain(0), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.consecutiveRain(1), 0);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Minutes - Rain mm \n");
     }
 }
