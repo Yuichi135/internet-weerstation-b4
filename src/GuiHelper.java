@@ -58,16 +58,17 @@ public class GuiHelper {
                 IO.writeShort(adress, lookUpTable[prod]);
             } else {
                 IO.writeShort(adress, prod);
-            }
-
-            // Stopt de loop, als het negatief is komt er een - voor
-            if (finalLoop) {
-                if (negative) {
-                    // adress + 2 gaat naar het volgende adres
-                    if (iteration == decimals) IO.writeShort(adress + 2, 0b101000000);
-                    else IO.writeShort(adress, 0b101000000);
+                // Stopt de loop, als het negatief is komt er een - voor
+                if (finalLoop) {
+                    // Verwijder wat er staat
+                    IO.writeShort(adress, 0b100000000);
+                    if (negative) {
+                        // adress + 2 gaat naar het volgende adres
+                        if (iteration == decimals) IO.writeShort(adress + 2, 0b101000000);
+                        else IO.writeShort(adress, 0b101000000);
+                    }
+                    break;
                 }
-                break;
             }
 
             roundedNumber = (roundedNumber - prod) / 10;
