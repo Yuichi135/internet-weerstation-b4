@@ -162,9 +162,9 @@ public class Grafiek {
 //        displayNumber(display2, (int) highest);
 //        displayNumber(display3, (int) lowest);
 
-        GuiHelper.displayDoubleNumber(GuiHelper.display1, Period.getAverage(values), 2);
-        GuiHelper.displayDoubleNumber(GuiHelper.display2, highest, 1);
-        GuiHelper.displayDoubleNumber(GuiHelper.display3, lowest, 1);
+//        GuiHelper.displayDoubleNumber(GuiHelper.display1, Period.getAverage(values), 2);
+//        GuiHelper.displayDoubleNumber(GuiHelper.display2, highest, 1);
+//        GuiHelper.displayDoubleNumber(GuiHelper.display3, lowest, 1);
 
 
         values = getFullArray(values);
@@ -185,7 +185,6 @@ public class Grafiek {
 
         for (int i = 0; i < values.size(); i++) {
             IO.writeShort(0x42, opdcode << 12 | (relativeX) << 5 | (relativeY - ((int) Math.round(y * percentages.get(i)))));
-            IO.delay(5);
             relativeX++;
         }
     }
