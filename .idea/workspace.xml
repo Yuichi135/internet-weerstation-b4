@@ -125,6 +125,7 @@
       <find>getLowest</find>
       <find>getAverageA</find>
       <find>getAverageOutsideHumidity</find>
+      <find>sun</find>
     </findStrings>
     <replaceStrings>
       <replace>Highest</replace>
@@ -136,6 +137,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -185,6 +191,11 @@
             <path>
               <item name="internet-weerstation-b4" type="b2602c69:ProjectViewProjectNode" />
               <item name="internet-weerstation-b4" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="internet-weerstation-b4" type="b2602c69:ProjectViewProjectNode" />
+              <item name="internet-weerstation-b4" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="internet-weerstation-b4" type="b2602c69:ProjectViewProjectNode" />
@@ -264,8 +275,8 @@
         <item itemvalue="Application.Weerstation" />
         <item itemvalue="Application.Test" />
         <item itemvalue="Application.consecutiveRain" />
-        <item itemvalue="Application.Grafiek" />
         <item itemvalue="Application.Main (1)" />
+        <item itemvalue="Application.Grafiek" />
       </list>
     </recent_temporary>
   </component>
@@ -288,6 +299,7 @@
       <workItem from="1663833971744" duration="2419000" />
       <workItem from="1664436405199" duration="30358000" />
       <workItem from="1665652058868" duration="942000" />
+      <workItem from="1666779604083" duration="4126000" />
     </task>
     <task id="LOCAL-00001" summary="Voor sam met Io">
       <created>1664451564489</created>
@@ -349,7 +361,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78890000" />
+    <option name="totallyTimeSpent" value="83238000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="830" extended-state="6" />
@@ -563,7 +575,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PeriodTestMain.java">
+    <entry file="file://$PROJECT_DIR$/src/Test.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
@@ -616,6 +628,13 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Weerstation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-340">
+          <caret line="179" column="73" selection-start-line="179" selection-start-column="73" selection-end-line="179" selection-end-column="73" />
         </state>
       </provider>
     </entry>

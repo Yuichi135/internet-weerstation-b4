@@ -7,8 +7,10 @@ public class Weerstation {
     public static void main(String[] args) {
         Weerstation weerstation = new Weerstation();
         weerstation.init();
-}
+    }
 
+
+    Measurement converted = new Measurement(DatabaseConnection.getMostRecentMeasurement());
     private Period period;
     private RawMeasurement rawMeasurement = DatabaseConnection.getMostRecentMeasurement();
     private boolean redButton;
@@ -162,34 +164,34 @@ public class Weerstation {
             case "Luchtvochtigheid":
                 humidityMenu();
                 break;
-            case "Wind" :
+            case "Wind":
                 windMenu();
                 break;
-            case "Regen" :
+            case "Regen":
                 GuiHelper.clearDMDisplay();
                 GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nRegenRate");
                 break;
-            case "Zonsopgang/ondergang" :
+            case "Zonsopgang/ondergang":
                 GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nZonsopgang/ondergang");
+                GuiHelper.displayString(converted.getDateStamp().toLocalDate() + "\nZonsopgang: " + converted.getSunRise() + "\nZonsondergang: " + converted.getSunSet());
                 break;
-            case "Windchill" :
+            case "Windchill":
                 GuiHelper.clearDMDisplay();
                 GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nWindchill");
                 break;
-            case "Heat index" :
+            case "Heat index":
                 GuiHelper.clearDMDisplay();
                 GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nHeat index");
                 break;
-            case "Dewpoint" :
+            case "Dewpoint":
                 GuiHelper.clearDMDisplay();
                 GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nDewpoint");
                 break;
-            case "Individueel" :
+            case "Individueel":
                 individueelMenu();
                 break;
 
-                // Submenu's
+            // Submenu's
             // Temperatuur
             case "Buiten temperatuur" :
                 outsideTemp();
@@ -203,16 +205,16 @@ public class Weerstation {
                 insideHum();
                 break;
 
-                // Wind
-            case "Windsnelheid" :
+            // Wind
+            case "Windsnelheid":
                 GuiHelper.clearDMDisplay();
                 GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nwind");
                 break;
-            case "Windrichting" :
+            case "Windrichting":
                 GuiHelper.clearDMDisplay();
                 GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nwind dir");
                 break;
-            case "Sam" :
+            case "Sam":
 
                 //Misschien is er een snellere manier.
                 break;
@@ -279,12 +281,8 @@ public class Weerstation {
             case "Yuichi" :
                 individueleOpdrachtYuichi();
                 break;
-            case "Rick" :
-                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.consecutiveRain(0), 2);
-                GuiHelper.displayDoubleNumber(GuiHelper.display2, period.consecutiveRain(1), 0);
-
-                GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Minutes - Rain mm \n");
+            case "Rick":
+                individueleOpdrachtRick();
                 break;
             default:
                 GuiHelper.clearAllDisplays();
@@ -320,6 +318,14 @@ public class Weerstation {
         GuiHelper.displayString("Max - Verschil  - Min\nTemperatuur celsius\nop " + period.getBiggestDifferenceMinMaxTemperature());
     }
 
+    public void individueleOpdrachtRick() {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.consecutiveRain(0), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.consecutiveRain(1), 0);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Minutes - Rain mm \n");
+    }
+    
     public void individueleOpdrachtSander (int year){
        GuiHelper.clearDMDisplay();
        GuiHelper.displayString( "Maand met meeste\nregen in " + year + ":\n" + period.mostRainfall(year).toString());
