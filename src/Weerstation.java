@@ -228,7 +228,7 @@ public class Weerstation {
                 GuiHelper.displayString("Period methodes \nnog niet aangemaakt \nwind dir");
                 break;
             case "Sam" :
-
+                individueleOpdrachtSam();
                 break;
             case "Sander" :
 
@@ -273,5 +273,11 @@ public class Weerstation {
 
         GuiHelper.clearDMDisplay();
         GuiHelper.displayString("Max - Verschil  - Min\nTemperatuur celsius\nop " + period.getBiggestDifferenceMinMaxTemperature());
+    }
+    public void individueleOpdrachtSam() {
+        GuiHelper.displayNumber(GuiHelper.display3, period.summer());
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Aantal mooie dagen \nin deze periode:");
     }
 }

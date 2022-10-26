@@ -872,4 +872,76 @@ public class Period {
 
         return date;
     }
+
+    public int summer() {
+
+        ArrayList<Integer> summerDay = new ArrayList<>();
+        ArrayList<Integer> summerDays = new ArrayList<>();
+        ArrayList<Double> temperatures = new ArrayList<>();
+        ArrayList<Double> temperaturesDay = new ArrayList<>();
+        ArrayList<Double> rain = new ArrayList<>();
+        ArrayList<Double> rainDay = new ArrayList<>();
+        ArrayList<Double> UVIndex = new ArrayList<>();
+        ArrayList<Double> UVIndexDay = new ArrayList<>();
+        ArrayList<Double> windchill = new ArrayList<>();
+        ArrayList<Double> windchillDay = new ArrayList<>();
+
+        int heat = 0;
+        int hot = 0;
+        int GoodDays = 0;
+
+        for (ArrayList<Measurement> singleDay : divideMeasurementsInDays(getMeasurements())) {
+            rainDay.clear();
+            UVIndexDay.clear();
+            windchillDay.clear();
+            temperaturesDay.clear();
+
+            for (Measurement measurement : singleDay) {
+                rainDay.add(measurement.getRainRate());
+                UVIndexDay.add(measurement.getUvIndex());
+                windchillDay.add(measurement.getWindChill());
+                temperaturesDay.add(measurement.getWindChill());
+            }
+            rain.add(getHighest(rainDay));
+            UVIndex.add(getHighest(UVIndexDay));
+            windchill.add(getHighest(windchillDay));
+            temperatures.add(getHighest(windchillDay));
+
+            if (rain.get(rain.size() -1) < 1) {
+                if (UVIndex.get(UVIndex.size() -1) >= 1.0 && UVIndex.get(UVIndex.size() -1) <= 6.0) {
+                    if (windchill.get(windchill.size() -1) >= 18.00 && windchill.get(windchill.size() -1) < 35.00) {
+                        GoodDays++;
+                    }
+                }
+            }
+            if (temperatures.get(temperatures.size() -1) >= 25.0) {
+                heat++;
+                if (heat == 5) {
+                    summerDay.add(1);
+                    heat = 0;
+                }
+                if (temperatures.get(temperatures.size() -1) >= 30.0) {
+                    hot++;
+                    if (hot == 3) {
+                        summerDays.add(1);
+                        hot = 0;
+                    }
+                } else {
+                    hot = 0;
+                }
+            } else {
+                heat = 0;
+            }
+        }
+        if (summerDay.size() >= 1 && summerDays.size() >= 1) {
+            System.out.println("\nEr is in dat jaar een hittegolf geweest");
+            System.out.println("size hotter 25: " + summerDay.size());
+            System.out.println("size hotter 30: " + summerDays.size());
+        }
+        if (GoodDays > 0) {
+            System.out.println("\nNondejuh wa n lekker weertje.");
+            System.out.println("T is nou al " + GoodDays + " dag verrekkes lekker weer.");
+        }
+        return GoodDays;
+    }
 }
