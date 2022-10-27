@@ -217,6 +217,7 @@ public class Weerstation {
             case "Sam" :
                 individueleOpdrachtSam();
                 break;
+//----------------------------------------------------------------------------------------------------------//
             case "Sander":
                 jaarMenu();
                 break;
