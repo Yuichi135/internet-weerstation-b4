@@ -146,6 +146,7 @@ public class Grafiek {
 
     // Werkt met percentages AKA kan gebruikt worden op dingen buiten temperatuur :)
     public static void displayGraph(ArrayList<Double> values) {
+        GuiHelper.clearAllDisplays();
         double highest = Period.getHighest(values);
         double lowest = Period.getLowest(values);
         double difference = highest - lowest;
