@@ -24,8 +24,8 @@ public class Weerstation {
     }
 
     public void init() {
-//        int days = readDateFromTerminal();
-        int days = 1;
+        int days = readDateFromTerminal();
+//        int days = 18;
         this.period = new Period(days);
         this.period.getMeasurements();
         mainMenu();

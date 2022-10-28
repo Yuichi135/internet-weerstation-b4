@@ -189,7 +189,6 @@ public class Grafiek {
         }
     }
 
-    // Poep code, maar het werkt
     // Returnt altijd een array met lengte van 123
     public static ArrayList<Double> getFullArray(ArrayList<Double> values) {
         int totalWidth = 123; // breedte van de dot matrix display - 4

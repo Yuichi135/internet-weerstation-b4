@@ -32,6 +32,7 @@ public class Period {
         this.endPeriod = LocalDate.now();
     }
 
+    // days = days + 1
     public Period(int days) {
         this.beginPeriod = LocalDate.now().minus(java.time.Period.ofDays(days));
         this.endPeriod = LocalDate.now();
@@ -653,7 +654,6 @@ public class Period {
     /**
      * Todo more methods
      */
-    private int year = 2020;
 
     public double getRainfall(ArrayList<Double> numbers) {// Berekent het totaal van alle regen dat is gevallen.
 
@@ -712,6 +712,7 @@ public class Period {
             for (Period period : months) {
                 rainfall.add(period.getRainfallMonths()); //voegt alle omgerekende waarden aan rainfall
             }
+
 
             if (january.getRainfallMonths() == getHighest(rainfall)) {  //kijkt in welke maand het meest heeft geregend.
                 greatestRainfallMonth = Month.JANUARY;
@@ -860,8 +861,6 @@ public class Period {
 
     public int summer() {
 
-        ArrayList<Integer> summerDay = new ArrayList<>();
-        ArrayList<Integer> summerDays = new ArrayList<>();
         ArrayList<Double> temperatures = new ArrayList<>();
         ArrayList<Double> temperaturesDay = new ArrayList<>();
         ArrayList<Double> rain = new ArrayList<>();
@@ -870,6 +869,9 @@ public class Period {
         ArrayList<Double> UVIndexDay = new ArrayList<>();
         ArrayList<Double> windchill = new ArrayList<>();
         ArrayList<Double> windchillDay = new ArrayList<>();
+
+        int summerDay = 0;
+        int summerDays = 0;
 
         int heat = 0;
         int hot = 0;
@@ -892,23 +894,26 @@ public class Period {
             windchill.add(getHighest(windchillDay));
             temperatures.add(getHighest(windchillDay));
 
-            if (rain.get(rain.size() -1) < 1) {
-                if (UVIndex.get(UVIndex.size() -1) >= 1.0 && UVIndex.get(UVIndex.size() -1) <= 6.0) {
-                    if (windchill.get(windchill.size() -1) >= 18.00 && windchill.get(windchill.size() -1) < 35.00) {
+            // Kijkt naar de waardes per dag
+            if (rain.get(rain.size() - 1) < 1) {
+                if (UVIndex.get(UVIndex.size() - 1) >= 1.0 && UVIndex.get(UVIndex.size() - 1) <= 6.0) {
+                    if (windchill.get(windchill.size() - 1) >= 18.00 && windchill.get(windchill.size() - 1) < 35.00) {
                         GoodDays++;
                     }
                 }
             }
-            if (temperatures.get(temperatures.size() -1) >= 25.0) {
+            // als voldoet aan waarde dan doorloopt de loop anders springt hij naar else
+            if (windchill.get(windchill.size() - 1) >= 25.0) {
                 heat++;
                 if (heat == 5) {
-                    summerDay.add(1);
+                    summerDay++;
                     heat = 0;
                 }
-                if (temperatures.get(temperatures.size() -1) >= 30.0) {
+                // als voldoet aan waarde dan doorloopt de loop anders springt hij naar else
+                if (temperatures.get(temperatures.size() - 1) >= 30.0) {
                     hot++;
                     if (hot == 3) {
-                        summerDays.add(1);
+                        summerDays++;
                         hot = 0;
                     }
                 } else {
@@ -918,14 +923,13 @@ public class Period {
                 heat = 0;
             }
         }
-        if (summerDay.size() >= 1 && summerDays.size() >= 1) {
-            System.out.println("\nEr is in dat jaar een hittegolf geweest");
-            System.out.println("size hotter 25: " + summerDay.size());
-            System.out.println("size hotter 30: " + summerDays.size());
+        if (summerDay >= 1 && summerDays >= 1) {
+            System.out.println("\nEr is in deze periode een hittegolf geweest");
+//            System.out.println("size hotter 25: " + summerDay.size());
+//            System.out.println("size hotter 30: " + summerDays.size());
         }
         if (GoodDays > 0) {
-            System.out.println("\nNondejuh wa n lekker weertje.");
-            System.out.println("T is nou al " + GoodDays + " dag verrekkes lekker weer.");
+            System.out.println("\nHet is in deze periode " + GoodDays + " dagen lekker weer.");
         }
         return GoodDays;
     }
