@@ -111,7 +111,7 @@ public class Weerstation {
     // TODO: wanneer er een string in wordt gestopt opvangen
     public int readDateFromTerminal() {
         Scanner reader = new Scanner(System.in);
-//        System.out.println("Kies het aantal dagen");
+        System.out.println("Kies het aantal dagen");
         return Integer.parseInt(reader.nextLine());
     }
 
@@ -399,7 +399,7 @@ public class Weerstation {
         double difference = biggestDiffTemp.getHighestOutsideTemperature() - biggestDiffTemp.getLowestOutsideTemperature();
 
         GuiHelper.displayDoubleNumber(GuiHelper.display1, difference, 2);
-        GuiHelper.displayDoubleNumber(GuiHelper.display2, biggestDiffTemp.getHighestInsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, biggestDiffTemp.getHighestOutsideTemperature(), 1);
         GuiHelper.displayDoubleNumber(GuiHelper.display3, biggestDiffTemp.getLowestOutsideTemperature(), 1);
 
         GuiHelper.clearDMDisplay();

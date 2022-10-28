@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6cd9a680-1f2c-40b7-8e14-5ca0df42748e" name="Default Changelist" comment="File Rename">
-      <change beforePath="$PROJECT_DIR$/src/Period.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Period.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PeriodTestMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PeriodTestMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Weerstation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Weerstation.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -17,8 +18,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Weerstation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="125" lean-forward="true" selection-start-line="125" selection-end-line="125" />
+            <state relative-caret-position="85">
+              <caret line="399" lean-forward="true" selection-start-line="399" selection-end-line="399" />
+              <folding>
+                <element signature="method#displayDewPoint#0;class#Weerstation#0" />
+                <element signature="method#displayWindDirection#0;class#Weerstation#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -26,8 +31,24 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Period.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1816">
-              <caret line="847" lean-forward="true" selection-start-line="847" selection-end-line="847" />
+            <state relative-caret-position="164">
+              <caret line="915" column="25" lean-forward="true" selection-start-line="915" selection-start-column="25" selection-end-line="915" selection-end-column="25" />
+              <folding>
+                <element signature="e#1068#1069#0" expanded="true" />
+                <element signature="e#1128#1129#0" expanded="true" />
+                <element signature="e#1239#1240#0" expanded="true" />
+                <element signature="e#1297#1298#0" expanded="true" />
+                <element signature="e#1443#1444#0" expanded="true" />
+                <element signature="e#1489#1490#0" expanded="true" />
+                <element signature="e#1627#1628#0" expanded="true" />
+                <element signature="e#1669#1670#0" expanded="true" />
+                <element signature="e#1770#1771#0" expanded="true" />
+                <element signature="e#1840#1841#0" expanded="true" />
+                <element signature="e#3606#3607#0" expanded="true" />
+                <element signature="e#3657#3658#0" expanded="true" />
+                <element signature="e#5798#5799#0" expanded="true" />
+                <element signature="e#5852#5853#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -35,8 +56,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PeriodTestMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="27" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="54" />
+            <state relative-caret-position="34">
+              <caret line="11" column="73" selection-start-line="11" selection-start-column="73" selection-end-line="11" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -44,8 +65,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Grafiek.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="521">
-              <caret line="214" column="9" selection-start-line="214" selection-start-column="9" selection-end-line="214" selection-end-column="9" />
+            <state relative-caret-position="218">
+              <caret line="190" selection-start-line="190" selection-end-line="190" />
               <folding>
                 <element signature="method#displayAverageOutsideTemperatureGraph#0;class#Grafiek#0" />
                 <element signature="method#displayAverageInsideTemperatureGraph#0;class#Grafiek#0" />
@@ -54,7 +75,6 @@
                 <element signature="method#displayHighestTemperatureGraph#0;class#Grafiek#0" />
                 <element signature="method#displayStandardDeviationOutsideTemperatureGraph#0;class#Grafiek#0" />
                 <element signature="method#displayLoadingScreen#0;class#Grafiek#0" />
-                <element signature="method#displayAxis#0;class#Grafiek#0" />
                 <element signature="method#getZeroPointAxis#0;class#Grafiek#0" />
               </folding>
             </state>
@@ -64,7 +84,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GuiHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1139">
+            <state relative-caret-position="976">
               <caret line="67" column="64" selection-start-line="67" selection-start-column="64" selection-end-line="67" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -101,6 +121,7 @@
       <find>sun</find>
       <find>luchtdruk</find>
       <find>rick</find>
+      <find>consecu</find>
     </findStrings>
     <replaceStrings>
       <replace>Highest</replace>
@@ -133,7 +154,6 @@
         <option value="$PROJECT_DIR$/src/Opdracht2Yuichi.java" />
         <option value="$PROJECT_DIR$/src/Sander.java" />
         <option value="$PROJECT_DIR$/src/Test.java" />
-        <option value="$PROJECT_DIR$/src/PeriodTestMain.java" />
         <option value="$PROJECT_DIR$/src/MenuValues.java" />
         <option value="$PROJECT_DIR$/src/Grafiek.java" />
         <option value="$PROJECT_DIR$/src/ValueConverter.java" />
@@ -141,14 +161,14 @@
         <option value="$PROJECT_DIR$/src/GuiHelper.java" />
         <option value="$PROJECT_DIR$/src/Period.java" />
         <option value="$PROJECT_DIR$/src/Weerstation.java" />
+        <option value="$PROJECT_DIR$/src/PeriodTestMain.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-15" />
-    <option name="y" value="-15" />
-    <option name="width" value="1944" />
-    <option name="height" value="1044" />
+    <option name="x" value="-9" />
+    <option name="width" value="978" />
+    <option name="height" value="1017" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
@@ -158,14 +178,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="internet-weerstation-b4" type="b2602c69:ProjectViewProjectNode" />
               <item name="internet-weerstation-b4" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="internet-weerstation-b4" type="b2602c69:ProjectViewProjectNode" />
+              <item name="internet-weerstation-b4" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="internet-weerstation-b4" type="b2602c69:ProjectViewProjectNode" />
@@ -181,7 +206,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1666969605523" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1666971057519" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -333,11 +358,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="97834000" />
+    <option name="totallyTimeSpent" value="98818000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1295" height="687" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.83667624" visible="true" weight="0.24939272" />
       <window_info id="Structure" order="1" sideWeight="0.16332377" side_tool="true" weight="0.30067113" />
@@ -348,7 +372,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.48756218" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4864865" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39795917" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -540,16 +564,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PeriodTestMain.java">
+    <entry file="file://$PROJECT_DIR$/src/Grafiek.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="27" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="54" />
+        <state relative-caret-position="218">
+          <caret line="190" selection-start-line="190" selection-end-line="190" />
+          <folding>
+            <element signature="method#displayAverageOutsideTemperatureGraph#0;class#Grafiek#0" />
+            <element signature="method#displayAverageInsideTemperatureGraph#0;class#Grafiek#0" />
+            <element signature="method#displayAverageAirPressureGraph#0;class#Grafiek#0" />
+            <element signature="method#displayAverageOutsideHumidityGraph#0;class#Grafiek#0" />
+            <element signature="method#displayHighestTemperatureGraph#0;class#Grafiek#0" />
+            <element signature="method#displayStandardDeviationOutsideTemperatureGraph#0;class#Grafiek#0" />
+            <element signature="method#displayLoadingScreen#0;class#Grafiek#0" />
+            <element signature="method#getZeroPointAxis#0;class#Grafiek#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Period.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="915" column="25" lean-forward="true" selection-start-line="915" selection-start-column="25" selection-end-line="915" selection-end-column="25" />
+          <folding>
+            <element signature="e#1068#1069#0" expanded="true" />
+            <element signature="e#1128#1129#0" expanded="true" />
+            <element signature="e#1239#1240#0" expanded="true" />
+            <element signature="e#1297#1298#0" expanded="true" />
+            <element signature="e#1443#1444#0" expanded="true" />
+            <element signature="e#1489#1490#0" expanded="true" />
+            <element signature="e#1627#1628#0" expanded="true" />
+            <element signature="e#1669#1670#0" expanded="true" />
+            <element signature="e#1770#1771#0" expanded="true" />
+            <element signature="e#1840#1841#0" expanded="true" />
+            <element signature="e#3606#3607#0" expanded="true" />
+            <element signature="e#3657#3658#0" expanded="true" />
+            <element signature="e#5798#5799#0" expanded="true" />
+            <element signature="e#5852#5853#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GuiHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1139">
+        <state relative-caret-position="976">
           <caret line="67" column="64" selection-start-line="67" selection-start-column="64" selection-end-line="67" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -563,35 +620,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Grafiek.java">
+    <entry file="file://$PROJECT_DIR$/src/PeriodTestMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="214" column="9" selection-start-line="214" selection-start-column="9" selection-end-line="214" selection-end-column="9" />
-          <folding>
-            <element signature="method#displayAverageOutsideTemperatureGraph#0;class#Grafiek#0" />
-            <element signature="method#displayAverageInsideTemperatureGraph#0;class#Grafiek#0" />
-            <element signature="method#displayAverageAirPressureGraph#0;class#Grafiek#0" />
-            <element signature="method#displayAverageOutsideHumidityGraph#0;class#Grafiek#0" />
-            <element signature="method#displayHighestTemperatureGraph#0;class#Grafiek#0" />
-            <element signature="method#displayStandardDeviationOutsideTemperatureGraph#0;class#Grafiek#0" />
-            <element signature="method#displayLoadingScreen#0;class#Grafiek#0" />
-            <element signature="method#displayAxis#0;class#Grafiek#0" />
-            <element signature="method#getZeroPointAxis#0;class#Grafiek#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Period.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1816">
-          <caret line="847" lean-forward="true" selection-start-line="847" selection-end-line="847" />
+        <state relative-caret-position="34">
+          <caret line="11" column="73" selection-start-line="11" selection-start-column="73" selection-end-line="11" selection-end-column="73" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Weerstation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="125" lean-forward="true" selection-start-line="125" selection-end-line="125" />
+        <state relative-caret-position="85">
+          <caret line="399" lean-forward="true" selection-start-line="399" selection-end-line="399" />
+          <folding>
+            <element signature="method#displayDewPoint#0;class#Weerstation#0" />
+            <element signature="method#displayWindDirection#0;class#Weerstation#0" />
+          </folding>
         </state>
       </provider>
     </entry>
