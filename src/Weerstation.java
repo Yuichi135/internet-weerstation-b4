@@ -111,7 +111,7 @@ public class Weerstation {
     // TODO: wanneer er een string in wordt gestopt opvangen
     public int readDateFromTerminal() {
         Scanner reader = new Scanner(System.in);
-        System.out.println("Kies het aantal dagen");
+//        System.out.println("Kies het aantal dagen");
         return Integer.parseInt(reader.nextLine());
     }
 
@@ -417,7 +417,7 @@ public class Weerstation {
         GuiHelper.displayDoubleNumber(GuiHelper.display2, period.consecutiveRain(1), 0);
 
         GuiHelper.clearDMDisplay();
-        GuiHelper.displayString("Minutes - Rain mm \n");
+        GuiHelper.displayString("Minutes - Rain mm \nBegin: " + period.consecutiveRainDate(1) + "\nEinde: " + period.consecutiveRainDate(0));
     }
     
     public void individueleOpdrachtSander (int year){

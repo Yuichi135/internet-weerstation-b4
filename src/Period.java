@@ -795,18 +795,72 @@ public class Period {
             } else {
                 mmGevallen += ConsecutiveRainCal.berekenRegen(k);
                 consecutiveDays++;
+
             }
             if (consecutiveDays > grootsteConsecutiveDays) {
                 grootsteConsecutiveDays = consecutiveDays;
                 totaalMmGevallen = mmGevallen;
+
             }
         }
+
         if (choice == 1) {
             return grootsteConsecutiveDays;
         } else {
             return totaalMmGevallen;
         }
     }
+
+    public LocalTime consecutiveRainDate(int choice) {
+        double k;
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> rainRate = new ArrayList<>();
+        ArrayList<LocalDateTime> Datas = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            rainRate.add(measurement.getRainRate());
+            Datas.add(measurement.getDateStamp());
+        }
+
+        int grootsteConsecutiveDays = 0;
+        int consecutiveDays = 0;
+        boolean first = true;
+        LocalDateTime beginRegen = null;
+        LocalDateTime beginRegenLongest = null;
+        LocalDateTime eindeRegen = null;
+        LocalDateTime eindeRegenLongest = null;
+
+        for (int i = 0; i < rainRate.size(); i++) {
+            k = rainRate.get(i);
+
+            if (k == 0) {
+                consecutiveDays = 0;
+                first = true;
+
+            } else {
+                consecutiveDays++;
+                eindeRegen = Datas.get(i);
+
+                if (first) {
+                    beginRegen = Datas.get(i);
+                    first = false;
+                }
+
+            }
+            if (consecutiveDays > grootsteConsecutiveDays) {
+                grootsteConsecutiveDays = consecutiveDays;
+                beginRegenLongest = beginRegen;
+                eindeRegenLongest = eindeRegen;
+            }
+        }
+
+        if (choice == 1) {
+            return beginRegenLongest.toLocalTime();
+        } else {
+            return eindeRegenLongest.toLocalTime();
+        }
+    }
+
 
 
     public ArrayList<ArrayList<Measurement>> divideMeasurementsInDays(ArrayList<Measurement> measurements) {
