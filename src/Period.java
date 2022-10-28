@@ -824,8 +824,6 @@ public class Period {
 
             sortedMeasurements.get(days).add(measurement);
         }
-        // Verwijder 2 uur aan data van de dag ervoor
-        sortedMeasurements.remove(0);
 
         return sortedMeasurements;
     }

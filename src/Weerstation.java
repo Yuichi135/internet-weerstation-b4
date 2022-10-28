@@ -25,7 +25,7 @@ public class Weerstation {
 
     public void init() {
 //        int days = readDateFromTerminal();
-        int days = 0;
+        int days = 5;
         this.period = new Period(days);
         this.period.getMeasurements();
         mainMenu();
@@ -214,7 +214,6 @@ public class Weerstation {
             case "Sam" :
                 individueleOpdrachtSam();
                 break;
-//----------------------------------------------------------------------------------------------------------//
             case "Sander":
                 jaarMenu();
                 break;
