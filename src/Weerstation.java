@@ -8,7 +8,7 @@ public class Weerstation {
     }
 
 
-    Measurement converted = new Measurement(DatabaseConnection.getMostRecentMeasurement());
+    private Measurement converted = new Measurement(DatabaseConnection.getMostRecentMeasurement());
     private Period period;
     private RawMeasurement rawMeasurement = DatabaseConnection.getMostRecentMeasurement();
     private boolean redButton;
@@ -75,6 +75,14 @@ public class Weerstation {
                 "Zonsopgang/ondergang", "Windchill", "Heat index", "Dewpoint", "Individueel");
 
         menu(menuOptions, "");
+    }
+
+    public void airPressureMenu() {
+        GuiHelper.clearAllDisplays();
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Actueel", "Gemiddeld", "Maximum", "Minimum");
+
+        menu(menuOptions, "Luchtdruk");
     }
 
     public void temperatureMenu() {
@@ -151,12 +159,7 @@ public class Weerstation {
         // De cases moeten overeen komen met de items in menuOptions
         switch (menuOptions.get(selectedItem % menuOptions.size())) {
             case "Luchtdruk":
-                System.out.println(period.getAverageAirpressure());
-                System.out.println(period.getHighestAirpressure());
-                System.out.println(period.getLowestAirpressure());
-                GuiHelper.clearAllDisplays();
-                GuiHelper.displayString("Manier bekijken\nom te laten zien");
-
+                airPressureMenu();
                 break;
             case "Temperatuur":
                 temperatureMenu();
@@ -188,6 +191,27 @@ public class Weerstation {
                 break;
 
             // Submenu's
+            // Luchtdruk
+            case "Actueel" :
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, converted.getAirPressure(), 1);
+                GuiHelper.displayString("Actuele luchtdruk \nin hPa");
+                break;
+            case "Gemiddeld" :
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageAirpressure(), 1);
+                GuiHelper.displayString("Gemiddelde luchtdruk \nin hPa");
+                break;
+            case "Maximum" :
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getHighestAirpressure(), 1);
+                GuiHelper.displayString("Maximum luchtdruk \nin hPa");
+                break;
+            case "Minimum" :
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getLowestAirpressure(), 1);
+                GuiHelper.displayString("Minimum luchtdruk \nin hPa");
+                break;
             // Temperatuur
             case "Buiten temperatuur" :
                 displayOutsideTemp();

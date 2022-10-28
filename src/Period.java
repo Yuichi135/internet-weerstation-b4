@@ -32,9 +32,8 @@ public class Period {
         this.endPeriod = LocalDate.now();
     }
 
-    // days = days + 1
     public Period(int days) {
-        this.beginPeriod = LocalDate.now().minus(java.time.Period.ofDays(days));
+        this.beginPeriod = LocalDate.now().minus(java.time.Period.ofDays(days).minusDays(1));
         this.endPeriod = LocalDate.now();
     }
 
@@ -861,6 +860,28 @@ public class Period {
         }
     }
 
+    public ArrayList<ArrayList<Measurement>> divideMeasurementsInDays7to10(ArrayList<Measurement> measurements) {
+//        Arraylist gevuld met een arraylist met alle data van één dag
+        ArrayList<ArrayList<Measurement>> sortedMeasurements = new ArrayList<>();
+
+        int dayOfYear = -1;
+        int days = -1;
+        for (Measurement measurement : measurements) {
+            // Maak een nieuwe arraylist aan voor een nieuwe dag
+            if (dayOfYear != measurement.getDateStamp().getDayOfYear()) {
+                dayOfYear = measurement.getDateStamp().getDayOfYear();
+                sortedMeasurements.add(new ArrayList<Measurement>());
+                days++;
+            }
+
+            // Skip de measurement als het voor 7u en na 10u is
+            if (measurement.getDateStamp().getHour() <= 7 && measurement.getDateStamp().getHour() >= 22) continue;
+
+            sortedMeasurements.get(days).add(measurement);
+        }
+
+        return sortedMeasurements;
+    }
 
 
     public ArrayList<ArrayList<Measurement>> divideMeasurementsInDays(ArrayList<Measurement> measurements) {
@@ -931,7 +952,7 @@ public class Period {
         int hot = 0;
         int GoodDays = 0;
 
-        for (ArrayList<Measurement> singleDay : divideMeasurementsInDays(getMeasurements())) {
+        for (ArrayList<Measurement> singleDay : divideMeasurementsInDays7to10(getMeasurements())) {
             rainDay.clear();
             UVIndexDay.clear();
             windchillDay.clear();
@@ -949,7 +970,7 @@ public class Period {
             temperatures.add(getHighest(windchillDay));
 
             // Kijkt naar de waardes per dag
-            if (rain.get(rain.size() - 1) < 1) {
+            if (rain.get(rain.size() - 1) < 0.3) {
                 if (UVIndex.get(UVIndex.size() - 1) >= 1.0 && UVIndex.get(UVIndex.size() - 1) <= 6.0) {
                     if (windchill.get(windchill.size() - 1) >= 18.00 && windchill.get(windchill.size() - 1) < 35.00) {
                         GoodDays++;
@@ -979,8 +1000,8 @@ public class Period {
         }
         if (summerDay >= 1 && summerDays >= 1) {
             System.out.println("\nEr is in deze periode een hittegolf geweest");
-//            System.out.println("size hotter 25: " + summerDay.size());
-//            System.out.println("size hotter 30: " + summerDays.size());
+            System.out.println("size hotter 25: " + summerDay);
+            System.out.println("size hotter 30: " + summerDays);
         }
         if (GoodDays > 0) {
             System.out.println("\nHet is in deze periode " + GoodDays + " dagen lekker weer.");
