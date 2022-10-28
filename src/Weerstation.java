@@ -208,10 +208,7 @@ public class Weerstation {
                 displayWindSpeed();
                 break;
             case "Windrichting":
-                GuiHelper.displayDoubleNumber(GuiHelper.display1, rawMeasurement.getWindDir(),0);
-
-                GuiHelper.clearDMDisplay();
-                GuiHelper.displayString("Windrichting in\ngraden ");
+                displayWindDirection();
                 break;
                 
             case "Sam" :
@@ -470,5 +467,34 @@ public class Weerstation {
 
         GuiHelper.clearDMDisplay();
         GuiHelper.displayString("Max - Gemiddeld - Min\nDewpoint in\ngraden celsius");
+    }
+
+    public void displayWindDirection() {
+        String windDirString;
+        int rawWinDir = rawMeasurement.getWindDir();
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, rawMeasurement.getWindDir(),0);
+        if(rawWinDir > 337.5 && rawWinDir < 22.5) {
+            windDirString = "South";
+        } else if (rawWinDir > 22.5 && rawWinDir < 67.5) {
+            windDirString = "SouthWest";
+        } else if (rawWinDir > 67.5 && rawWinDir < 112.5) {
+            windDirString = "West";
+        } else if (rawWinDir > 112.5 && rawWinDir < 157.5) {
+            windDirString = "NorthWest";
+        } else if (rawWinDir > 157.5 && rawWinDir < 202.5) {
+            windDirString = "North";
+        } else if (rawWinDir > 202.5 && rawWinDir < 247.5) {
+            windDirString = "NorthEast";
+        } else if (rawWinDir > 247.5 && rawWinDir < 292.5) {
+            windDirString = "East";
+        } else if (rawWinDir > 292.5 && rawWinDir <  337.5) {
+            windDirString = "SouthEast";
+        } else {
+            windDirString = "Invalid Data";
+        }
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Windrichting in\ngraden\n" + windDirString);
+
     }
 }
