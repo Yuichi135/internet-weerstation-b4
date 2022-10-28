@@ -25,7 +25,7 @@ public class Weerstation {
 
     public void init() {
 //        int days = readDateFromTerminal();
-        int days = 5;
+        int days = 0;
         this.period = new Period(days);
         this.period.getMeasurements();
         mainMenu();
@@ -301,8 +301,58 @@ public class Weerstation {
             // Linker blauw knop - Terug naar het originele geseleteerde item
             if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
                 blueButtonLeft = !blueButtonLeft;
+                rawMeasurement = DatabaseConnection.getMostRecentMeasurement();
+                Measurement measurement = new Measurement(rawMeasurement);
 
-                showSelectedMenuItem(menuOptions, selectedItem);
+                if (graphs.contains(menuOptions.get(selectedItem % menuOptions.size()))) {
+                    switch (menuOptions.get(selectedItem % menuOptions.size())) {
+                        case "Buiten temperatuur":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getOutsideTemp(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getOutsideTemp(),1);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       graden celsius");
+                            break;
+                        case "Binnen temperatuur":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getInsideTemp(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getInsideTemp(),1);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       graden celsius");
+                            break;
+                        case "Buiten":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getOutsideHum(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getOutsideHumidity(),0);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       %");
+                            break;
+                        case "Binnen":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getInsideHum(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getInsideHumidity(),0);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       %");
+                            break;
+                        case "Windsnelheid":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getWindSpeed(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getWindSpeed(),0);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       km/h");
+                            break;
+                        case "Windchill":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display1, measurement.getWindChill(),1);
+                            GuiHelper.displayString("Meest recente waarden\nin graden celsius");
+                            break;
+                        case "Heat index":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display1, measurement.getHeatIndex(),1);
+                            GuiHelper.displayString("Meest recente waarden\nin graden celsius");
+                            break;
+                        case "Dewpoint":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display1, measurement.getDewPoint(),1);
+                            GuiHelper.displayString("Meest recente waarden\nin graden celsius");
+                            break;
+                    }
+                }
             }
 
             // Rechter blauw knop - Laat de grafiek ervan zien
