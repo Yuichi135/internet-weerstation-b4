@@ -472,22 +472,22 @@ public class Weerstation {
     public void displayWindDirection() {
         String windDirString;
         int rawWinDir = rawMeasurement.getWindDir();
-        GuiHelper.displayDoubleNumber(GuiHelper.display1, rawMeasurement.getWindDir(),0);
-        if(rawWinDir > 337.5 && rawWinDir < 22.5) {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, rawWinDir,0);
+        if(rawWinDir > 337.5 && rawWinDir < 22.5 && rawWinDir <= 360 && rawWinDir >= 0) {
             windDirString = "South";
-        } else if (rawWinDir > 22.5 && rawWinDir < 67.5) {
+        } else if (rawWinDir >= 22.5 && rawWinDir < 67.5) {
             windDirString = "SouthWest";
-        } else if (rawWinDir > 67.5 && rawWinDir < 112.5) {
+        } else if (rawWinDir >= 67.5 && rawWinDir < 112.5) {
             windDirString = "West";
-        } else if (rawWinDir > 112.5 && rawWinDir < 157.5) {
+        } else if (rawWinDir >= 112.5 && rawWinDir < 157.5) {
             windDirString = "NorthWest";
-        } else if (rawWinDir > 157.5 && rawWinDir < 202.5) {
+        } else if (rawWinDir >= 157.5 && rawWinDir < 202.5) {
             windDirString = "North";
-        } else if (rawWinDir > 202.5 && rawWinDir < 247.5) {
+        } else if (rawWinDir >= 202.5 && rawWinDir < 247.5) {
             windDirString = "NorthEast";
-        } else if (rawWinDir > 247.5 && rawWinDir < 292.5) {
+        } else if (rawWinDir >= 247.5 && rawWinDir < 292.5) {
             windDirString = "East";
-        } else if (rawWinDir > 292.5 && rawWinDir <  337.5) {
+        } else if (rawWinDir >= 292.5 && rawWinDir <  337.5) {
             windDirString = "SouthEast";
         } else {
             windDirString = "Invalid Data";
