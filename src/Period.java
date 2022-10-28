@@ -833,8 +833,6 @@ public class Period {
         measurementsInDays = divideMeasurementsInDays(getMeasurements());
 
         ArrayList<Double> temperatures = new ArrayList<>();
-        double tempHeighest = 0;
-        double tempLowest = 0;
         double heighest = 0;
         double lowest = 0;
         double biggestDifference = 0;
@@ -847,12 +845,10 @@ public class Period {
             for (Measurement measurement : singleDay) {
                 temperatures.add(measurement.getOutsideTemp());
             }
-            tempHeighest = Period.getHighest(temperatures);
-            tempLowest = Period.getLowest(temperatures);
+            heighest = Period.getHighest(temperatures);
+            lowest = Period.getLowest(temperatures);
 
-            if (biggestDifference < (tempHeighest - tempLowest)) {
-                heighest = tempHeighest;
-                lowest = tempLowest;
+            if (biggestDifference < (heighest - lowest)) {
                 biggestDifference = heighest - lowest;
                 date = singleDay.get(index).getDateStamp().toLocalDate();
             }
