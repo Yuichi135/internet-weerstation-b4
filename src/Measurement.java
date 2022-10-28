@@ -25,7 +25,7 @@ public class Measurement {
 
     public Measurement(RawMeasurement rawData) {
         this.stationId = Integer.parseInt(rawData.getStationId());
-        this.dateStamp = rawData.getDateStamp();
+        this.dateStamp = ValueConverter.dateTime(rawData.getDateStamp());
         this.airPressure = ValueConverter.airPressure(rawData.getBarometer());
         this.outsideHumidity = ValueConverter.humidity(rawData.getOutsideHum());
         this.insideHumidity = ValueConverter.humidity(rawData.getInsideHum());

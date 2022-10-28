@@ -1,4 +1,21 @@
+import java.time.*;
+
 public class ValueConverter {
+
+    /**
+     * Returns corrected date time
+     * @param LocalDateTime
+     * @return date time
+     */
+
+    public static LocalDateTime dateTime(LocalDateTime LocalDateTime) {
+        // Als de datum zomertijd is in london, voeg dan 2 uur toe, anders 1 uur
+        // Fixt de tijd in Nederland
+        if (ZoneId.of("Europe/London").getRules().isDaylightSavings(LocalDateTime.toInstant(ZoneOffset.UTC))) {
+            return LocalDateTime.plusHours(2);
+        }
+        return LocalDateTime.plusHours(1);
+    }
 
     /**
      * Returns air pressure
