@@ -1,0 +1,2851 @@
+public class ConsecutiveRainCal {
+    public static int getRandomNumber() {
+        Random r = new Random();
+        int highest = 50;
+        int lowest = 0;
+        return r.nextInt(highest-lowest) + lowest;
+    }
+
+    public static void print(int consecutiveDays, double mmGevallen) {
+        System.out.println("consecutive minutes of rain: " + consecutiveDays + " minutes");
+        System.out.println("totaal milimeter fallen: " + Math.round(mmGevallen* 1000) /1000.0 + " mm\n");
+    }
+
+    public static double berekenRegen(double rainrate) {
+        return rainrate/ 60;
+    }
+}
+
+public class DatabaseConnection {
+
+	public static final String host = "http://145.48.6.82:1337/";
+
+	/**
+	 * Static initializer, makes sure the cache is cleaned on a regular base
+	 */
+	static {
+		try {
+			Files.createDirectories(Paths.get(getCacheDir()));
+			cleanCache();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @return the most recent measurement from the database
+	 */
+	public static RawMeasurement getMostRecentMeasurement() {
+		return buildMeasurement(new DataInputStream(buildStream(host + "last/bin")));
+	}
+
+	/**
+	 * Clears the cache on the filesystem
+	 */
+	public static void clearCache() {
+		try {
+			Files.list(Paths.get(getCacheDir())).forEach(file ->
+			{
+				try {
+					Files.delete(file);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			});
+
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Returns an ArrayList of raw measurements, between the 2 dates and times given as parameters
+	 *
+	 * @param begin the date and time of the first measurement
+	 * @param end   the date and time of the last measurement
+	 * @return the arraylist of raw measurements
+	 */
+	public static ArrayList<RawMeasurement> getMeasurementsBetween(LocalDateTime begin, LocalDateTime end) {
+		return getMeasurements(host + "between/" + begin + "/" + end + "/bin");
+	}
+
+	/**
+	 * Returns all measurements since the given date and time
+	 * @param since
+	 * @return the arraylist of raw measurements
+	 */
+	public static ArrayList<RawMeasurement> getMeasurementsSince(LocalDateTime since) {
+		return getMeasurements(host + "between/" + since + "/" + LocalDateTime.now() + "/bin");
+	}
+
+	/**
+	 * Returns all measurements of the past year
+	 * @return the arraylist of raw measurements
+	 */
+	public static ArrayList<RawMeasurement> getMeasurementsLastYear() {
+		return getMeasurements(host + "lastmonths/12/bin");
+	}
+
+	/**
+	 * Returns all measurements of the past month
+	 * @return the arraylist of raw measurements
+	 */
+	public static ArrayList<RawMeasurement> getMeasurementsLastMonth() {
+		return getMeasurementsLastMonths(1);
+	}
+
+	/**
+	 * Returns all measurements of the past months
+	 * @param months	the number of months you want parameters for
+	 * @return the arraylist of raw measurements
+	 */
+	public static ArrayList<RawMeasurement> getMeasurementsLastMonths(int months) {
+		return getMeasurements(host + "lastmonths/" + months + "/bin");
+	}
+
+
+	/**
+	 * Returns all measurements of the past day
+	 * @return the arraylist of raw measurements
+	 */
+	public static ArrayList<RawMeasurement> getMeasurementsLastDay() {
+		return getMeasurementsLastDays(1);
+	}
+
+	/**
+	 * Returns all measurements of the past days
+	 * @param days the amount of days
+	 * @return the arraylist of raw measurements
+	 */
+	public static ArrayList<RawMeasurement> getMeasurementsLastDays(int days) {
+		return getMeasurements(host + "lastdays/" + days + "/bin");
+	}
+
+	/**
+	 * Returns all measurements of the past hour
+	 * @return the arraylist of raw measurements
+	 */
+	public static ArrayList<RawMeasurement> getMeasurementsLastHour() {
+		return getMeasurementsLastHours(1);
+	}
+
+	/**
+	 * Returns all measurements of the past hours
+	 * @param hours the amount of hours
+	 * @return the arraylist of raw measurements
+	 */
+	public static ArrayList<RawMeasurement> getMeasurementsLastHours(int hours) {
+		return getMeasurements(host + "lasthours/" + hours + "/bin");
+	}
+
+	/**
+	 * Builds up a list of measurements
+	 *
+	 * @param address the address (http or https protocol included) to call the REST API at
+	 * @return a list of raw measurements
+	 */
+	private static ArrayList<RawMeasurement> getMeasurements(String address) {
+		String cacheFile = getCacheDir() + buildCacheFileName(address) + ".bin";
+		if (Files.exists(Paths.get(cacheFile))) {
+			try {
+				return (ArrayList<RawMeasurement>) new ObjectInputStream(new BufferedInputStream(new FileInputStream(cacheFile))).readObject();
+			}catch(EOFException e)
+			{
+				//do nothiung
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+
+			InputStream is = buildStream(address);
+			DataInputStream reader = new DataInputStream(is);
+
+			ArrayList<RawMeasurement> measurements = new ArrayList<>();
+			while (true) {
+				RawMeasurement measurement = buildMeasurement(reader);
+				if (measurement == null)
+					break;
+				measurements.add(measurement);
+			}
+			new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(cacheFile))).writeObject(measurements);
+			return measurements;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+	private static String getCacheDir() {
+		return System.getProperty("java.io.tmpdir") + "ws/";
+	}
+
+	private static String buildCacheFileName(String address) {
+		address = address.substring(host.length());
+		address = address.replace('/', '_');
+		address = address.replace(':', '_');
+		if (address.isEmpty())
+			return "";
+
+		address = (System.currentTimeMillis() / (1000 * 60 * 60)) + address;
+
+		return address;
+	}
+
+
+	/**
+	 * Builds up a stream for an url. Handles gzip compression if available( it should be available)
+	 *
+	 * @param address the address (http or https protocol included) to call the REST API at
+	 * @return a JsonReader object on this address
+	 */
+	private static InputStream buildStream(String address) {
+		try {
+			URL url = new URL(address);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("Accept-Encoding", "gzip");
+			con.connect();
+
+
+			if ("gzip".equals(con.getContentEncoding()))
+				return new BufferedInputStream(new GZIPInputStream(con.getInputStream()));
+			else
+				return new BufferedInputStream(con.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * Reads a raw raw measurement from a data inputstream
+	 * @param stream the datastream
+	 * @return one measurement, or null if no complete measurement can be read
+	 */
+	private static RawMeasurement buildMeasurement(DataInputStream stream) {
+		try {
+			RawMeasurement measurement = new RawMeasurement();
+			measurement.setBarometer(stream.readShort());
+			measurement.setDateStamp(LocalDateTime.ofEpochSecond(stream.readLong(), 0, ZoneOffset.UTC));
+			measurement.setInsideTemp(stream.readShort());
+			measurement.setInsideHum(stream.readShort());
+			measurement.setOutsideTemp(stream.readShort());
+			measurement.setOutsideHum(stream.readShort());
+			measurement.setWindSpeed(stream.readShort());
+			measurement.setAvgWindSpeed(stream.readShort());
+			measurement.setWindDir(stream.readShort());
+			measurement.setRainRate(stream.readShort());
+			measurement.setUVLevel(stream.readShort());
+			measurement.setSolarRad(stream.readShort());
+			measurement.setXmitBatt(stream.readShort());
+			measurement.setBattLevel(stream.readShort());
+			measurement.setSunrise(stream.readShort());
+			measurement.setSunset(stream.readShort());
+
+			measurement.setStationId(stream.readShort() + "");
+			return measurement;
+		} catch (EOFException e) {
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+
+	/**
+	 * Cleans the cache, only deletes old, expired cachefiles
+	 */
+	private static void cleanCache() {
+		try {
+			Files.list(Paths.get(getCacheDir())).forEach(file ->
+			{
+				try {
+					int timestamp = ((Number) NumberFormat.getInstance().parse(file.getFileName().toString())).intValue();
+					long current = (System.currentTimeMillis() / (1000 * 60 * 60));
+					if (timestamp != current)
+						Files.delete(file);
+
+				} catch (ParseException e) {
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+}
+
+
+public class Grafiek {
+
+    public static void main(String[] args) {
+        IO.init();
+
+        GuiHelper.clearAllDisplays();
+        displayAverageOutsideTemperatureGraph(5);
+    }
+
+    // Alleen loading bij v toegevoegd
+    public static void displayAverageOutsideTemperatureGraph(int days) {
+        GuiHelper.displayString("Average outside \ntemperature over \n" + days + " days");
+        IO.delay(1500);
+
+        ArrayList<Double> averageTemperatures = new ArrayList<>();
+        double averageTemperature;
+        for (int i = 0; i < days; i++) {
+            displayLoadingScreen(i, days);
+
+            Period period = createSinglePeriod(LocalDate.now().minusDays(days - i));
+
+            // Inhoud veranderen?
+            averageTemperature = period.getAverageOutsideTemperature();
+            // Filtert ongeldige eruit
+            if (averageTemperature == 0.0) {
+                continue;
+            }
+            averageTemperatures.add(averageTemperature);
+        }
+
+        displayGraph(averageTemperatures);
+    }
+
+    public static void displayAverageInsideTemperatureGraph(int days) {
+        GuiHelper.displayString("Average inside \ntemperature over \n" + days + " days");
+
+        ArrayList<Double> averageTemperatures = new ArrayList<>();
+        double averageTemperature;
+        for (int i = 0; i < days; i++) {
+            Period period = createSinglePeriod(LocalDate.now().minusDays(days - i));
+
+            // Inhoud veranderen?
+            averageTemperature = period.getAverageInsideTemperature();
+            if (averageTemperature == 0.0) {
+                continue;
+            }
+            averageTemperatures.add(averageTemperature);
+        }
+
+        displayGraph(averageTemperatures);
+    }
+
+    public static void displayAverageAirPressureGraph(int days) {
+        GuiHelper.displayString("Average \nairpressure over \n" + days + " days");
+
+        ArrayList<Double> averageAirPressures = new ArrayList<>();
+        double averageAirPressure;
+        for (int i = 0; i < days; i++) {
+            Period period = createSinglePeriod(LocalDate.now().minusDays(days - i));
+
+            // Inhoud veranderen?
+            averageAirPressure = period.getAverageAirpressure();
+            if (averageAirPressure == 0.0) {
+                continue;
+            }
+            averageAirPressures.add(averageAirPressure);
+        }
+
+        displayGraph(averageAirPressures);
+    }
+
+    public static void displayAverageOutsideHumidityGraph(int days) {
+        GuiHelper.displayString("Average outside \nhumidity over \n" + days + " days");
+
+        ArrayList<Double> averageHumidities = new ArrayList<>();
+        double averageHumidity;
+        for (int i = 0; i < days; i++) {
+            Period period = createSinglePeriod(LocalDate.now().minusDays(days - i));
+
+            // Inhoud veranderen?
+            averageHumidity = period.getAverageOutsideHumidity();
+            if (averageHumidity == 0.0) {
+                continue;
+            }
+            averageHumidities.add(averageHumidity);
+        }
+
+        displayGraph(averageHumidities);
+    }
+
+    public static void displayHighestTemperatureGraph(int days) {
+        GuiHelper.displayString("Highest outside \ntemperature over \n" + days + " days");
+
+        ArrayList<Double> highestTemperatures = new ArrayList<>();
+        double highestTemperature;
+        for (int i = 0; i < days; i++) {
+            Period period = createSinglePeriod(LocalDate.now().minusDays(days - i));
+
+            // period.x aanpassen
+            // if x == 0.0 mogelijk aanpassen (ligt eraan wat er wordt gestuurd in methode x
+            highestTemperature = period.getHighestOutsideTemperature();
+            if (highestTemperature == 0.0) {
+                continue;
+            }
+            highestTemperatures.add(highestTemperature);
+        }
+
+        displayGraph(highestTemperatures);
+    }
+
+    public static void displayStandardDeviationOutsideTemperatureGraph(int days) {
+        GuiHelper.displayString("Test graph over \n" + days + " days");
+
+        ArrayList<Double> highestTemperatures = new ArrayList<>();
+        double highestTemperature;
+        for (int i = 0; i < days; i++) {
+            Period period = createSinglePeriod(LocalDate.now().minusDays(days - i));
+
+            // period.x aanpassen
+            // if x == 0.0 mogelijk aanpassen (ligt eraan wat er wordt gestuurd in methode x
+            highestTemperature = period.getHighestAirpressure();
+            if (highestTemperature == 0.0) {
+                continue;
+            }
+            highestTemperatures.add(highestTemperature);
+        }
+
+        displayGraph(highestTemperatures);
+    }
+
+    public static void displayLoadingScreen(int part, int all) {
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Collected " + part + " out of \n" +
+                all + " records\n" +
+                (part * 100) / all + "% done");
+    }
+
+    // Maak een period van 1 dag
+    public static Period createSinglePeriod(LocalDate date) {
+        return new Period(date, date);
+    }
+
+    // Werkt met percentages AKA kan gebruikt worden op dingen buiten temperatuur :)
+    public static void displayGraph(ArrayList<Double> values) {
+        GuiHelper.clearAllDisplays();
+        double highest = Period.getHighest(values);
+        double lowest = Period.getLowest(values);
+        double difference = highest - lowest;
+
+        double temp;
+        ArrayList<Double> percentages = new ArrayList<>();
+        for (double temperature : values) {
+            temp = temperature - lowest;
+
+            percentages.add(temp / difference);
+        }
+
+//        displayNumber(display1, (int) Period.getAverage(values));
+//        displayNumber(display2, (int) highest);
+//        displayNumber(display3, (int) lowest);
+
+//        GuiHelper.displayDoubleNumber(GuiHelper.display1, Period.getAverage(values), 2);
+//        GuiHelper.displayDoubleNumber(GuiHelper.display2, highest, 1);
+//        GuiHelper.displayDoubleNumber(GuiHelper.display3, lowest, 1);
+
+
+        values = getFullArray(values);
+        percentages = getFullArray(percentages);
+
+        // 0,0 is linksonderin
+        int zeroPoint = 0b1000010011100;
+        displayAxis(zeroPoint);
+
+        int[] coords = getZeroPointAxis(zeroPoint);
+        int x = coords[0];
+        int y = coords[1];
+
+        int relativeX = x + 1;
+        int relativeY = y;
+        int opdcode = 1;
+
+
+        for (int i = 0; i < values.size(); i++) {
+            IO.writeShort(0x42, opdcode << 12 | (relativeX) << 5 | (relativeY - ((int) Math.round(y * percentages.get(i)))));
+            relativeX++;
+        }
+    }
+
+    // Returnt altijd een array met lengte van 123
+    public static ArrayList<Double> getFullArray(ArrayList<Double> values) {
+        int totalWidth = 123; // breedte van de dot matrix display - 4
+
+        double stepSize = (double) totalWidth / values.size();
+        double step = 0;
+        ArrayList<Double> fullWidthValues = new ArrayList<>();
+
+        // Om gemiddelde uitrekenen
+        double sum;
+        int total;
+        int i = 0;
+        for (int j = 0; j < totalWidth; j++) {
+            total = 0;
+            sum = 0;
+            while (j >= step) {
+                step += stepSize;
+                i++;
+                total++;
+                sum += values.get(i - 1);
+            }
+            // Voorkomt '0 / x' en 'x / 0'
+            fullWidthValues.add(((sum == 0) ? values.get(i - 1) : sum) / ((total == 0) ? 1 : total));
+        }
+        return fullWidthValues;
+    }
+
+    public static void displayAxis(int zeroPoint) {
+        GuiHelper.clearDMDisplay();
+        int x, y;
+        int opdcode = 1;
+        int[] coords = getZeroPointAxis(zeroPoint);
+
+        // Draw Y axis
+        x = coords[0];
+        for (y = 0; y < 32; y++) {
+            IO.writeShort(0x42, opdcode << 12 | x << 5 | y);
+        }
+
+        // Draw X axis
+        y = coords[1];
+        for (x = 0; x < 128; x++) {
+            IO.writeShort(0x42, opdcode << 12 | x << 5 | y);
+        }
+    }
+
+    public static int[] getZeroPointAxis(int zeroPoint) {
+        int x = (zeroPoint ^ (1 << 12)) >> 5;
+        int y = (zeroPoint | 0b1111111100000) ^ 0b1111111100000;
+        return new int[]{x, y};
+    }
+}
+
+
+public class GuiHelper {
+    // IO.init(); moet wel gedaan worden
+
+    // Displays bevatten de adressen van de segment displays (van rechts naar links)
+    public final static ArrayList<Integer> display1 = new ArrayList<>(Arrays.asList(0x10, 0x12, 0x14, 0x16, 0x18));
+    public final static ArrayList<Integer> display2 = new ArrayList<>(Arrays.asList(0x20, 0x22, 0x24));
+    public final static ArrayList<Integer> display3 = new ArrayList<>(Arrays.asList(0x30, 0x32, 0x34));
+    // Alle getallen met een punt erachter ('0.', '1.', '2.', etc.)
+    private final static int[] lookUpTable = {0b110111111, 0b110000110, 0b111011011, 0b111001111, 0b111100110,
+            0b111101101, 0b111111101, 0b110000111, 0b111111111, 0b111101111};
+
+    // Laat string op DMDisplay zien
+    public static void displayString(String string) {
+        char character;
+        for (int i = 0; i < string.length(); i++) {
+            character = string.charAt(i);
+            IO.writeShort(0x40, character);
+        }
+    }
+
+    // Support negatieve en positieve getallen met decimalen
+    // Snijdt aan de linkerkant af als het getal te groot is (-4242572372 -> 72372)
+    public static void displayDoubleNumber(ArrayList<Integer> display, double number, int decimals) {
+        // Gebruik de displayNumber die alleen gehele nummers support bij 0 decimalen
+        if (decimals == 0) {
+            improvedDisplayNumber(display, (int) Math.round(number));
+            return;
+        }
+
+        int prod;
+        boolean finalLoop = false;
+        boolean negative = false;
+        int iteration = 0;
+
+        // Maak number positief
+        if (number < 0) {
+            negative = true;
+            number = -number;
+        }
+
+//        number = number * Math.pow(10, decimals);
+        // Math.pow gebruikt blijkbaar erg veel 'power', daarom een for loopje gebruikt
+        // Maak van het nummer een niet kommagetal
+        int zeroes = 1;
+        for (int i = 0; i < decimals; i++) zeroes *= 10;
+
+        number = number * zeroes;
+        int roundedNumber = (int) Math.round(number);
+
+        for (Integer adress : display) {
+
+            prod = roundedNumber % 10;
+            if (iteration == decimals) {
+                // lookUpTable bevat de juiste bits om een getal met punt erachter te zetten
+                IO.writeShort(adress, lookUpTable[prod]);
+            } else {
+                IO.writeShort(adress, prod);
+                // Stopt de loop, als het negatief is komt er een - voor
+                if (finalLoop) {
+                    // Verwijder wat er staat
+                    IO.writeShort(adress, 0b100000000);
+                    if (negative) {
+                        // adress + 2 gaat naar het volgende adres
+                        if (iteration == decimals) IO.writeShort(adress + 2, 0b101000000);
+                        else IO.writeShort(adress, 0b101000000);
+                    }
+                    break;
+                }
+            }
+
+            roundedNumber = (roundedNumber - prod) / 10;
+
+            if (roundedNumber == 0) {
+                finalLoop = true;
+            }
+            iteration++;
+        }
+    }
+
+    // Support negatieve en positieve gehele getallen
+    public static void improvedDisplayNumber(ArrayList<Integer> display, int number) {
+        int prod;
+        boolean negative = false;
+        boolean finalLoop = false;
+        clearDisplay(display);
+
+        // Maak number positief
+        if (number < 0) {
+            negative = true;
+            number = -number;
+        }
+
+        for (Integer adress : display) {
+            // Stopt de loop, als het negatief is komt er een - voor
+            if (finalLoop) {
+                if (negative) {
+                    IO.writeShort(adress, 0b101000000);
+                }
+                break;
+            }
+            prod = number % 10;
+            IO.writeShort(adress, prod);
+            number = (number - prod) / 10;
+            if (number == 0) {
+                finalLoop = true;
+            }
+        }
+    }
+
+    // Originele manier om getallen te tonen
+    // Support alleen gehele positieve getallen
+    public static void displayNumber(ArrayList<Integer> display, int number) {
+        int prod;
+        clearDisplay(display);
+
+        for (Integer adress : display) {
+            prod = number % 10;
+            IO.writeShort(adress, prod);
+            number = (number - prod) / 10;
+
+            if (number == 0) break;
+        }
+    }
+
+    public static void clearAllDisplays() {
+        clearDisplay(display1);
+        clearDisplay(display2);
+        clearDisplay(display3);
+        clearDMDisplay();
+    }
+
+    public static void clearDisplay(ArrayList<Integer> display) {
+        for (Integer adress : display) {
+            clearDisplay(adress);
+        }
+    }
+
+    public static void clearDisplay(int adress) {
+        IO.writeShort(adress, 0b100000000);
+    }
+
+    public static void clearDMDisplay() {
+        IO.writeShort(0x40, 0xFE);
+        IO.writeShort(0x40, 0x01);
+    }
+}
+
+
+public class IO {
+  public static String host = "localhost";
+  public static int port = 81;
+
+  /**
+   * Initialize.
+   * Before calling the emulated IO routines, use one of the init routines
+   * to set the host name and port number of the server emulating the HW.
+   **/
+  public static boolean init() {
+    return (init("localhost", 81));
+  }
+
+  public static boolean init(String newHost) {
+    return (init(newHost, 81));
+  }
+
+  public static boolean init(int newPort) {
+    return (init("localhost", newPort));
+  }
+
+  public static boolean init(String newHost, int newPort) {
+    host = newHost;
+    port = newPort;
+    return startConnectionToServer();
+  }
+
+  /**
+   * Read a short value (16-bits) from an I/O port.
+   * @param  address port address (16-bits)
+   * @return short value (16-bits)
+   **/
+  public static short readShort(short address) {
+    return remoteIO( (short) 0, address, (short) 0);
+  }
+
+  public static short readShort(int address) {
+    return remoteIO( (short) 0, (short) address, (short) 0);
+  }
+
+  /**
+   * Write a short value (16-bits) to an I/O port.
+   * @param    address     port address (16-bits)
+   * @param  value     short value (16-bits)
+   **/
+  public static void writeShort(short address, short value) {
+    remoteIO( (short) 1, address, value);
+  }
+
+  public static void writeShort(int address, int value) {
+    remoteIO( (short) 1, (short) address, (short) value);
+  }
+
+  /**
+   * Wait a specified time. The routine uses Thread.sleep so below 20 ms
+   * timing becomes very erraneous, but works fine for longer times
+   *
+   * @param lMilliSeconds number of milliseconds to wait
+   */
+
+  public static void delay(long lMilliSeconds) {
+    if (lMilliSeconds > 0) {
+      try {
+        Thread.sleep(lMilliSeconds);
+      }
+      catch (InterruptedException ex) {
+      }
+    }
+  }
+
+//============================= below are the support routines =====================
+
+  private static Socket client = null;
+  private static DataOutputStream output = null;
+  private static DataInputStream input = null;
+
+  private static void closeConnectionToServer() {
+    try {
+      if (output != null)
+        output.close();
+      if (input != null)
+        input.close();
+      if (client != null)
+        client.close();
+    }
+    catch (IOException e) {
+      // no errors plz. e.printStackTrace();
+    }
+  }
+
+  private static boolean startConnectionToServer() {
+    closeConnectionToServer(); // close any pending connection
+    try {
+      client = new Socket(InetAddress.getByName(host), port);
+      client.setSoTimeout(2000); // we expect answers within 2 seconds
+      client.setTcpNoDelay(true); //disable nagles algorithm for short packets
+      output = new DataOutputStream(new BufferedOutputStream(client.
+          getOutputStream()));
+      input = new DataInputStream(new BufferedInputStream(client.getInputStream()));
+    }
+    catch (Exception e) {
+      //e.printStackTrace();
+      client = null;
+      return false;
+    }
+    return true;
+  }
+
+  private static short remoteIO(short IOCode, short address, short value) {
+    if (client == null)
+      return (short) - 1;
+
+    short readvalue = (short) 0;
+    try {
+      output.writeShort(IOCode);
+      output.writeShort(address);
+      output.writeShort(value);
+      output.flush();
+      readvalue = input.readShort();
+    }
+    catch (Exception e) {
+      // no errors plz. e.printStackTrace();
+    }
+    return readvalue;
+  }
+}
+
+public class Measurement {
+
+    private boolean isValid = true;
+    private int stationId;
+    private LocalDateTime dateStamp;
+    private double airPressure;
+    private double insideTemp;
+    private double outsideTemp;
+    private int insideHumidity;
+    private int outsideHumidity;
+    private double windSpeed;
+    private double avgWindSpeed;
+    private int windDirection;
+    private String sunRise;
+    private String sunSet;
+    private double battery;
+    private double rainRate;
+    private int uvIndex;
+    private double heatIndex;
+    private double windChill;
+    private double dewPoint;
+
+    public Measurement(RawMeasurement rawData) {
+        this.stationId = Integer.parseInt(rawData.getStationId());
+        this.dateStamp = ValueConverter.dateTime(rawData.getDateStamp());
+        this.airPressure = ValueConverter.airPressure(rawData.getBarometer());
+        this.outsideHumidity = ValueConverter.humidity(rawData.getOutsideHum());
+        this.insideHumidity = ValueConverter.humidity(rawData.getInsideHum());
+        this.insideTemp = ValueConverter.temp(rawData.getInsideTemp());
+        this.outsideTemp = ValueConverter.temp(rawData.getOutsideTemp());
+        this.windSpeed = ValueConverter.windSpeed(rawData.getWindSpeed());
+        this.avgWindSpeed = ValueConverter.windSpeed(rawData.getAvgWindSpeed());
+        this.windDirection = ValueConverter.windDirection(rawData.getWindDir());
+        this.sunRise = ValueConverter.sunRise(rawData.getSunrise());
+        this.sunSet = ValueConverter.sunset(rawData.getSunset());
+        this.battery = ValueConverter.battery(rawData.getBattLevel());
+        this.rainRate = ValueConverter.rainMeter(rawData.getRainRate());
+        this.uvIndex = ValueConverter.uvIndex(rawData.getUVLevel());
+        this.heatIndex = ValueConverter.heatIndex(rawData.getOutsideHum(), rawData.getOutsideTemp());
+        this.windChill = ValueConverter.windChill(rawData.getWindSpeed(), rawData.getOutsideTemp());
+        this.dewPoint = ValueConverter.dewPoint(ValueConverter.temp(rawData.getOutsideTemp()), rawData.getOutsideHum());
+
+        if (rawData.getOutsideTemp() == 32767 || rawData.getOutsideHum() == 255
+                || rawData.getWindSpeed() == 255 || rawData.getRainRate() == 32767) {
+            this.isValid = false;
+        }
+    }
+
+    @Override
+    public String toString() {
+        String s = "RawMeasurement:"
+                + "\nstationId = \t" + stationId
+                + "\ndateStamp = \t" + dateStamp
+                + "\nairPressure = \t" + airPressure
+                + "\ninsideTemp = \t" + insideTemp
+                + "\ninsideHum = \t" + insideHumidity
+                + "\noutsideTemp = \t" + outsideTemp
+                + "\nwindSpeed = \t" + windSpeed
+                + "\navgWindSpeed = \t" + avgWindSpeed
+                + "\nwindDir = \t\t" + windDirection
+                + "\noutsideHum = \t" + outsideHumidity
+                + "\nrainRate = \t\t" + rainRate
+                + "\nUVLevel = \t\t" + uvIndex
+//                + "\nsolarRad = \t" + solarRad
+//                + "\nxmitBatt = \t" + xmitBatt
+                + "\nbattLevel = \t" + battery
+//                + "\nforeIcon = \t" + foreIcon
+                + "\nsunrise = \t\t" + sunRise
+                + "\nsunset = \t\t" + sunSet
+                + "\nheatIndex = \t" + heatIndex
+                + "\nwindChill = \t" + windChill
+                + "\ndewPoint = \t\t" + dewPoint;
+        return s;
+    }
+
+    public boolean isValid() {
+        return this.isValid;
+    }
+
+    public int getStationId() {
+        return stationId;
+    }
+
+    public LocalDateTime getDateStamp() {
+        return dateStamp;
+    }
+
+    public double getAirPressure() {
+        return airPressure;
+    }
+
+    public double getInsideTemp() {
+        return insideTemp;
+    }
+
+    public double getOutsideTemp() {
+        return outsideTemp;
+    }
+
+    public int getInsideHumidity() {
+        return insideHumidity;
+    }
+
+    public int getOutsideHumidity() {
+        return outsideHumidity;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public double getAvgWindSpeed() {
+        return avgWindSpeed;
+    }
+
+    public double getWindDirection() {
+        return windDirection;
+    }
+
+    public String getSunRise() {
+        return sunRise;
+    }
+
+    public String getSunSet() {
+        return sunSet;
+    }
+
+    public double getBattery() {
+        return battery;
+    }
+
+    public double getRainRate() {
+        return rainRate;
+    }
+
+    public double getUvIndex() {
+        return uvIndex;
+    }
+
+    public double getHeatIndex() {
+        return heatIndex;
+    }
+
+    public double getWindChill() {
+        return windChill;
+    }
+
+    public double getDewPoint() {
+        return dewPoint;
+    }
+}
+
+
+
+public class Period {
+    private LocalDate beginPeriod;
+    private LocalDate endPeriod;
+    private ArrayList<Measurement> measurements;
+
+    /**
+     * default constructor, sets the period to today
+     */
+    public Period() {
+        this.beginPeriod = LocalDate.now();
+        this.endPeriod = LocalDate.now();
+    }
+
+    public Period(LocalDate beginPeriod, LocalDate endPeriod) {
+        this.beginPeriod = beginPeriod;
+        this.endPeriod = endPeriod;
+    }
+
+    public Period(LocalDate beginPeriod) {
+        this.beginPeriod = beginPeriod;
+        this.endPeriod = LocalDate.now();
+    }
+
+    public Period(int days) {
+        this.beginPeriod = LocalDate.now().minus(java.time.Period.ofDays(days).minusDays(1));
+        this.endPeriod = LocalDate.now();
+    }
+
+    /**
+     * Simple setter for start of period
+     */
+    public void setStart(int year, int month, int day) {
+        beginPeriod = LocalDate.of(year, month, day);
+    }
+
+    /**
+     * simple setter for end of period
+     */
+    public void setEnd(int year, int month, int day) {
+        endPeriod = LocalDate.of(year, month, day);
+    }
+
+    /**
+     * alternative setter for start of period
+     *
+     * @param beginPeriod
+     */
+    public void setStart(LocalDate beginPeriod) {
+        this.beginPeriod = beginPeriod;
+    }
+
+    /**
+     * alternative setter for end of period
+     *
+     * @param endPeriod
+     */
+    public void setEnd(LocalDate endPeriod) {
+        this.endPeriod = endPeriod;
+    }
+
+    /**
+     * calculates the number of days in the period
+     */
+    public long numberOfDays() {
+        return ChronoUnit.DAYS.between(beginPeriod, endPeriod);
+    }
+
+
+    /**
+     * gets all raw measurements of this period from the database
+     *
+     * @return a list of raw measurements
+     */
+    public ArrayList<RawMeasurement> getRawMeasurements() {
+        return DatabaseConnection.getMeasurementsBetween(LocalDateTime.of(beginPeriod, LocalTime.of(0, 1)), LocalDateTime.of(endPeriod, LocalTime.of(23, 59)));
+    }
+
+    /**
+     * Builds an ArrayList of measurements. This method also filters out any 'bad' measurements
+     *
+     * @return a filtered list of measurements
+     */
+    public ArrayList<Measurement> getMeasurements() {
+        if (this.measurements == null) {
+            this.measurements = new ArrayList<>();
+//            ArrayList<Measurement> measurements = new ArrayList<>();
+            ArrayList<RawMeasurement> rawMeasurements = getRawMeasurements();
+            for (RawMeasurement rawMeasurement : rawMeasurements) {
+                Measurement measurement = new Measurement(rawMeasurement);
+                if (measurement.isValid()) {
+//                    measurements.add(measurement);
+                    this.measurements.add(measurement);
+                }
+            }
+        }
+        return this.measurements;
+//        return measurements;
+    }
+
+    /**
+     * todo
+     *
+     * @return
+     */
+
+    // Average
+    public double getAverageOutsideTemperature() {
+        return getAverage(getOutsideTemperature());
+    }
+
+    public double getAverageInsideTemperature() {
+        return getAverage(getInsideTemperature());
+    }
+
+    public double getAverageOutsideHumidity() {
+        return getAverage(getOutsideHumidity());
+    }
+
+    public double getAverageInsideHumidity() {
+        return getAverage(getInsideHumidity());
+    }
+
+    public double getAverageAirpressure() {
+        return getAverage(getAirpressure());
+    }
+
+    public double getAverageRainRate() {
+        return getAverage(getRainRate());
+    }
+
+    public double getAverageUVIndex() {
+        return getAverage(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getAverageWindDirection() {
+//        return getAverage(getWindDirection());
+//    }
+
+    public double getAverageWindSpeed() {
+        return getAverage(getWindSpeed());
+    }
+
+    public double getAverageHeatIndex() {
+        return getAverage(getHeatIndex());
+    }
+
+    public double getAverageWindChill() {
+        return getAverage(getWindChill());
+    }
+
+    public double getAverageDewpoint() {
+        return getAverage(getDewpoint());
+    }
+
+    // Highest
+    public double getHighestOutsideTemperature() {
+        return getHighest(getOutsideTemperature());
+    }
+
+    public double getHighestInsideTemperature() {
+        return getHighest(getInsideTemperature());
+    }
+
+    public double getHighestOutsideHumidity() {
+        return getHighest(getOutsideHumidity());
+    }
+
+    public double getHighestInsideHumidity() {
+        return getHighest(getInsideHumidity());
+    }
+
+    public double getHighestAirpressure() {
+        return getHighest(getAirpressure());
+    }
+
+    public double getHighestRainRate() {
+        return getHighest(getRainRate());
+    }
+
+    public double getHighestUVIndex() {
+        return getHighest(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getHighestWindDirection() {
+//        return getHighest(getWindDirection());
+//    }
+
+    public double getHighestWindSpeed() {
+        return getHighest(getWindSpeed());
+    }
+
+    public double getHighestHeatIndex() {
+        return getHighest(getHeatIndex());
+    }
+
+    public double getHighestWindChill() {
+        return getHighest(getWindChill());
+    }
+
+    public double getHighestDewpoint() {
+        return getHighest(getDewpoint());
+    }
+
+    // Lowest
+    public double getLowestOutsideTemperature() {
+        return getLowest(getOutsideTemperature());
+    }
+
+    public double getLowestInsideTemperature() {
+        return getLowest(getInsideTemperature());
+    }
+
+    public double getLowestOutsideHumidity() {
+        return getLowest(getOutsideHumidity());
+    }
+
+    public double getLowestInsideHumidity() {
+        return getLowest(getInsideHumidity());
+    }
+
+    public double getLowestAirpressure() {
+        return getLowest(getAirpressure());
+    }
+
+    public double getLowestRainRate() {
+        return getLowest(getRainRate());
+    }
+
+    public double getLowestUVIndex() {
+        return getLowest(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getLowestWindDirection() {
+//        return getLowest(getWindDirection());
+//    }
+
+    public double getLowestWindSpeed() {
+        return getLowest(getWindSpeed());
+    }
+
+    public double getLowestHeatIndex() {
+        return getLowest(getHeatIndex());
+    }
+
+    public double getLowestWindChill() {
+        return getLowest(getWindChill());
+    }
+
+    public double getLowestDewpoint() {
+        return getLowest(getDewpoint());
+    }
+
+    // Modus
+    public double getModusOutsideTemperature() {
+        return getModus(getOutsideTemperature());
+    }
+
+    public double getModusInsideTemperature() {
+        return getModus(getInsideTemperature());
+    }
+
+    public double getModusOutsideHumidity() {
+        return getModus(getOutsideHumidity());
+    }
+
+    public double getModusInsideHumidity() {
+        return getModus(getInsideHumidity());
+    }
+
+    public double getModusAirpressure() {
+        return getModus(getAirpressure());
+    }
+
+    public double getModusRainRate() {
+        return getModus(getRainRate());
+    }
+
+    public double getModusUVIndex() {
+        return getModus(getUVIndex());
+    }
+
+    public double getModusWindDirection() {
+        return getModus(getWindDirection());
+    }
+
+    public double getModusWindSpeed() {
+        return getModus(getWindSpeed());
+    }
+
+    public double getModusHeatIndex() {
+        return getModus(getHeatIndex());
+    }
+
+    public double getModusWindChill() {
+        return getModus(getWindChill());
+    }
+
+    public double getModusDewpoint() {
+        return getModus(getDewpoint());
+    }
+
+    // Median
+    public double getMedianOutsideTemperature() {
+        return getMedian(getOutsideTemperature());
+    }
+
+    public double getMedianInsideTemperature() {
+        return getMedian(getInsideTemperature());
+    }
+
+    public double getMedianOutsideHumidity() {
+        return getMedian(getOutsideHumidity());
+    }
+
+    public double getMedianInsideHumidity() {
+        return getMedian(getInsideHumidity());
+    }
+
+    public double getMedianAirpressure() {
+        return getMedian(getAirpressure());
+    }
+
+    public double getMedianRainRate() {
+        return getMedian(getRainRate());
+    }
+
+    public double getMedianUVIndex() {
+        return getMedian(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getMedianWindDirection() {
+//        return getMedian(getWindDirection());
+//    }
+
+    public double getMedianWindSpeed() {
+        return getMedian(getWindSpeed());
+    }
+
+    public double getMedianHeatIndex() {
+        return getMedian(getHeatIndex());
+    }
+
+    public double getMedianWindChill() {
+        return getMedian(getWindChill());
+    }
+
+    public double getMedianDewpoint() {
+        return getMedian(getDewpoint());
+    }
+
+    // StandardDeviation
+    public double getStandardDeviationOutsideTemperature() {
+        return getStandardDeviation(getOutsideTemperature());
+    }
+
+    public double getStandardDeviationInsideTemperature() {
+        return getStandardDeviation(getInsideTemperature());
+    }
+
+    public double getStandardDeviationOutsideHumidity() {
+        return getStandardDeviation(getOutsideHumidity());
+    }
+
+    public double getStandardDeviationInsideHumidity() {
+        return getStandardDeviation(getInsideHumidity());
+    }
+
+    public double getStandardDeviationAirpressure() {
+        return getStandardDeviation(getAirpressure());
+    }
+
+    public double getStandardDeviationRainRate() {
+        return getStandardDeviation(getRainRate());
+    }
+
+    public double getStandardDeviationUVIndex() {
+        return getStandardDeviation(getUVIndex());
+    }
+
+    // Onnodig
+//    public double getStandardDeviationWindDirection() {
+//        return getStandardDeviation(getWindDirection());
+//    }
+
+    public double getStandardDeviationWindSpeed() {
+        return getStandardDeviation(getWindSpeed());
+    }
+
+    public double getStandardDeviationHeatIndex() {
+        return getStandardDeviation(getHeatIndex());
+    }
+
+    public double getStandardDeviationWindChill() {
+        return getStandardDeviation(getWindChill());
+    }
+
+    public double getStandardDeviationDewpoint() {
+        return getStandardDeviation(getDewpoint());
+    }
+
+    // Getters (In een double arraylist)
+    public ArrayList<Double> getOutsideTemperature() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> temperatures = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            temperatures.add(measurement.getOutsideTemp());
+        }
+        return temperatures;
+    }
+
+    public ArrayList<Double> getInsideTemperature() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> temperatures = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            temperatures.add(measurement.getInsideTemp());
+        }
+        return temperatures;
+    }
+
+    public ArrayList<Double> getOutsideHumidity() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> humidity = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            humidity.add((double) measurement.getOutsideHumidity());
+        }
+        return humidity;
+    }
+
+    public ArrayList<Double> getInsideHumidity() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> humidity = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            humidity.add((double) measurement.getInsideHumidity());
+        }
+        return humidity;
+    }
+
+    public ArrayList<Double> getAirpressure() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> airpressure = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            airpressure.add(measurement.getAirPressure());
+        }
+        return airpressure;
+    }
+
+    public ArrayList<Double> getRainRate() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> rainRate = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            rainRate.add(measurement.getRainRate());
+        }
+
+        return rainRate;
+    }
+
+    public ArrayList<Double> getUVIndex() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> uvIndex = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            uvIndex.add(measurement.getUvIndex());
+        }
+
+        return uvIndex;
+    }
+
+    public ArrayList<Double> getWindDirection() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> windDirection = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            windDirection.add(measurement.getWindDirection());
+        }
+
+        return windDirection;
+    }
+
+    public ArrayList<Double> getWindSpeed() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> windSpeed = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            windSpeed.add(measurement.getWindSpeed());
+        }
+
+        return windSpeed;
+    }
+
+    public ArrayList<Double> getHeatIndex() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> heatIndex = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            heatIndex.add(measurement.getHeatIndex());
+        }
+
+        return heatIndex;
+    }
+
+    public ArrayList<Double> getWindChill() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> windChill = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            windChill.add(measurement.getWindChill());
+        }
+
+        return windChill;
+    }
+
+    public ArrayList<Double> getDewpoint() {
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> dewPoint = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            dewPoint.add(measurement.getDewPoint());
+        }
+
+        return dewPoint;
+    }
+
+
+    // Calculators
+    public static double getAverage(ArrayList<Double> numbers) {
+        double sum = 0, avg;
+        int amount = 0;
+
+        for (double number : numbers) {
+            sum += number;
+            amount++;
+        }
+
+        amount = (amount == 0) ? 1 : amount;
+        avg = sum / amount;
+
+        return avg;
+    }
+
+    public static double getHighest(ArrayList<Double> numbers) {
+        if (numbers.isEmpty()) {
+            return 0;
+        }
+
+        double highest = numbers.get(0);
+
+        for (double number : numbers) {
+            if (number > highest) {
+                highest = number;
+            }
+        }
+
+        return highest;
+    }
+
+    public static double getLowest(ArrayList<Double> numbers) {
+        double lowest = numbers.get(0);
+
+        for (double number : numbers) {
+            if (number < lowest) {
+                lowest = number;
+            }
+        }
+
+        return lowest;
+    }
+
+    public static double getModus(ArrayList<Double> numbers) {
+        Map<Double, Integer> amountOfTimes = new HashMap<>();
+        for (double number : numbers) {
+            if (amountOfTimes.get(number) == null) {
+                amountOfTimes.put(number, 1);
+            } else {
+                amountOfTimes.put(number, amountOfTimes.get(number) + 1);
+            }
+        }
+
+        double key = amountOfTimes.entrySet().iterator().next().getKey();
+        int value = amountOfTimes.entrySet().iterator().next().getValue();
+
+        for (Map.Entry<Double, Integer> entry : amountOfTimes.entrySet()) {
+            if (entry.getValue() > value) {
+                value = entry.getValue();
+                key = entry.getKey();
+            }
+        }
+
+        return key;
+    }
+
+    public static double getMedian(ArrayList<Double> numbers) {
+        Collections.sort(numbers);
+        double median = 0.0;
+        int amount = numbers.size();
+
+        if (numbers.size() % 2 == 0) {                                // Is het even of oneven?
+            median = ((numbers.get((numbers.size() / 2) - 1) + (numbers.get(numbers.size() / 2)) / amount));  // gemiddelde van de twee middelste waarden.
+        } else if (numbers.size() % 2 == 1) {
+            median = numbers.get((numbers.size() / 2) - 1);   // de middelste waarde.
+        }
+
+        return median;
+    }
+
+    public static double getStandardDeviation(ArrayList<Double> numbers) {
+        double average = getAverage(numbers);
+        double total = 0;
+
+        for (double number : numbers) {
+            total += Math.pow((number - average), 2);
+        }
+        double varience = total / (numbers.size() - 1);
+        varience = Math.sqrt(varience);
+
+        return varience;
+    }
+
+    /**
+     * Todo
+     */
+    public ArrayList<Period> hasHeatWave() {
+        return null;
+    }
+
+    /**
+     * Todo
+     */
+    public Period longestDraught() {
+        return new Period();
+    }
+
+    /**
+     * Todo more methods
+     */
+
+    public double getRainfall(ArrayList<Double> numbers) {// Berekent het totaal van alle regen dat is gevallen.
+
+        double sumOfRainfall = 0.0;
+        for (double number : numbers) {
+            sumOfRainfall = (sumOfRainfall + (number / 60));            // delen door zestig, omdat elke waarde in mm/h staan en om de minuut 1 waarde geeft.
+        }                                                              // mm/h / 60 = mm/minuut. waarden wordt per minuut gegeven dus wordt aleen mm gepakt.
+
+        return sumOfRainfall;
+    }
+
+    public double getRainfallMonths() { //Voegt alle waarden van rainRate van de maand toe aan rainfall.
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> rainfall = new ArrayList<>();
+
+
+        for (Measurement measurement : measurements) {
+            rainfall.add(measurement.getRainRate());
+        }
+        return getRainfall(rainfall);
+    }
+
+    public Month mostRainfall(int year) {
+        ArrayList<Period> months = new ArrayList<>();
+
+        int lengthFebruary;
+        if ((year % 100 == 0 && year % 400 == 0) || ((year % 4 == 0 && year % 100 != 0 && year % 400 != 0))) {
+            lengthFebruary = 29;
+        } else {
+            lengthFebruary = 28;
+        }
+
+        Period january = new Period(LocalDate.of(year, Month.JANUARY, 1), LocalDate.of(year, Month.JANUARY, 31));
+        Period february = new Period(LocalDate.of(year, Month.FEBRUARY, 1), LocalDate.of(year, Month.FEBRUARY, lengthFebruary));
+        Period march = new Period(LocalDate.of(year, Month.MARCH, 1), LocalDate.of(year, Month.MARCH, 31));
+        Period april = new Period(LocalDate.of(year, Month.APRIL, 1), LocalDate.of(year, Month.APRIL, 30));
+        Period may = new Period(LocalDate.of(year, Month.MAY, 1), LocalDate.of(year, Month.MAY, 31));
+        Period june = new Period(LocalDate.of(year, Month.JUNE, 1), LocalDate.of(year, Month.JUNE, 30));
+        Period july = new Period(LocalDate.of(year, Month.JULY, 1), LocalDate.of(year, Month.JULY, 31));
+        Period august = new Period(LocalDate.of(year, Month.AUGUST, 1), LocalDate.of(year, Month.AUGUST, 31));
+        Period september = new Period(LocalDate.of(year, Month.SEPTEMBER, 1), LocalDate.of(year, Month.SEPTEMBER, 30));
+        Period october = new Period(LocalDate.of(year, Month.OCTOBER, 1), LocalDate.of(year, Month.OCTOBER, 31));
+        Period november = new Period(LocalDate.of(year, Month.NOVEMBER, 1), LocalDate.of(year, Month.NOVEMBER, 30));
+        Period december = new Period(LocalDate.of(year, Month.DECEMBER, 1), LocalDate.of(year, Month.DECEMBER, 31));
+
+        Collections.addAll(months, january, february, march, april, may, june, july, august, september, october, november, december); // voegt alle periodes aan months.
+
+        ArrayList<Double> rainfall = new ArrayList<>();
+
+        //        ArrayList<Double> test = new ArrayList<>();
+        //        Collections.addAll(test, 13.8, 10.7, 14.0, 3.0, 5.2, 16.6, 20.4, 24.6, 30.6, 38.6, 44.5, 52.4);
+
+        Month greatestRainfallMonth;
+
+        if (year >= 2009) {
+            for (Period period : months) {
+                rainfall.add(period.getRainfallMonths()); //voegt alle omgerekende waarden aan rainfall
+            }
+
+
+            if (january.getRainfallMonths() == getHighest(rainfall)) {  //kijkt in welke maand het meest heeft geregend.
+                greatestRainfallMonth = Month.JANUARY;
+            } else if (february.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.FEBRUARY;
+            } else if (march.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.MARCH;
+            } else if (april.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.APRIL;
+            } else if (may.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.MAY;
+            } else if (june.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.JUNE;
+            } else if (july.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.JULY;
+            } else if (august.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.AUGUST;
+            } else if (september.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.SEPTEMBER;
+            } else if (october.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.OCTOBER;
+            } else if (november.getRainfallMonths() == getHighest(rainfall)) {
+                greatestRainfallMonth = Month.NOVEMBER;
+            } else {
+                greatestRainfallMonth = Month.DECEMBER;
+            }
+
+//        if (test.get(0) == getHighest(test)){  //kijkt in welke maand het meest heeft geregend.
+//            greatestRainfallMonth = Month.JANUARY;
+//        }else if (test.get(1) == getHighest(test)){
+//            greatestRainfallMonth = Month.FEBRUARY;
+//        }else if (test.get(2) == getHighest(test)){
+//            greatestRainfallMonth = Month.MARCH;
+//        }else if (test.get(3) == getHighest(test)){
+//            greatestRainfallMonth = Month.APRIL;
+//        }else if (test.get(4) == getHighest(test)){
+//            greatestRainfallMonth = Month.MAY;
+//        }else if (test.get(5) == getHighest(test)){
+//            greatestRainfallMonth = Month.JUNE;
+//        }else if (test.get(6) == getHighest(test)){
+//            greatestRainfallMonth = Month.JULY;
+//        }else if (test.get(7) == getHighest(test)){
+//            greatestRainfallMonth = Month.AUGUST;
+//        }else if (test.get(8) == getHighest(test)){
+//            greatestRainfallMonth = Month.SEPTEMBER;
+//        }else if (test.get(9) == getHighest(test)){
+//            greatestRainfallMonth = Month.OCTOBER;
+//        }else if (test.get(10) == getHighest(test)){
+//            greatestRainfallMonth = Month.NOVEMBER;
+//        }else{
+//            greatestRainfallMonth = Month.DECEMBER;
+//        }
+
+            return greatestRainfallMonth; // returned de maand waarin het het meest heeft geregend
+        } else {
+            return greatestRainfallMonth = null;
+        }
+    }
+
+    public double consecutiveRain(int choice) {
+        double k;
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> rainRate = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            rainRate.add(measurement.getRainRate());
+        }
+
+        int grootsteConsecutiveDays = 0;
+        int consecutiveDays = 0;
+        double mmGevallen = 0;
+        double totaalMmGevallen = 0;
+
+        for (int i = 0; i < rainRate.size(); i++) {
+            k = rainRate.get(i);
+
+            if (k == 0) {
+                consecutiveDays = 0;
+                mmGevallen = 0;
+            } else {
+                mmGevallen += ConsecutiveRainCal.berekenRegen(k);
+                consecutiveDays++;
+
+            }
+            if (consecutiveDays > grootsteConsecutiveDays) {
+                grootsteConsecutiveDays = consecutiveDays;
+                totaalMmGevallen = mmGevallen;
+
+            }
+        }
+
+        if (choice == 1) {
+            return grootsteConsecutiveDays;
+        } else {
+            return totaalMmGevallen;
+        }
+    }
+
+    public LocalTime consecutiveRainDate(int choice) {
+        double k;
+        ArrayList<Measurement> measurements = getMeasurements();
+        ArrayList<Double> rainRate = new ArrayList<>();
+        ArrayList<LocalDateTime> Datas = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            rainRate.add(measurement.getRainRate());
+            Datas.add(measurement.getDateStamp());
+        }
+
+        int grootsteConsecutiveDays = 0;
+        int consecutiveDays = 0;
+        boolean first = true;
+        LocalDateTime beginRegen = null;
+        LocalDateTime beginRegenLongest = null;
+        LocalDateTime eindeRegen = null;
+        LocalDateTime eindeRegenLongest = null;
+
+        for (int i = 0; i < rainRate.size(); i++) {
+            k = rainRate.get(i);
+
+            if (k == 0) {
+                consecutiveDays = 0;
+                first = true;
+
+            } else {
+                consecutiveDays++;
+                eindeRegen = Datas.get(i);
+
+                if (first) {
+                    beginRegen = Datas.get(i);
+                    first = false;
+                }
+
+            }
+            if (consecutiveDays > grootsteConsecutiveDays) {
+                grootsteConsecutiveDays = consecutiveDays;
+                beginRegenLongest = beginRegen;
+                eindeRegenLongest = eindeRegen;
+            }
+        }
+
+        if (choice == 1) {
+            return beginRegenLongest.toLocalTime();
+        } else {
+            return eindeRegenLongest.toLocalTime();
+        }
+    }
+
+    public ArrayList<ArrayList<Measurement>> divideMeasurementsInDays7to10(ArrayList<Measurement> measurements) {
+//        Arraylist gevuld met een arraylist met alle data van één dag
+        ArrayList<ArrayList<Measurement>> sortedMeasurements = new ArrayList<>();
+
+        int dayOfYear = -1;
+        int days = -1;
+        for (Measurement measurement : measurements) {
+            // Maak een nieuwe arraylist aan voor een nieuwe dag
+            if (dayOfYear != measurement.getDateStamp().getDayOfYear()) {
+                dayOfYear = measurement.getDateStamp().getDayOfYear();
+                sortedMeasurements.add(new ArrayList<Measurement>());
+                days++;
+            }
+
+            // Skip de measurement als het voor 7u en na 10u is
+            if (measurement.getDateStamp().getHour() <= 7 && measurement.getDateStamp().getHour() >= 22) continue;
+
+            sortedMeasurements.get(days).add(measurement);
+        }
+
+        return sortedMeasurements;
+    }
+
+
+    public ArrayList<ArrayList<Measurement>> divideMeasurementsInDays(ArrayList<Measurement> measurements) {
+//        Arraylist gevuld met een arraylist met alle data van één dag
+        ArrayList<ArrayList<Measurement>> sortedMeasurements = new ArrayList<>();
+
+        int dayOfYear = -1;
+        int days = -1;
+        for (Measurement measurement : measurements) {
+            // Maak een nieuwe arraylist aan voor een nieuwe dag
+            if (dayOfYear != measurement.getDateStamp().getDayOfYear()) {
+                dayOfYear = measurement.getDateStamp().getDayOfYear();
+                sortedMeasurements.add(new ArrayList<Measurement>());
+                days++;
+            }
+
+            sortedMeasurements.get(days).add(measurement);
+        }
+
+        return sortedMeasurements;
+    }
+
+    public LocalDate getBiggestDifferenceMinMaxTemperature() {
+        ArrayList<ArrayList<Measurement>> measurementsInDays = new ArrayList<>();
+        measurementsInDays = divideMeasurementsInDays(getMeasurements());
+
+        ArrayList<Double> temperatures = new ArrayList<>();
+        double heighest = 0;
+        double lowest = 0;
+        double biggestDifference = 0;
+
+        LocalDate date = measurementsInDays.get(0).get(0).getDateStamp().toLocalDate();
+
+        int index = 0;
+        for (ArrayList<Measurement> singleDay : measurementsInDays) {
+            temperatures.clear();
+            for (Measurement measurement : singleDay) {
+                temperatures.add(measurement.getOutsideTemp());
+            }
+            heighest = Period.getHighest(temperatures);
+            lowest = Period.getLowest(temperatures);
+
+            if (biggestDifference < (heighest - lowest)) {
+                biggestDifference = heighest - lowest;
+                date = singleDay.get(index).getDateStamp().toLocalDate();
+            }
+            index++;
+        }
+
+        return date;
+    }
+
+    public int summer() {
+
+        ArrayList<Double> temperatures = new ArrayList<>();
+        ArrayList<Double> temperaturesDay = new ArrayList<>();
+        ArrayList<Double> rain = new ArrayList<>();
+        ArrayList<Double> rainDay = new ArrayList<>();
+        ArrayList<Double> UVIndex = new ArrayList<>();
+        ArrayList<Double> UVIndexDay = new ArrayList<>();
+        ArrayList<Double> windchill = new ArrayList<>();
+        ArrayList<Double> windchillDay = new ArrayList<>();
+
+        int summerDay = 0;
+        int summerDays = 0;
+
+        int heat = 0;
+        int hot = 0;
+        int GoodDays = 0;
+
+        for (ArrayList<Measurement> singleDay : divideMeasurementsInDays7to10(getMeasurements())) {
+            rainDay.clear();
+            UVIndexDay.clear();
+            windchillDay.clear();
+            temperaturesDay.clear();
+
+            for (Measurement measurement : singleDay) {
+                rainDay.add(measurement.getRainRate());
+                UVIndexDay.add(measurement.getUvIndex());
+                windchillDay.add(measurement.getWindChill());
+                temperaturesDay.add(measurement.getWindChill());
+            }
+            rain.add(getHighest(rainDay));
+            UVIndex.add(getHighest(UVIndexDay));
+            windchill.add(getHighest(windchillDay));
+            temperatures.add(getHighest(windchillDay));
+
+            // Kijkt naar de waardes per dag
+            if (rain.get(rain.size() - 1) < 0.3) {
+                if (UVIndex.get(UVIndex.size() - 1) >= 1.0 && UVIndex.get(UVIndex.size() - 1) <= 6.0) {
+                    if (windchill.get(windchill.size() - 1) >= 18.00 && windchill.get(windchill.size() - 1) < 35.00) {
+                        GoodDays++;
+                    }
+                }
+            }
+            // als voldoet aan waarde dan doorloopt de loop anders springt hij naar else
+            if (windchill.get(windchill.size() - 1) >= 25.0) {
+                heat++;
+                if (heat == 5) {
+                    summerDay++;
+                    heat = 0;
+                }
+                // als voldoet aan waarde dan doorloopt de loop anders springt hij naar else
+                if (temperatures.get(temperatures.size() - 1) >= 30.0) {
+                    hot++;
+                    if (hot == 3) {
+                        summerDays++;
+                        hot = 0;
+                    }
+                } else {
+                    hot = 0;
+                }
+            } else {
+                heat = 0;
+            }
+        }
+        if (summerDay >= 1 && summerDays >= 1) {
+            System.out.println("\nEr is in deze periode een hittegolf geweest");
+            System.out.println("size hotter 25: " + summerDay);
+            System.out.println("size hotter 30: " + summerDays);
+        }
+        if (GoodDays > 0) {
+            System.out.println("\nHet is in deze periode " + GoodDays + " dagen lekker weer.");
+        }
+        return GoodDays;
+    }
+}
+
+
+public class RawMeasurement implements Serializable {
+
+    private String stationId;
+    private LocalDateTime dateStamp;
+    private short barometer;
+    private short insideTemp;
+    private short insideHum;
+    private short outsideTemp;
+    private short windSpeed;
+    private short avgWindSpeed;
+    private short windDir;
+    private short outsideHum;
+    private short rainRate;
+    private short UVLevel;
+    private short solarRad;
+    private short xmitBatt;
+    private short battLevel;
+    private short foreIcon;
+    private short sunrise;
+    private short sunset;
+
+    public RawMeasurement() {
+
+    }
+
+    // stationId
+    public void setStationId (String str) { this.stationId = str;};
+    public String getStationId () { return stationId; };
+
+    // dateStamp
+    public void setDateStamp (LocalDateTime ts) { this.dateStamp = ts;};
+    public LocalDateTime getDateStamp () { return dateStamp; };
+
+    // barometer
+    public void setBarometer (short val) { this.barometer = val;};
+    public short getBarometer () { return barometer; };
+
+    // insideTemp
+    public void setInsideTemp (short val) { this.insideTemp = val;};
+    public short getInsideTemp () { return insideTemp; };
+
+    // insideHum
+    public void setInsideHum (short val) { this.insideHum = val;};
+    public short getInsideHum () { return insideHum; };
+
+    // outsideTemp
+    public void setOutsideTemp (short val) { this.outsideTemp = val;};
+    public short getOutsideTemp () { return outsideTemp; };
+
+    // windSpeed
+    public void setWindSpeed (short val) { this.windSpeed = val;};
+    public short getWindSpeed () { return windSpeed; };
+
+    // avgWindSpeed
+    public void setAvgWindSpeed (short val) { this.avgWindSpeed = val;};
+    public short getAvgWindSpeed () { return avgWindSpeed; };
+
+    // windDir
+    public void setWindDir (short val) { this.windDir = val;};
+    public short getWindDir () { return windDir; };
+
+    // outsideHum
+    public void setOutsideHum (short val) { this.outsideHum = val;}
+    public short getOutsideHum () { return outsideHum; }
+
+    // rainRate
+    public void setRainRate (short val) { this.rainRate = val;}
+    public short getRainRate () { return rainRate; }
+
+    // UVLevel
+    public void setUVLevel (short val) { this.UVLevel = val;}
+    public short getUVLevel () { return UVLevel; }
+
+    // solarRad
+    public void setSolarRad (short val) { this.solarRad = val;}
+    public short getSolarRad () { return solarRad; }
+
+    // xmitBatt
+    public void setXmitBatt (short val) { this.xmitBatt = val;}
+    public short getXmitBatt () { return xmitBatt; }
+
+    // battLevel
+    public void setBattLevel (short val) { this.battLevel = val;}
+    public short getBattLevel () { return battLevel; };
+
+    // foreIcon
+    public void setForeIcon (short val) { this.foreIcon = val;}
+    public short getForeIcon () { return foreIcon; };
+
+    // sunrise
+    public void setSunrise (short val) { this.sunrise = val;};
+    public short getSunrise () { return sunrise; };
+
+    // sunset
+    public void setSunset (short val) { this.sunset = val;};
+    public short getSunset () { return sunset; };
+
+    public String toString()
+    {
+        String s = "RawMeasurement:"
+                + "\nstationId = \t" + stationId
+                + "\ndateStamp = \t" + dateStamp
+                + "\nbarometer = \t" + barometer
+                + "\ninsideTemp = \t" + insideTemp
+                + "\ninsideHum = \t" + insideHum
+                + "\noutsideTemp = \t" + outsideTemp
+                + "\nwindSpeed = \t" + windSpeed
+                + "\navgWindSpeed = \t" + avgWindSpeed
+                + "\nwindDir = \t" + windDir
+                + "\noutsideHum = \t" + outsideHum
+                + "\nrainRate = \t" + rainRate
+                + "\nUVLevel = \t" + UVLevel
+                + "\nsolarRad = \t" + solarRad
+                + "\nxmitBatt = \t" + xmitBatt
+                + "\nbattLevel = \t" + battLevel
+                + "\nforeIcon = \t" + foreIcon
+                + "\nsunrise = \t" + sunrise
+                + "\nsunset = \t" + sunset;
+        return s;
+    }
+
+
+}
+
+
+
+public class ValueConverter {
+
+    /**
+     * Returns corrected date time
+     * @param LocalDateTime
+     * @return date time
+     */
+
+    public static LocalDateTime dateTime(LocalDateTime LocalDateTime) {
+        // Als de datum zomertijd is in london, voeg dan 2 uur toe, anders 1 uur
+        // Fixt de tijd in Nederland
+        if (ZoneId.of("Europe/London").getRules().isDaylightSavings(LocalDateTime.toInstant(ZoneOffset.UTC))) {
+            return LocalDateTime.plusHours(2);
+        }
+        return LocalDateTime.plusHours(1);
+    }
+
+    /**
+     * Returns air pressure
+     * @param rawValueBarometer in inch/hg
+     * @return air pressure in hPa
+     */
+
+    public static double airPressure(short rawValueBarometer) {
+        return rawValueBarometer * 25.4 / 1000 * 1.333224;
+    }
+
+    /**
+     * Returns temperature
+     * @param rawvalueTemp outside temperature in °F * 10
+     * @return temperatue in °C
+     */
+
+    public static double temp(short rawvalueTemp) {
+        return (rawvalueTemp / 10.0 - 32) / 1.8;
+    }
+
+    /**
+     * Returns humidity
+     * @param rawValueInsideHumidity
+     * @return humidity in percentage
+     */
+
+    public static int humidity(short rawValueInsideHumidity) {
+        return rawValueInsideHumidity;
+    }
+
+    /**
+     * Returns windspeed
+     * @param rawvalueWindSpeed
+     * @return windspeed in km/h
+     */
+
+    public static double windSpeed(short rawvalueWindSpeed) {
+        return rawvalueWindSpeed * 1.61;
+    }
+
+    /**
+     * Returns winddirection
+     * @param rawValueWindDirection
+     * @return winddirection in degrees (0 = north, 180 = south)
+     */
+
+    public static int windDirection(short rawValueWindDirection) {
+        return rawValueWindDirection;
+    }
+
+    /**
+     * Returns time at sunrise
+     * @param rawValueSunRise
+     * @return sunrise in string hh:mm
+     */
+
+    public static String sunRise(short rawValueSunRise) {
+        double sunRise = (double) rawValueSunRise / 100;
+        String timeRise = String.valueOf(sunRise);
+        timeRise = timeRise.replace('.', ':');
+        return ((sunRise > 9.59) ? "" : "0") + timeRise;
+    }
+
+    /**
+     * Returns time at sunset
+     * @param rawValueSunSet
+     * @return sunset in string hh:mm
+     */
+
+    public static String sunset(short rawValueSunSet) {
+        double sunSet = (double) rawValueSunSet / 100;
+        String timeSet = String.valueOf(sunSet);
+        timeSet = timeSet.replace('.', ':');
+        return timeSet;
+
+    }
+
+    /**
+     * Returns Voltage
+     * @param Voltage
+     * @return Voltage
+     */
+
+    public static double battery(short Voltage) {
+        return ((Voltage * 300.0) / 512.0) / 100;
+    }
+
+    /**
+     * Returns rainfall
+     * @param rawValueRainMeter rain in inch/h * 100
+     * @return rainfall in mm/h
+     */
+
+    public static double rainMeter(short rawValueRainMeter) {
+        return rawValueRainMeter * 0.2;
+    }
+
+    /**
+     * Returns UV index
+     * @param rawValueUvIndex
+     * @return UV index
+     */
+
+    public static int uvIndex(short rawValueUvIndex) {
+        return rawValueUvIndex / 10;
+    }
+
+    /**
+     * Returns Heat index
+     * @param rawOutsideHumidity humidity in percentage
+     * @param rawOutsideTemp outside temperature in °F * 10
+     * @return heatIndex in °C
+     */
+
+    public static double heatIndex(short rawOutsideHumidity, short rawOutsideTemp) {
+        double outsideTemp = rawOutsideTemp / 10;
+        int outsideHum = rawOutsideHumidity;
+        double heatIndex = -42.379 + 2.04901523 * outsideTemp + 10.14333127 * outsideHum;
+        heatIndex = heatIndex - 0.22475541 * outsideTemp * outsideHum - 6.83783 * Math.pow(10, -3) * outsideTemp * outsideTemp;
+        heatIndex = heatIndex - 5.481717 * Math.pow(10, -2) * outsideHum * outsideHum;
+        heatIndex = heatIndex + 1.22874 * Math.pow(10, -3) * outsideTemp * outsideTemp * outsideHum;
+        heatIndex = heatIndex + 8.5282 * Math.pow(10, -4) * outsideTemp * outsideHum * outsideHum;
+        heatIndex = heatIndex - 1.99 * Math.pow(10, -6) * outsideTemp * outsideTemp * outsideHum * outsideHum;
+        //convert from °F to °C
+        heatIndex = (heatIndex - 32) / 1.8;
+        return heatIndex;
+    }
+
+    /**
+     * Returns Windchill
+     * @param rawWindSpeed windspeed in mph/h
+     * @param rawOutsideTemp outside temperature in °F * 10
+     * @return Windchill in °C
+     */
+
+    public static double windChill(short rawWindSpeed, short rawOutsideTemp) {
+        double windChill = 0;
+        double outsideTemp = (double) rawOutsideTemp / 10;
+        double windSpeed = (double) rawWindSpeed;
+        if ((windSpeed <= 0) || outsideTemp > 93.2) {
+            windChill = outsideTemp;
+        } else {
+            windChill = 35.74 +
+                    (0.6215 * outsideTemp) - 35.75 * (Math.pow(windSpeed, 0.16)) +
+                    (0.4275 * outsideTemp) * (Math.pow(windSpeed, 0.16));
+            if (windChill > outsideTemp) {
+                windChill = outsideTemp;
+            }
+        }
+        //convert from °F to °C
+        windChill = (windChill - 32) / 1.8;
+        return windChill;
+    }
+
+    /**
+     * Returns Dewpoint
+     * @param Temp outside temperature in °F * 10
+     * @param rawOutsideHumidity outside humidity in percentage
+     * @return dewPoint in °C
+     */
+
+
+    public static double dewPoint(double Temp, short rawOutsideHumidity) {
+        double dewPoint = Temp - ((100 - rawOutsideHumidity) / 10.0);
+        return dewPoint;
+    }
+
+}
+
+
+public class Weerstation {
+
+    public static void main(String[] args) {
+        Weerstation weerstation = new Weerstation();
+        weerstation.init();
+    }
+
+
+    private Measurement converted = new Measurement(DatabaseConnection.getMostRecentMeasurement());
+    private Period period;
+    private RawMeasurement rawMeasurement = DatabaseConnection.getMostRecentMeasurement();
+    private boolean redButton;
+    private boolean blueButtonRight;
+    private boolean blueButtonLeft;
+    private int selectedItem = 0;
+    private ArrayList<String> graphs = new ArrayList<>(Arrays.asList("Buiten temperatuur", "Binnen temperatuur",
+            "Buiten", "Binnen", "Windsnelheid", "Windchill", "Heat index", "Dewpoint"));
+
+    public Weerstation() {
+        IO.init();
+        GuiHelper.clearAllDisplays();
+    }
+
+    public void init() {
+        int days = readDateFromTerminal();
+//        int days = 18;
+        this.period = new Period(days);
+        this.period.getMeasurements();
+        mainMenu();
+    }
+
+    public void menu(ArrayList<String> menuOptions, String header) {
+        selectedItem = 0;
+        redButton = IO.readShort(0x80) != 0;
+        blueButtonRight = IO.readShort(0x100) != 0;
+        blueButtonLeft = IO.readShort(0x90) != 0;
+
+        displayMenu(header, menuOptions, selectedItem);
+        while (true) {
+            // Rode knop is ingedrukt
+            // Selecteer de optie
+
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+
+                break;
+            }
+            // Rechter blauwe knop is ingedrukt
+            // Ga naar onder in het menu
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+
+                selectedItem++;
+                displayMenu(header, menuOptions, selectedItem);
+            }
+            // Linker blauwe knop is ingedrukt
+            // Ga naar boven in het menu
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+
+                selectedItem--;
+                if (selectedItem < 0) selectedItem += menuOptions.size();
+                displayMenu(header, menuOptions, selectedItem);
+            }
+        }
+
+        showSelectedMenuItem(menuOptions, selectedItem);
+    }
+
+    public void mainMenu() {
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Luchtdruk", "Temperatuur", "Luchtvochtigheid", "Wind", "Regen",
+                "Zonsopgang/ondergang", "Windchill", "Heat index", "Dewpoint", "Individueel");
+
+        menu(menuOptions, "");
+    }
+
+    public void airPressureMenu() {
+        GuiHelper.clearAllDisplays();
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Actueel", "Gemiddeld", "Maximum", "Minimum");
+
+        menu(menuOptions, "Luchtdruk");
+    }
+
+    public void temperatureMenu() {
+        GuiHelper.clearAllDisplays();
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Buiten temperatuur", "Binnen temperatuur");
+
+        menu(menuOptions, "Temperatuur");
+    }
+
+    public void humidityMenu() {
+        GuiHelper.clearAllDisplays();
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Buiten", "Binnen");
+
+        menu(menuOptions, "Luchtvochtigheid");
+    }
+
+    public void windMenu() {
+        GuiHelper.clearAllDisplays();
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Windsnelheid", "Windrichting");
+
+        menu(menuOptions, "Wind");
+    }
+
+    public void individueelMenu() {
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "Sam", "Yuichi", "Sander", "Rick");
+
+        menu(menuOptions, "Individuele opdr");
+    }
+
+    // TODO: wanneer er een string in wordt gestopt opvangen
+    public int readDateFromTerminal() {
+        Scanner reader = new Scanner(System.in);
+        System.out.println("Kies het aantal dagen");
+        return Integer.parseInt(reader.nextLine());
+    }
+
+    public boolean hasBooleanChanged(boolean previousValue, boolean newValue) {
+        if (previousValue == newValue) return false;
+        return true;
+    }
+
+    public void displayMenu(String header, ArrayList<String> menuOptions, int selectedItem) {
+        GuiHelper.clearDMDisplay();
+        int availableLines = 3;
+
+        if (!header.equals("")) {
+            GuiHelper.displayString(header + "\n");
+            availableLines = 2;
+        }
+
+        for (int i = 0; i < availableLines; i++) {
+            GuiHelper.displayString(menuOptions.get((selectedItem + i) % menuOptions.size()) + "\n");
+        }
+        highlightMenuItem(3 - availableLines);
+    }
+
+    public void highlightMenuItem(int line) {
+        for (int i = 0; i < 128; i++) {
+            IO.writeShort(0x42, 1 << 12 | i << 5 | (0 + (line * 10)));
+            IO.writeShort(0x42, 1 << 12 | i << 5 | (10 + (line * 10)));
+        }
+
+        for (int i = 0; i < 10; i++) {
+            IO.writeShort(0x42, 1 << 12 | 0 << 5 | (i + (line * 10)));
+            IO.writeShort(0x42, 1 << 12 | 127 << 5 | (i + (line * 10)));
+        }
+    }
+
+    public void showSelectedMenuItem(ArrayList<String> menuOptions, int index) {
+        // De cases moeten overeen komen met de items in menuOptions
+        switch (menuOptions.get(selectedItem % menuOptions.size())) {
+            case "Luchtdruk":
+                airPressureMenu();
+                break;
+            case "Temperatuur":
+                temperatureMenu();
+                break;
+            case "Luchtvochtigheid":
+                humidityMenu();
+                break;
+            case "Wind":
+                windMenu();
+                break;
+            case "Regen":
+                displayRainRate();
+                break;
+            case "Zonsopgang/ondergang":
+                GuiHelper.clearDMDisplay();
+                GuiHelper.displayString(converted.getDateStamp().toLocalDate() + "\nZonsopgang: " + converted.getSunRise() + "\nZonsondergang: " + converted.getSunSet());
+                break;
+            case "Windchill":
+                displayWindChill();
+                break;
+            case "Heat index":
+                displayHeatIndex();
+                break;
+            case "Dewpoint":
+                displayDewPoint();
+                break;
+            case "Individueel":
+                individueelMenu();
+                break;
+
+            // Submenu's
+            // Luchtdruk
+            case "Actueel" :
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, converted.getAirPressure(), 1);
+                GuiHelper.displayString("Actuele luchtdruk \nin hPa");
+                break;
+            case "Gemiddeld" :
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageAirpressure(), 1);
+                GuiHelper.displayString("Gemiddelde luchtdruk \nin hPa");
+                break;
+            case "Maximum" :
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getHighestAirpressure(), 1);
+                GuiHelper.displayString("Maximum luchtdruk \nin hPa");
+                break;
+            case "Minimum" :
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getLowestAirpressure(), 1);
+                GuiHelper.displayString("Minimum luchtdruk \nin hPa");
+                break;
+            // Temperatuur
+            case "Buiten temperatuur" :
+                displayOutsideTemp();
+                break;
+            case "Binnen temperatuur" :
+                displayInsideTemp();
+                break;
+            // Luchtvochtigheid
+            case "Buiten" :
+                displayOutsideHum();
+                break;
+            case "Binnen" :
+                displayInsideHum();
+                break;
+
+            // Wind
+            case "Windsnelheid":
+                displayWindSpeed();
+                break;
+            case "Windrichting":
+                displayWindDirection();
+                break;
+                
+            case "Sam" :
+                individueleOpdrachtSam();
+                break;
+            case "Sander":
+                jaarMenu();
+                break;
+            case "2009":
+                int year = 2009;
+                individueleOpdrachtSander(year);
+                break;
+            case "2010":
+                year = 2010;
+                individueleOpdrachtSander(year);
+                break;
+            case "2011":
+                year = 2011;
+                individueleOpdrachtSander(year);
+                break;
+            case "2012":
+                year = 2012;
+                individueleOpdrachtSander(year);
+                break;
+            case "2013":
+                year = 2013;
+                individueleOpdrachtSander(year);
+                break;
+            case "2014":
+                year = 2014;
+                individueleOpdrachtSander(year);
+                break;
+            case "2015":
+                year = 2015;
+                individueleOpdrachtSander(year);
+                break;
+            case "2016":
+                year = 2016;
+                individueleOpdrachtSander(year);
+                break;
+            case "2017":
+                year = 2017;
+                individueleOpdrachtSander(year);
+                break;
+            case "2018":
+                year = 2018;
+                individueleOpdrachtSander(year);
+                break;
+            case "2019":
+                year = 2019;
+                individueleOpdrachtSander(year);
+                break;
+            case "2020":
+                year = 2020;
+                individueleOpdrachtSander(year);
+                break;
+            case "2021":
+                year = 2021;
+                individueleOpdrachtSander(year);
+                break;
+            case "2022":
+                year = 2022;
+                individueleOpdrachtSander(year);
+                break;
+//---------------------------------------------------------------------------------------------------------------------------//
+            case "Yuichi" :
+                individueleOpdrachtYuichi();
+                break;
+            case "Rick":
+                individueleOpdrachtRick();
+                break;
+            default:
+                GuiHelper.clearAllDisplays();
+                GuiHelper.displayString("Functie bestaat niet");
+                System.out.println("?");
+                break;
+        }
+
+        while (true) {
+            // Rode knop - Ga terug naar het hoofd menu
+            if (hasBooleanChanged(redButton, (IO.readShort(0x80) != 0))) {
+                redButton = !redButton;
+
+                System.out.println("Quit");
+                GuiHelper.clearAllDisplays();
+                break;
+            }
+
+            // Linker blauw knop - Terug naar het originele geseleteerde item
+            if (hasBooleanChanged(blueButtonLeft, (IO.readShort(0x90) != 0))) {
+                blueButtonLeft = !blueButtonLeft;
+                rawMeasurement = DatabaseConnection.getMostRecentMeasurement();
+                Measurement measurement = new Measurement(rawMeasurement);
+
+                if (graphs.contains(menuOptions.get(selectedItem % menuOptions.size()))) {
+                    switch (menuOptions.get(selectedItem % menuOptions.size())) {
+                        case "Buiten temperatuur":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getOutsideTemp(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getOutsideTemp(),1);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       graden celsius");
+                            break;
+                        case "Binnen temperatuur":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getInsideTemp(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getInsideTemp(),1);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       graden celsius");
+                            break;
+                        case "Buiten":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getOutsideHum(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getOutsideHumidity(),0);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       %");
+                            break;
+                        case "Binnen":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getInsideHum(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getInsideHumidity(),0);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       %");
+                            break;
+                        case "Windsnelheid":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display2,rawMeasurement.getWindSpeed(),0);
+                            GuiHelper.displayDoubleNumber(GuiHelper.display3,measurement.getWindSpeed(),0);
+                            GuiHelper.displayString("Meest recente waarden\nRuw -- Omgerekend in\n       km/h");
+                            break;
+                        case "Windchill":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display1, measurement.getWindChill(),1);
+                            GuiHelper.displayString("Meest recente waarden\nin graden celsius");
+                            break;
+                        case "Heat index":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display1, measurement.getHeatIndex(),1);
+                            GuiHelper.displayString("Meest recente waarden\nin graden celsius");
+                            break;
+                        case "Dewpoint":
+                            GuiHelper.clearAllDisplays();
+                            GuiHelper.displayDoubleNumber(GuiHelper.display1, measurement.getDewPoint(),1);
+                            GuiHelper.displayString("Meest recente waarden\nin graden celsius");
+                            break;
+                    }
+                }
+            }
+
+            // Rechter blauw knop - Laat de grafiek ervan zien
+            if (hasBooleanChanged(blueButtonRight, (IO.readShort(0x100) != 0))) {
+                blueButtonRight = !blueButtonRight;
+
+                if (graphs.contains(menuOptions.get(selectedItem % menuOptions.size()))) {
+                    switch (menuOptions.get(selectedItem % menuOptions.size())) {
+                        case "Buiten temperatuur" :
+                            Grafiek.displayGraph(period.getOutsideTemperature());
+                            break;
+                        case "Binnen temperatuur" :
+                            Grafiek.displayGraph(period.getInsideTemperature());
+                            break;
+                        case "Buiten" :
+                            Grafiek.displayGraph(period.getOutsideHumidity());
+                            break;
+                        case "Binnen" :
+                            Grafiek.displayGraph(period.getInsideHumidity());
+                            break;
+                        case "Windsnelheid" :
+                            Grafiek.displayGraph(period.getWindSpeed());
+                            break;
+                        case "Windchill" :
+                            Grafiek.displayGraph(period.getWindChill());
+                            break;
+                        case "Heat index" :
+                            Grafiek.displayGraph(period.getHeatIndex());
+                            break;
+                        case "Dewpoint" :
+                            Grafiek.displayGraph(period.getDewpoint());
+                            break;
+                    }
+                }
+            }
+        }
+
+        mainMenu();
+    }
+    //individuele opdrachten
+    //--------------------------------------------------------------------------------------------------------------------------------------------//
+
+    public void individueleOpdrachtYuichi() {
+        Period biggestDiffTemp = new Period(period.getBiggestDifferenceMinMaxTemperature(), period.getBiggestDifferenceMinMaxTemperature());
+        double difference = biggestDiffTemp.getHighestOutsideTemperature() - biggestDiffTemp.getLowestOutsideTemperature();
+
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, difference, 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, biggestDiffTemp.getHighestOutsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, biggestDiffTemp.getLowestOutsideTemperature(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Verschil  - Min\nTemperatuur celsius\nop " + period.getBiggestDifferenceMinMaxTemperature());
+    }
+    public void individueleOpdrachtSam() {
+        GuiHelper.displayNumber(GuiHelper.display3, period.summer());
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Aantal mooie dagen \nin deze periode:");
+      }
+
+    public void individueleOpdrachtRick() {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.consecutiveRain(0), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.consecutiveRain(1), 0);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Minutes - Rain mm \nBegin: " + period.consecutiveRainDate(1) + "\nEinde: " + period.consecutiveRainDate(0));
+    }
+    
+    public void individueleOpdrachtSander (int year){
+       GuiHelper.clearDMDisplay();
+       GuiHelper.displayString( "Maand met meeste\nregen in " + year + ":\n" + period.mostRainfall(year).toString());
+    }
+
+    public void jaarMenu(){
+        ArrayList<String> menuOptions = new ArrayList<>();
+        Collections.addAll(menuOptions, "2009", "2010", "2011", "2012", "2013",
+                "2014", "2015", "2016", "2017", "2018","2019","2020","2021","2022");
+
+        menu(menuOptions, "Sander");
+    }
+
+    //---------------------------------------------------------------------------------------------//
+
+    public void displayOutsideTemp() {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideTemperature(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideTemperature(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nBuiten temperatuur\nin graden Celsius");
+
+    }
+
+    public void displayInsideTemp() {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageInsideTemperature(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestInsideTemperature(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestInsideTemperature(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nBinnen temperatuur\nin graden Celsius");
+
+    }
+
+    public void displayOutsideHum() {
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageOutsideHumidity(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestOutsideHumidity(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestOutsideHumidity(), 0);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nluchtvochtigheid\nbuiten in %");
+    }
+
+    public void displayInsideHum(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageInsideHumidity(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestInsideHumidity(), 0);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestInsideHumidity(), 0);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nluchtvochtigheid\nbinnen in %");
+    }
+
+    public void displayWindSpeed(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageWindSpeed(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestWindSpeed(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestWindSpeed(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nwindsnelheid\nin km/h");
+    }
+
+    public void displayRainRate(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageRainRate(), 2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestRainRate(), 1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3, period.getLowestRainRate(), 1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nRainrate\nin mm/h");
+    }
+
+    public void displayWindChill(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageWindChill(),2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestWindChill(),1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3,period.getLowestWindChill(),1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nWindchill in\ngraden celsius");
+    }
+
+    public void displayHeatIndex(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageHeatIndex(),2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestHeatIndex(),1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3,period.getLowestHeatIndex(),1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nHeatindex in\ngraden celsius");
+    }
+
+    public void displayDewPoint(){
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, period.getAverageDewpoint(),2);
+        GuiHelper.displayDoubleNumber(GuiHelper.display2, period.getHighestDewpoint(),1);
+        GuiHelper.displayDoubleNumber(GuiHelper.display3,period.getLowestDewpoint(),1);
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Max - Gemiddeld - Min\nDewpoint in\ngraden celsius");
+    }
+
+    public void displayWindDirection() {
+        String windDirString;
+        int rawWinDir = rawMeasurement.getWindDir();
+        GuiHelper.displayDoubleNumber(GuiHelper.display1, rawWinDir,0);
+        if(rawWinDir > 337.5 && rawWinDir < 22.5 && rawWinDir <= 360 && rawWinDir >= 0) {
+            windDirString = "South";
+        } else if (rawWinDir >= 22.5 && rawWinDir < 67.5) {
+            windDirString = "SouthWest";
+        } else if (rawWinDir >= 67.5 && rawWinDir < 112.5) {
+            windDirString = "West";
+        } else if (rawWinDir >= 112.5 && rawWinDir < 157.5) {
+            windDirString = "NorthWest";
+        } else if (rawWinDir >= 157.5 && rawWinDir < 202.5) {
+            windDirString = "North";
+        } else if (rawWinDir >= 202.5 && rawWinDir < 247.5) {
+            windDirString = "NorthEast";
+        } else if (rawWinDir >= 247.5 && rawWinDir < 292.5) {
+            windDirString = "East";
+        } else if (rawWinDir >= 292.5 && rawWinDir <  337.5) {
+            windDirString = "SouthEast";
+        } else {
+            windDirString = "Invalid Data";
+        }
+
+        GuiHelper.clearDMDisplay();
+        GuiHelper.displayString("Windrichting in\ngraden\n" + windDirString);
+
+    }
+}
